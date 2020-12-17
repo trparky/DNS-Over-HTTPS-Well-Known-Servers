@@ -35,6 +35,7 @@ Partial Class Form1
         Me.BtnDelete = New System.Windows.Forms.Button()
         Me.BtnEdit = New System.Windows.Forms.Button()
         Me.BtnCheckForUpdates = New System.Windows.Forms.Button()
+        Me.ChkUseSSL = New System.Windows.Forms.CheckBox()
         Me.SuspendLayout()
         '
         'Label1
@@ -143,18 +144,29 @@ Partial Class Form1
         '
         'BtnCheckForUpdates
         '
-        Me.BtnCheckForUpdates.Location = New System.Drawing.Point(371, 360)
+        Me.BtnCheckForUpdates.Location = New System.Drawing.Point(369, 337)
         Me.BtnCheckForUpdates.Name = "BtnCheckForUpdates"
         Me.BtnCheckForUpdates.Size = New System.Drawing.Size(144, 23)
         Me.BtnCheckForUpdates.TabIndex = 12
         Me.BtnCheckForUpdates.Text = "Check for Updates"
         Me.BtnCheckForUpdates.UseVisualStyleBackColor = True
         '
+        'ChkUseSSL
+        '
+        Me.ChkUseSSL.AutoSize = True
+        Me.ChkUseSSL.Location = New System.Drawing.Point(308, 366)
+        Me.ChkUseSSL.Name = "ChkUseSSL"
+        Me.ChkUseSSL.Size = New System.Drawing.Size(208, 17)
+        Me.ChkUseSSL.TabIndex = 13
+        Me.ChkUseSSL.Text = "Use SSL for updating (Recommended)"
+        Me.ChkUseSSL.UseVisualStyleBackColor = True
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(525, 390)
+        Me.Controls.Add(Me.ChkUseSSL)
         Me.Controls.Add(Me.BtnCheckForUpdates)
         Me.Controls.Add(Me.BtnEdit)
         Me.Controls.Add(Me.BtnDelete)
@@ -187,4 +199,5 @@ Partial Class Form1
     Friend WithEvents BtnDelete As Button
     Friend WithEvents BtnEdit As Button
     Friend WithEvents BtnCheckForUpdates As Button
+    Friend WithEvents ChkUseSSL As CheckBox
 End Class

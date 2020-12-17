@@ -1,5 +1,6 @@
 ﻿Public Class Form1
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        ChkUseSSL.Checked = My.Settings.boolSSL
         LoadServers()
     End Sub
 
@@ -124,5 +125,9 @@
                                                    Dim checkForUpdatesClassObject As New Check_for_Update_Stuff(Me)
                                                    checkForUpdatesClassObject.CheckForUpdates()
                                                End Sub)
+    End Sub
+
+    Private Sub ChkUseSSL_Click(sender As Object, e As EventArgs) Handles ChkUseSSL.Click
+        My.Settings.boolSSL = ChkUseSSL.Checked
     End Sub
 End Class
