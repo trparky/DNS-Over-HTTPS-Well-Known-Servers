@@ -118,4 +118,11 @@
             MsgBox("There was an error editing the DNS Over HTTPS server. Make sure you have Administrative access.", MsgBoxStyle.Critical, "DNS Over HTTPS Well Known Servers")
         End Try
     End Sub
+
+    Private Sub BtnCheckForUpdates_Click(sender As Object, e As EventArgs) Handles BtnCheckForUpdates.Click
+        Threading.ThreadPool.QueueUserWorkItem(Sub()
+                                                   Dim checkForUpdatesClassObject As New Check_for_Update_Stuff(Me)
+                                                   checkForUpdatesClassObject.CheckForUpdates()
+                                               End Sub)
+    End Sub
 End Class

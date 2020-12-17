@@ -34,6 +34,7 @@ Partial Class Form1
         Me.TxtDeviceName = New System.Windows.Forms.TextBox()
         Me.BtnDelete = New System.Windows.Forms.Button()
         Me.BtnEdit = New System.Windows.Forms.Button()
+        Me.BtnCheckForUpdates = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
         'Label1
@@ -140,11 +141,21 @@ Partial Class Form1
         Me.BtnEdit.Text = "Edit"
         Me.BtnEdit.UseVisualStyleBackColor = True
         '
+        'BtnCheckForUpdates
+        '
+        Me.BtnCheckForUpdates.Location = New System.Drawing.Point(371, 360)
+        Me.BtnCheckForUpdates.Name = "BtnCheckForUpdates"
+        Me.BtnCheckForUpdates.Size = New System.Drawing.Size(144, 23)
+        Me.BtnCheckForUpdates.TabIndex = 12
+        Me.BtnCheckForUpdates.Text = "Check for Updates"
+        Me.BtnCheckForUpdates.UseVisualStyleBackColor = True
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(525, 390)
+        Me.Controls.Add(Me.BtnCheckForUpdates)
         Me.Controls.Add(Me.BtnEdit)
         Me.Controls.Add(Me.BtnDelete)
         Me.Controls.Add(Me.TxtDeviceName)
@@ -175,4 +186,5 @@ Partial Class Form1
     Friend WithEvents TxtDeviceName As TextBox
     Friend WithEvents BtnDelete As Button
     Friend WithEvents BtnEdit As Button
+    Friend WithEvents BtnCheckForUpdates As Button
 End Class
