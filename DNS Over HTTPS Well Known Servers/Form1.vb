@@ -31,7 +31,7 @@
 
             Using RegistryKey As RegistryKey = Registry.LocalMachine.OpenSubKey("SYSTEM\CurrentControlSet\Services\Dnscache\Parameters\DohWellKnownServers\" & TxtIPAddress.Text, True)
                 RegistryKey.SetValue("Template", StrURL, RegistryValueKind.String)
-                RegistryKey.SetValue("DeviceID", TxtDeviceName.Text, RegistryValueKind.String)
+                If Not String.IsNullOrWhiteSpace(TxtDeviceName.Text) Then RegistryKey.SetValue("DeviceID", TxtDeviceName.Text, RegistryValueKind.String)
                 RegistryKey.SetValue("URL", TxtURL.Text, RegistryValueKind.String)
             End Using
 
@@ -76,7 +76,7 @@
     End Sub
 
     Private Sub ActivateAddServerButton()
-        BtnAddServer.Enabled = Not String.IsNullOrWhiteSpace(TxtDeviceName.Text) And Not String.IsNullOrWhiteSpace(TxtURL.Text) And Not String.IsNullOrWhiteSpace(TxtDeviceName.Text)
+        BtnAddServer.Enabled = Not String.IsNullOrWhiteSpace(TxtURL.Text) And Not String.IsNullOrWhiteSpace(TxtDeviceName.Text)
     End Sub
 
     Private Sub ListServers_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ListServers.SelectedIndexChanged
