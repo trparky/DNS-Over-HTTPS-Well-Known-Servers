@@ -33,6 +33,7 @@
                 RegistryKey.SetValue("Template", StrURL, RegistryValueKind.String)
                 If Not String.IsNullOrWhiteSpace(TxtDeviceName.Text) Then RegistryKey.SetValue("DeviceID", TxtDeviceName.Text, RegistryValueKind.String)
                 RegistryKey.SetValue("URL", TxtURL.Text, RegistryValueKind.String)
+                If ChkFlags.Checked Then RegistryKey.SetValue("Flags", 0, RegistryValueKind.DWord)
             End Using
 
             If BtnAddServer.Text.Equals("Add DOH Server", StringComparison.OrdinalIgnoreCase) Then
@@ -87,12 +88,20 @@
             BtnDelete.Enabled = True
             BtnEdit.Enabled = True
         End If
+
+        TxtURL.Text = Nothing
+        TxtDeviceName.Text = Nothing
+        TxtIPAddress.Text = Nothing
+        TxtIPAddress.Enabled = True
+        ChkFlags.Checked = False
+        BtnAddServer.Text = "Add DOH Server"
     End Sub
 
     Private Sub BtnEdit_Click(sender As Object, e As EventArgs) Handles BtnEdit.Click
         TxtURL.Text = Nothing
         TxtDeviceName.Text = Nothing
         TxtIPAddress.Text = Nothing
+        ChkFlags.Checked = False
 
         Try
             Using RegistryKey As RegistryKey = Registry.LocalMachine.OpenSubKey("SYSTEM\CurrentControlSet\Services\Dnscache\Parameters\DohWellKnownServers\" & ListServers.SelectedItems(0).Text, True)
@@ -101,6 +110,8 @@
                 If Not String.IsNullOrWhiteSpace(StrTemplate) Then
                     Dim StrURL As String = RegistryKey.GetValue("URL", Nothing)
                     Dim StrDeviceID As String = RegistryKey.GetValue("DeviceID", Nothing)
+
+                    If RegistryKey.GetValue("Flags", Nothing) IsNot Nothing Then ChkFlags.Checked = True
 
                     TxtIPAddress.Text = ListServers.SelectedItems(0).Text
                     TxtIPAddress.Enabled = False

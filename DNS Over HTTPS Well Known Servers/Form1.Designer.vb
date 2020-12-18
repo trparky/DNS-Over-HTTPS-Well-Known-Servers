@@ -36,6 +36,7 @@ Partial Class Form1
         Me.BtnEdit = New System.Windows.Forms.Button()
         Me.BtnCheckForUpdates = New System.Windows.Forms.Button()
         Me.ChkUseSSL = New System.Windows.Forms.CheckBox()
+        Me.ChkFlags = New System.Windows.Forms.CheckBox()
         Me.SuspendLayout()
         '
         'Label1
@@ -67,7 +68,7 @@ Partial Class Form1
         'BtnAddServer
         '
         Me.BtnAddServer.Enabled = False
-        Me.BtnAddServer.Location = New System.Drawing.Point(279, 140)
+        Me.BtnAddServer.Location = New System.Drawing.Point(279, 164)
         Me.BtnAddServer.Name = "BtnAddServer"
         Me.BtnAddServer.Size = New System.Drawing.Size(107, 23)
         Me.BtnAddServer.TabIndex = 3
@@ -161,11 +162,22 @@ Partial Class Form1
         Me.ChkUseSSL.Text = "Use SSL for updating (Recommended)"
         Me.ChkUseSSL.UseVisualStyleBackColor = True
         '
+        'ChkFlags
+        '
+        Me.ChkFlags.AutoSize = True
+        Me.ChkFlags.Location = New System.Drawing.Point(279, 141)
+        Me.ChkFlags.Name = "ChkFlags"
+        Me.ChkFlags.Size = New System.Drawing.Size(154, 17)
+        Me.ChkFlags.TabIndex = 14
+        Me.ChkFlags.Text = "Add Flags (Recommended)"
+        Me.ChkFlags.UseVisualStyleBackColor = True
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(525, 390)
+        Me.Controls.Add(Me.ChkFlags)
         Me.Controls.Add(Me.ChkUseSSL)
         Me.Controls.Add(Me.BtnCheckForUpdates)
         Me.Controls.Add(Me.BtnEdit)
@@ -200,4 +212,5 @@ Partial Class Form1
     Friend WithEvents BtnEdit As Button
     Friend WithEvents BtnCheckForUpdates As Button
     Friend WithEvents ChkUseSSL As CheckBox
+    Friend WithEvents ChkFlags As CheckBox
 End Class
