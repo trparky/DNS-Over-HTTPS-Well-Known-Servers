@@ -141,4 +141,96 @@
     Private Sub ChkUseSSL_Click(sender As Object, e As EventArgs) Handles ChkUseSSL.Click
         My.Settings.boolSSL = ChkUseSSL.Checked
     End Sub
+
+    Public Structure ExportedData
+        Public Template, DeviceID, URL, IPAddress As String
+        Public Flags As Integer
+    End Structure
+
+    Private Sub BtnExportServers_Click(sender As Object, e As EventArgs) Handles BtnExportServers.Click
+        Dim DohServers As New List(Of ExportedData)
+        Dim ExportedData As ExportedData
+        Dim Template, DeviceID, URL As String
+        Dim Flags As Integer
+
+        Using RegistryKey As RegistryKey = Registry.LocalMachine.OpenSubKey("SYSTEM\CurrentControlSet\Services\Dnscache\Parameters\DohWellKnownServers", False)
+            If RegistryKey IsNot Nothing Then
+                For Each StrServerIP As String In RegistryKey.GetSubKeyNames()
+                    Using RegistryKey2 As RegistryKey = Registry.LocalMachine.OpenSubKey("SYSTEM\CurrentControlSet\Services\Dnscache\Parameters\DohWellKnownServers\" & StrServerIP, False)
+                        Template = RegistryKey2.GetValue("Template", Nothing)
+                        DeviceID = RegistryKey2.GetValue("DeviceID", Nothing)
+                        URL = RegistryKey2.GetValue("URL", Nothing)
+                        Flags = RegistryKey2.GetValue("Flags", -1)
+
+                        If Not String.IsNullOrWhiteSpace(Template) Then
+                            ExportedData = New ExportedData() With {
+                                .Template = Template,
+                                .DeviceID = If(String.IsNullOrWhiteSpace(DeviceID), "", DeviceID),
+                                .URL = If(String.IsNullOrWhiteSpace(URL), "", URL),
+                                .Flags = Flags,
+                                .IPAddress = StrServerIP
+                            }
+                            DohServers.Add(ExportedData)
+                        End If
+                    End Using
+                Next
+
+                With SaveFileDialog
+                    .Filter = "XML File|*.xml"
+                    .Title = "Save DoH Servers to XML File"
+                    .FileName = Nothing
+                End With
+
+                If SaveFileDialog.ShowDialog = DialogResult.OK Then
+                    Using memoryStream As New IO.MemoryStream
+                        Dim xmlSerializerObject As New Xml.Serialization.XmlSerializer(DohServers.GetType)
+                        xmlSerializerObject.Serialize(memoryStream, DohServers)
+
+                        Using fileStream As New IO.FileStream(SaveFileDialog.FileName, IO.FileMode.Create, IO.FileAccess.ReadWrite)
+                            memoryStream.WriteTo(fileStream)
+                        End Using
+
+                        MsgBox("Export complete!", MsgBoxStyle.Information, "DNS Over HTTPS Well Known Servers")
+                    End Using
+                End If
+            Else
+                MsgBox("Error loading known DNS Over HTTPS Well Known Servers from Registry.", MsgBoxStyle.Critical, "DNS Over HTTPS Well Known Servers")
+            End If
+        End Using
+    End Sub
+
+    Private Sub BtnImportServers_Click(sender As Object, e As EventArgs) Handles BtnImportServers.Click
+        Dim RegistryKey2 As RegistryKey
+
+        With OpenFileDialog
+            .Filter = "XML File|*.xml"
+            .Title = "Import DoH Servers from XML File"
+            .FileName = Nothing
+        End With
+
+        If OpenFileDialog.ShowDialog = DialogResult.OK Then
+            Dim DohServers As New List(Of ExportedData)
+
+            Using streamReader As New IO.StreamReader(OpenFileDialog.FileName)
+                Dim xmlSerializerObject As New Xml.Serialization.XmlSerializer(DohServers.GetType)
+                DohServers = xmlSerializerObject.Deserialize(streamReader)
+            End Using
+
+            If DohServers.Count <> 0 Then
+                Using RegistryKey As RegistryKey = Registry.LocalMachine.OpenSubKey("SYSTEM\CurrentControlSet\Services\Dnscache\Parameters\DohWellKnownServers", True)
+                    For Each SubKeyName As String In RegistryKey.GetSubKeyNames()
+                        RegistryKey.DeleteSubKeyTree(SubKeyName)
+                    Next
+
+                    For Each DohServer As ExportedData In DohServers
+                        RegistryKey2 = RegistryKey.CreateSubKey(DohServer.IPAddress)
+                        RegistryKey2.SetValue("Template", DohServer.Template, RegistryValueKind.String)
+                        If Not String.IsNullOrWhiteSpace(DohServer.DeviceID) Then RegistryKey2.SetValue("DeviceID", DohServer.DeviceID, RegistryValueKind.String)
+                        If Not String.IsNullOrWhiteSpace(DohServer.URL) Then RegistryKey2.SetValue("URL", DohServer.URL, RegistryValueKind.String)
+                        If DohServer.Flags <> -1 Then RegistryKey2.SetValue("Flags", DohServer.Flags, RegistryValueKind.DWord)
+                    Next
+                End Using
+            End If
+        End If
+    End Sub
 End Class

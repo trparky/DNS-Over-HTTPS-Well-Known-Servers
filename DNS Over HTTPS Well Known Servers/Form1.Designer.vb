@@ -37,6 +37,10 @@ Partial Class Form1
         Me.BtnCheckForUpdates = New System.Windows.Forms.Button()
         Me.ChkUseSSL = New System.Windows.Forms.CheckBox()
         Me.ChkFlags = New System.Windows.Forms.CheckBox()
+        Me.SaveFileDialog = New System.Windows.Forms.SaveFileDialog()
+        Me.OpenFileDialog = New System.Windows.Forms.OpenFileDialog()
+        Me.BtnExportServers = New System.Windows.Forms.Button()
+        Me.BtnImportServers = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
         'Label1
@@ -172,11 +176,35 @@ Partial Class Form1
         Me.ChkFlags.Text = "Add Flags (Recommended)"
         Me.ChkFlags.UseVisualStyleBackColor = True
         '
+        'OpenFileDialog
+        '
+        Me.OpenFileDialog.FileName = "OpenFileDialog1"
+        '
+        'BtnExportServers
+        '
+        Me.BtnExportServers.Location = New System.Drawing.Point(319, 282)
+        Me.BtnExportServers.Name = "BtnExportServers"
+        Me.BtnExportServers.Size = New System.Drawing.Size(94, 23)
+        Me.BtnExportServers.TabIndex = 15
+        Me.BtnExportServers.Text = "Export Servers"
+        Me.BtnExportServers.UseVisualStyleBackColor = True
+        '
+        'BtnImportServers
+        '
+        Me.BtnImportServers.Location = New System.Drawing.Point(419, 282)
+        Me.BtnImportServers.Name = "BtnImportServers"
+        Me.BtnImportServers.Size = New System.Drawing.Size(94, 23)
+        Me.BtnImportServers.TabIndex = 16
+        Me.BtnImportServers.Text = "Import Servers"
+        Me.BtnImportServers.UseVisualStyleBackColor = True
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(525, 390)
+        Me.Controls.Add(Me.BtnImportServers)
+        Me.Controls.Add(Me.BtnExportServers)
         Me.Controls.Add(Me.ChkFlags)
         Me.Controls.Add(Me.ChkUseSSL)
         Me.Controls.Add(Me.BtnCheckForUpdates)
@@ -213,4 +241,8 @@ Partial Class Form1
     Friend WithEvents BtnCheckForUpdates As Button
     Friend WithEvents ChkUseSSL As CheckBox
     Friend WithEvents ChkFlags As CheckBox
+    Friend WithEvents SaveFileDialog As SaveFileDialog
+    Friend WithEvents OpenFileDialog As OpenFileDialog
+    Friend WithEvents BtnExportServers As Button
+    Friend WithEvents BtnImportServers As Button
 End Class
