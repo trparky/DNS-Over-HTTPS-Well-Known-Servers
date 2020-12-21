@@ -241,8 +241,8 @@ Partial Class Form1
     Friend WithEvents BtnCheckForUpdates As Button
     Friend WithEvents ChkUseSSL As CheckBox
     Friend WithEvents ChkFlags As CheckBox
-    Friend WithEvents SaveFileDialog As SaveFileDialog
-    Friend WithEvents OpenFileDialog As OpenFileDialog
+    Friend WithEvents SaveFileDialog As Windows.Forms.SaveFileDialog
+    Friend WithEvents OpenFileDialog As Windows.Forms.OpenFileDialog
     Friend WithEvents BtnExportServers As Button
     Friend WithEvents BtnImportServers As Button
 End Class
