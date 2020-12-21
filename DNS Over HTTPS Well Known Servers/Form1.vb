@@ -13,7 +13,7 @@
                     ListServers.Items.Add(New ListViewItem(StrServerIP))
                 Next
             Else
-                MsgBox("Error loading known DNS Over HTTPS Well Known Servers from Registry.", MsgBoxStyle.Critical, "DNS Over HTTPS Well Known Servers")
+                WPFCustomMessageBox.CustomMessageBox.ShowOK("Error loading known DNS Over HTTPS Well Known Servers from Registry.", "DNS Over HTTPS Well Known Servers", "OK", Windows.MessageBoxImage.Error)
             End If
         End Using
     End Sub
@@ -37,10 +37,10 @@
             End Using
 
             If BtnAddServer.Text.Equals("Add DOH Server", StringComparison.OrdinalIgnoreCase) Then
-                MsgBox("DNS Over HTTPS Server added successfully.", MsgBoxStyle.Information, "DNS Over HTTPS Well Known Servers")
+                WPFCustomMessageBox.CustomMessageBox.ShowOK("DNS Over HTTPS Server added successfully.", "DNS Over HTTPS Well Known Servers", "OK", Windows.MessageBoxImage.Information)
             Else
                 TxtIPAddress.Enabled = True
-                MsgBox("DNS Over HTTPS Server edited successfully.", MsgBoxStyle.Information, "DNS Over HTTPS Well Known Servers")
+                WPFCustomMessageBox.CustomMessageBox.ShowOK("DNS Over HTTPS Server edited successfully.", "DNS Over HTTPS Well Known Servers", "OK", Windows.MessageBoxImage.Information)
             End If
 
             TxtDeviceName.Text = Nothing
@@ -50,7 +50,7 @@
 
             LoadServers()
         Catch ex As Exception
-            MsgBox("There was an error adding the DNS Over HTTPS server. Make sure you have Administrative access.", MsgBoxStyle.Critical, "DNS Over HTTPS Well Known Servers")
+            WPFCustomMessageBox.CustomMessageBox.ShowOK("There was an error adding the DNS Over HTTPS server. Make sure you have Administrative access.", "DNS Over HTTPS Well Known Servers", "OK", Windows.MessageBoxImage.Error)
         End Try
     End Sub
 
@@ -60,7 +60,7 @@
                 RegistryKey.DeleteSubKeyTree(ListServers.SelectedItems(0).Text)
             End Using
         Catch ex As Exception
-            MsgBox("There was an error deleting the DNS Over HTTPS server. Make sure you have Administrative access.", MsgBoxStyle.Critical, "DNS Over HTTPS Well Known Servers")
+            WPFCustomMessageBox.CustomMessageBox.ShowOK("There was an error deleting the DNS Over HTTPS server. Make sure you have Administrative access.", "DNS Over HTTPS Well Known Servers", "OK", Windows.MessageBoxImage.Error)
         End Try
     End Sub
 
@@ -127,7 +127,7 @@
                 End If
             End Using
         Catch ex As Exception
-            MsgBox("There was an error editing the DNS Over HTTPS server. Make sure you have Administrative access.", MsgBoxStyle.Critical, "DNS Over HTTPS Well Known Servers")
+            WPFCustomMessageBox.CustomMessageBox.ShowOK("There was an error editing the DNS Over HTTPS server. Make sure you have Administrative access.", "DNS Over HTTPS Well Known Servers", "OK", Windows.MessageBoxImage.Error)
         End Try
     End Sub
 
@@ -190,11 +190,11 @@
                             memoryStream.WriteTo(fileStream)
                         End Using
 
-                        MsgBox("Export complete!", MsgBoxStyle.Information, "DNS Over HTTPS Well Known Servers")
+                        WPFCustomMessageBox.CustomMessageBox.ShowOK("Export complete!", "DNS Over HTTPS Well Known Servers", "OK", Windows.MessageBoxImage.Information)
                     End Using
                 End If
             Else
-                MsgBox("Error loading known DNS Over HTTPS Well Known Servers from Registry.", MsgBoxStyle.Critical, "DNS Over HTTPS Well Known Servers")
+                WPFCustomMessageBox.CustomMessageBox.ShowOK("Error loading known DNS Over HTTPS Well Known Servers from Registry.", "DNS Over HTTPS Well Known Servers", "OK", Windows.MessageBoxImage.Error)
             End If
         End Using
     End Sub

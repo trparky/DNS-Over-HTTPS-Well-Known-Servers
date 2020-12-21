@@ -11,7 +11,7 @@ Namespace My
         Private Sub MyApplication_Startup(sender As Object, e As StartupEventArgs) Handles Me.Startup
             If Environment.OSVersion.Version.Build <= 19042 Then
                 ' This message will change when the version of Windows 10 that natively supports DoH is released publically.
-                MsgBox("This version of Windows 10 is not supported. Currently only versions in the Windows Insider Program are supported." & vbCrLf & vbCrLf & "This program will now close.", MsgBoxStyle.Information, "DNS Over HTTPS Well Known Servers")
+                WPFCustomMessageBox.CustomMessageBox.ShowOK("This version of Windows 10 is not supported. Currently only versions in the Windows Insider Program are supported." & vbCrLf & vbCrLf & "This program will now close.", "DNS Over HTTPS Well Known Servers", "OK", Windows.MessageBoxImage.Error)
                 e.Cancel = True
                 Exit Sub
             End If
