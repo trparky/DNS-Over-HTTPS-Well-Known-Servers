@@ -35,7 +35,6 @@ Partial Class Form1
         Me.BtnDelete = New System.Windows.Forms.Button()
         Me.BtnEdit = New System.Windows.Forms.Button()
         Me.BtnCheckForUpdates = New System.Windows.Forms.Button()
-        Me.ChkUseSSL = New System.Windows.Forms.CheckBox()
         Me.ChkFlags = New System.Windows.Forms.CheckBox()
         Me.SaveFileDialog = New System.Windows.Forms.SaveFileDialog()
         Me.OpenFileDialog = New System.Windows.Forms.OpenFileDialog()
@@ -149,22 +148,12 @@ Partial Class Form1
         '
         'BtnCheckForUpdates
         '
-        Me.BtnCheckForUpdates.Location = New System.Drawing.Point(369, 337)
+        Me.BtnCheckForUpdates.Location = New System.Drawing.Point(369, 355)
         Me.BtnCheckForUpdates.Name = "BtnCheckForUpdates"
         Me.BtnCheckForUpdates.Size = New System.Drawing.Size(144, 23)
         Me.BtnCheckForUpdates.TabIndex = 12
         Me.BtnCheckForUpdates.Text = "Check for Updates"
         Me.BtnCheckForUpdates.UseVisualStyleBackColor = True
-        '
-        'ChkUseSSL
-        '
-        Me.ChkUseSSL.AutoSize = True
-        Me.ChkUseSSL.Location = New System.Drawing.Point(308, 366)
-        Me.ChkUseSSL.Name = "ChkUseSSL"
-        Me.ChkUseSSL.Size = New System.Drawing.Size(208, 17)
-        Me.ChkUseSSL.TabIndex = 13
-        Me.ChkUseSSL.Text = "Use SSL for updating (Recommended)"
-        Me.ChkUseSSL.UseVisualStyleBackColor = True
         '
         'ChkFlags
         '
@@ -206,7 +195,6 @@ Partial Class Form1
         Me.Controls.Add(Me.BtnImportServers)
         Me.Controls.Add(Me.BtnExportServers)
         Me.Controls.Add(Me.ChkFlags)
-        Me.Controls.Add(Me.ChkUseSSL)
         Me.Controls.Add(Me.BtnCheckForUpdates)
         Me.Controls.Add(Me.BtnEdit)
         Me.Controls.Add(Me.BtnDelete)
@@ -239,7 +227,6 @@ Partial Class Form1
     Friend WithEvents BtnDelete As Button
     Friend WithEvents BtnEdit As Button
     Friend WithEvents BtnCheckForUpdates As Button
-    Friend WithEvents ChkUseSSL As CheckBox
     Friend WithEvents ChkFlags As CheckBox
     Friend WithEvents SaveFileDialog As Windows.Forms.SaveFileDialog
     Friend WithEvents OpenFileDialog As Windows.Forms.OpenFileDialog
