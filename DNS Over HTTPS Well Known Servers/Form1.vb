@@ -227,5 +227,7 @@
                 End Using
             End If
         End If
+
+        LoadServers()
     End Sub
 End Class
