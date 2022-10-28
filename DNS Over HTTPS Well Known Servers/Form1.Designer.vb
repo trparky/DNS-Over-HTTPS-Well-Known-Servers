@@ -22,9 +22,12 @@ Partial Class Form1
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.ListServers = New System.Windows.Forms.ListView()
         Me.ColumnHeader1 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.ContextMenuStrip = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.RefreshServersToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.BtnAddServer = New System.Windows.Forms.Button()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
@@ -40,6 +43,7 @@ Partial Class Form1
         Me.OpenFileDialog = New System.Windows.Forms.OpenFileDialog()
         Me.BtnExportServers = New System.Windows.Forms.Button()
         Me.BtnImportServers = New System.Windows.Forms.Button()
+        Me.ContextMenuStrip.SuspendLayout()
         Me.SuspendLayout()
         '
         'Label1
@@ -54,6 +58,7 @@ Partial Class Form1
         'ListServers
         '
         Me.ListServers.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1})
+        Me.ListServers.ContextMenuStrip = Me.ContextMenuStrip
         Me.ListServers.HideSelection = False
         Me.ListServers.Location = New System.Drawing.Point(10, 23)
         Me.ListServers.Name = "ListServers"
@@ -67,6 +72,18 @@ Partial Class Form1
         Me.ColumnHeader1.Name = "ColumnHeader1"
         Me.ColumnHeader1.Text = "Server IP Address"
         Me.ColumnHeader1.Width = 260
+        '
+        'ContextMenuStrip
+        '
+        Me.ContextMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RefreshServersToolStripMenuItem})
+        Me.ContextMenuStrip.Name = "ContextMenuStrip"
+        Me.ContextMenuStrip.Size = New System.Drawing.Size(181, 48)
+        '
+        'RefreshServersToolStripMenuItem
+        '
+        Me.RefreshServersToolStripMenuItem.Name = "RefreshServersToolStripMenuItem"
+        Me.RefreshServersToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.RefreshServersToolStripMenuItem.Text = "&Refresh Servers (F5)"
         '
         'BtnAddServer
         '
@@ -207,8 +224,10 @@ Partial Class Form1
         Me.Controls.Add(Me.BtnAddServer)
         Me.Controls.Add(Me.ListServers)
         Me.Controls.Add(Me.Label1)
+        Me.KeyPreview = True
         Me.Name = "Form1"
         Me.Text = "DNS Over HTTPS Well Known Servers"
+        Me.ContextMenuStrip.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -232,4 +251,6 @@ Partial Class Form1
     Friend WithEvents OpenFileDialog As Windows.Forms.OpenFileDialog
     Friend WithEvents BtnExportServers As Button
     Friend WithEvents BtnImportServers As Button
+    Shadows WithEvents ContextMenuStrip As ContextMenuStrip
+    Friend WithEvents RefreshServersToolStripMenuItem As ToolStripMenuItem
 End Class

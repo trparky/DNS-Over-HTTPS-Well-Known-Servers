@@ -230,4 +230,12 @@
 
         LoadServers()
     End Sub
+
+    Private Sub RefreshServersToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RefreshServersToolStripMenuItem.Click
+        LoadServers()
+    End Sub
+
+    Private Sub Form1_KeyUp(sender As Object, e As KeyEventArgs) Handles Me.KeyUp
+        If e.KeyCode = Keys.F5 Then LoadServers()
+    End Sub
 End Class
