@@ -1,5 +1,6 @@
 ﻿Imports System.IO
 Imports System.Security.Cryptography
+Imports System.Runtime.CompilerServices
 
 Public Class FormFile
 
@@ -201,7 +202,7 @@ End Class
 
 ''' <summary>Allows you to easily POST and upload files to a remote HTTP server without you, the programmer, knowing anything about how it all works. This class does it all for you. It handles adding a User Agent String, additional HTTP Request Headers, string data to your HTTP POST data, and files to be uploaded in the HTTP POST data.</summary>
 Public Class HttpHelper
-    Private Const classVersion As String = "1.317"
+    Private Const classVersion As String = "1.321"
 
     Private strUserAgentString As String = Nothing
     Private boolUseProxy As Boolean = False
@@ -210,7 +211,7 @@ Public Class HttpHelper
     Private httpResponseHeaders As Net.WebHeaderCollection = Nothing
     Private httpDownloadProgressPercentage As Short = 0
     Private remoteFileSizeInput, currentFileSize As Long
-    Private httpTimeOut As Long = 5000
+    Private httpTimeOut As Integer = 5000
     Private boolUseHTTPCompression As Boolean = True
     Private lastAccessedURL As String = Nothing
     Private lastException As Exception = Nothing
@@ -229,6 +230,10 @@ Public Class HttpHelper
     Private sslCertificate As X509Certificates.X509Certificate2
     Private urlPreProcessor As Func(Of String, String)
     Private customErrorHandler As [Delegate]
+
+    Private Const strLF As String = vbLf
+    Private Const strCRLF As String = vbCrLf
+
     Private downloadStatusUpdater As [Delegate]
 
     ''' <summary>Retrieves the downloadStatusDetails data from within the Class instance.</summary>
@@ -556,7 +561,7 @@ Public Class HttpHelper
             Throw lastException
         End If
 
-        If postData.ContainsKey(strName) And throwExceptionIfDataAlreadyExists Then
+        If postData.MyContainsKey(strName) And throwExceptionIfDataAlreadyExists Then
             lastException = New DataAlreadyExistsException(String.Format("The POST data key named {0}{1}{0} already exists in the POST data.", Chr(34), strName))
             Throw lastException
         Else
@@ -575,7 +580,7 @@ Public Class HttpHelper
             Throw lastException
         End If
 
-        If getData.ContainsKey(strName) And throwExceptionIfDataAlreadyExists Then
+        If getData.myContainsKey(strName) And throwExceptionIfDataAlreadyExists Then
             lastException = New DataAlreadyExistsException(String.Format("The GET data key named {0}{1}{0} already exists in the GET data.", Chr(34), strName))
             Throw lastException
         Else
@@ -608,8 +613,11 @@ Public Class HttpHelper
     ''' <exception cref="DataAlreadyExistsException">If this function throws a dataAlreadyExistsException, it means that the cookie already exists in this Class instance.</exception>
     Public Sub AddHTTPCookie(strCookieName As String, strCookieValue As String, strDomainDomain As String, strCookiePath As String, Optional urlEncodeHeaderContent As Boolean = False)
         If Not DoesCookieExist(strCookieName) Then
-            Dim cookieDetails As New CookieDetails() With {.cookieDomain = strDomainDomain, .cookiePath = strCookiePath}
-            cookieDetails.CookieData = If(urlEncodeHeaderContent, Web.HttpUtility.UrlEncode(strCookieValue), strCookieValue)
+            Dim cookieDetails As New CookieDetails With {
+                .cookieDomain = strDomainDomain,
+                .cookiePath = strCookiePath,
+                .CookieData = If(urlEncodeHeaderContent, Web.HttpUtility.UrlEncode(strCookieValue), strCookieValue)
+            }
             httpCookies.Add(strCookieName.ToLower, cookieDetails)
         Else
             lastException = New DataAlreadyExistsException(String.Format("The HTTP Cookie named {0}{1}{0} already exists in the settings for this Class instance.", Chr(34), strCookieName))
@@ -625,8 +633,11 @@ Public Class HttpHelper
     ''' <exception cref="DataAlreadyExistsException">If this function throws a dataAlreadyExistsException, it means that the cookie already exists in this Class instance.</exception>
     Public Sub AddHTTPCookie(strCookieName As String, strCookieValue As String, strCookieDomain As String, Optional urlEncodeHeaderContent As Boolean = False)
         If Not DoesCookieExist(strCookieName) Then
-            Dim cookieDetails As New CookieDetails() With {.cookieDomain = strCookieDomain, .cookiePath = "/"}
-            cookieDetails.CookieData = If(urlEncodeHeaderContent, Web.HttpUtility.UrlEncode(strCookieValue), strCookieValue)
+            Dim cookieDetails As New CookieDetails With {
+                .cookieDomain = strCookieDomain,
+                .cookiePath = "/",
+                .CookieData = If(urlEncodeHeaderContent, Web.HttpUtility.UrlEncode(strCookieValue), strCookieValue)
+            }
             httpCookies.Add(strCookieName.ToLower, cookieDetails)
         Else
             lastException = New DataAlreadyExistsException(String.Format("The HTTP Cookie named {0}{1}{0} already exists in the settings for this Class instance.", Chr(34), strCookieName))
@@ -638,28 +649,28 @@ Public Class HttpHelper
     ''' <param name="strName">The name of the GET data variable you are checking the existance of.</param>
     ''' <returns></returns>
     Public Function DoesGETDataExist(strName As String) As Boolean
-        Return getData.ContainsKey(strName)
+        Return getData.myContainsKey(strName)
     End Function
 
     ''' <summary>Checks to see if the POST data key exists in this POST data.</summary>
     ''' <param name="strName">The name of the POST data variable you are checking the existance of.</param>
     ''' <returns></returns>
     Public Function DoesPOSTDataExist(strName As String) As Boolean
-        Return postData.ContainsKey(strName)
+        Return postData.MyContainsKey(strName)
     End Function
 
     ''' <summary>Checks to see if an additional HTTP Request Header has been added to the Class.</summary>
     ''' <param name="strHeaderName">The name of the HTTP Request Header to check the existance of.</param>
     ''' <returns>Boolean value; True if found, False if not found.</returns>
     Public Function DoesAdditionalHeaderExist(strHeaderName As String) As Boolean
-        Return additionalHTTPHeaders.ContainsKey(strHeaderName.ToLower)
+        Return additionalHTTPHeaders.myContainsKey(strHeaderName.ToLower)
     End Function
 
     ''' <summary>Checks to see if a cookie has been added to the Class.</summary>
     ''' <param name="strCookieName">The name of the cookie to check the existance of.</param>
     ''' <returns>Boolean value; True if found, False if not found.</returns>
     Public Function DoesCookieExist(strCookieName As String) As Boolean
-        Return httpCookies.ContainsKey(strCookieName.ToLower)
+        Return httpCookies.myContainsKey(strCookieName.ToLower)
     End Function
 
     ''' <summary>This adds a file to be uploaded to your POST data.</summary>
@@ -679,7 +690,7 @@ Public Class HttpHelper
         If Not fileInfo.Exists Then
             lastException = New FileNotFoundException("Local file not found.", strLocalFilePath)
             Throw lastException
-        ElseIf postData.ContainsKey(strFormName) Then
+        ElseIf postData.myContainsKey(strFormName) Then
             If throwExceptionIfItemAlreadyExists Then
                 lastException = New DataAlreadyExistsException(String.Format("The POST data key named {0}{1}{0} already exists in the POST data.", Chr(34), strFormName))
                 Throw lastException
@@ -838,7 +849,7 @@ beginAgain:
             CaptureSSLInfo(fileDownloadURL, httpWebRequest)
 
             ' Gets the size of the remote file on the web server.
-            remoteFileSizeInput = CType(webResponse.ContentLength, Long)
+            remoteFileSizeInput = webResponse.ContentLength
 
             Dim responseStream As Stream = webResponse.GetResponseStream() ' Gets the response stream.
 
@@ -856,7 +867,7 @@ beginAgain:
                 httpDownloadProgressPercentage = CType(Math.Round(amountDownloaded, 0), Short) ' Update the download percentage value.
                 DownloadStatusUpdateInvoker()
 
-                lngBytesReadFromInternet = CType(responseStream.Read(dataBuffer, 0, dataBuffer.Length), Long) ' Reads more data into our data buffer.
+                lngBytesReadFromInternet = responseStream.Read(dataBuffer, 0, dataBuffer.Length) ' Reads more data into our data buffer.
             End While
 
             ' Before we return the MemoryStream to the user we have to reset the position back to the beginning of the Stream. This is so that when the
@@ -962,7 +973,7 @@ beginAgain:
             CaptureSSLInfo(fileDownloadURL, httpWebRequest)
 
             ' Gets the size of the remote file on the web server.
-            remoteFileSizeInput = CType(webResponse.ContentLength, Long)
+            remoteFileSizeInput = webResponse.ContentLength
 
             Dim responseStream As Stream = webResponse.GetResponseStream() ' Gets the response stream.
             fileWriteStream = New FileStream(localFileName, FileMode.Create) ' Creates a file write stream.
@@ -981,7 +992,7 @@ beginAgain:
                 httpDownloadProgressPercentage = CType(Math.Round(amountDownloaded, 0), Short) ' Update the download percentage value.
                 DownloadStatusUpdateInvoker()
 
-                lngBytesReadFromInternet = CType(responseStream.Read(dataBuffer, 0, dataBuffer.Length), Long) ' Reads more data into our data buffer.
+                lngBytesReadFromInternet = responseStream.Read(dataBuffer, 0, dataBuffer.Length) ' Reads more data into our data buffer.
             End While
 
             fileWriteStream.Close() ' Closes the file stream.
@@ -1234,7 +1245,7 @@ beginAgain:
             If getData.Count <> 0 Then url &= "?" & GetGETDataString()
 
             Dim boundary As String = "---------------------------" & Now.Ticks.ToString("x")
-            Dim boundaryBytes As Byte() = Text.Encoding.ASCII.GetBytes((Convert.ToString(vbCr & vbLf & "--") & boundary) & vbCr & vbLf)
+            Dim boundaryBytes As Byte() = Text.Encoding.ASCII.GetBytes((Convert.ToString(strCRLF & "--") & boundary) & strCRLF)
 
             httpWebRequest = DirectCast(Net.WebRequest.Create(url), Net.HttpWebRequest)
 
@@ -1382,7 +1393,7 @@ beginAgain:
             httpWebRequest.AutomaticDecompression = Net.DecompressionMethods.GZip Or Net.DecompressionMethods.Deflate
         End If
 
-        httpWebRequest.Timeout = CType(httpTimeOut, Integer)
+        httpWebRequest.Timeout = httpTimeOut
         httpWebRequest.KeepAlive = True
     End Sub
 
@@ -1415,7 +1426,7 @@ beginAgain:
         If input.Contains(vbCrLf) Then
             Return input ' It's in Windows linefeed format so we return the output as is.
         Else
-            Return input.Replace(vbLf, vbCrLf) ' It's in UNIX linefeed format so we have to convert it to Windows before we return the output.
+            Return input.Replace(strLF, strCRLF) ' It's in UNIX linefeed format so we have to convert it to Windows before we return the output.
         End If
     End Function
 
@@ -1490,3 +1501,44 @@ beginAgain:
         Return result
     End Function
 End Class
+
+Module DictionaryExtensions
+    ''' <summary>This function uses an IndexOf call to do a case-insensitive search. This function operates a lot like Contains().</summary>
+    ''' <param name="needle">The String containing what you want to search for.</param>
+    ''' <return>Returns a Boolean value.</return>
+    <Extension()>
+    Public Function MyContainsKey(haystack As Dictionary(Of String, String), needle As String, Optional boolCaseInsensitiveSearch As Boolean = True) As Boolean
+        If boolCaseInsensitiveSearch Then
+            For Each item As KeyValuePair(Of String, String) In haystack
+                If item.Key.Trim.Equals(needle.Trim, StringComparison.OrdinalIgnoreCase) Then Return True
+            Next
+            Return False
+        Else
+            Return haystack.ContainsKey(needle)
+        End If
+    End Function
+
+    <Extension()>
+    Public Function MyContainsKey(haystack As Dictionary(Of String, Object), needle As String, Optional boolCaseInsensitiveSearch As Boolean = True) As Boolean
+        If boolCaseInsensitiveSearch Then
+            For Each item As KeyValuePair(Of String, Object) In haystack
+                If item.Key.Trim.Equals(needle.Trim, StringComparison.OrdinalIgnoreCase) Then Return True
+            Next
+            Return False
+        Else
+            Return haystack.ContainsKey(needle)
+        End If
+    End Function
+
+    <Extension()>
+    Public Function MyContainsKey(haystack As Dictionary(Of String, CookieDetails), needle As String, Optional boolCaseInsensitiveSearch As Boolean = True) As Boolean
+        If boolCaseInsensitiveSearch Then
+            For Each item As KeyValuePair(Of String, CookieDetails) In haystack
+                If item.Key.Trim.Equals(needle.Trim, StringComparison.OrdinalIgnoreCase) Then Return True
+            Next
+            Return False
+        Else
+            Return haystack.ContainsKey(needle)
+        End If
+    End Function
+End Module
