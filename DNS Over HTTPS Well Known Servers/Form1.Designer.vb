@@ -33,16 +33,15 @@ Partial Class Form1
         Me.Label3 = New System.Windows.Forms.Label()
         Me.TxtIPAddress = New System.Windows.Forms.TextBox()
         Me.TxtURL = New System.Windows.Forms.TextBox()
-        Me.Label4 = New System.Windows.Forms.Label()
-        Me.TxtDeviceName = New System.Windows.Forms.TextBox()
         Me.BtnDelete = New System.Windows.Forms.Button()
         Me.BtnEdit = New System.Windows.Forms.Button()
         Me.BtnCheckForUpdates = New System.Windows.Forms.Button()
-        Me.ChkFlags = New System.Windows.Forms.CheckBox()
         Me.SaveFileDialog = New System.Windows.Forms.SaveFileDialog()
         Me.OpenFileDialog = New System.Windows.Forms.OpenFileDialog()
         Me.BtnExportServers = New System.Windows.Forms.Button()
         Me.BtnImportServers = New System.Windows.Forms.Button()
+        Me.DeleteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.EditToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ContextMenuStrip.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -57,6 +56,8 @@ Partial Class Form1
         '
         'ListServers
         '
+        Me.ListServers.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.ListServers.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1})
         Me.ListServers.ContextMenuStrip = Me.ContextMenuStrip
         Me.ListServers.HideSelection = False
@@ -75,20 +76,20 @@ Partial Class Form1
         '
         'ContextMenuStrip
         '
-        Me.ContextMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RefreshServersToolStripMenuItem})
+        Me.ContextMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RefreshServersToolStripMenuItem, Me.DeleteToolStripMenuItem, Me.EditToolStripMenuItem})
         Me.ContextMenuStrip.Name = "ContextMenuStrip"
-        Me.ContextMenuStrip.Size = New System.Drawing.Size(181, 48)
+        Me.ContextMenuStrip.Size = New System.Drawing.Size(177, 70)
         '
         'RefreshServersToolStripMenuItem
         '
         Me.RefreshServersToolStripMenuItem.Name = "RefreshServersToolStripMenuItem"
-        Me.RefreshServersToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.RefreshServersToolStripMenuItem.Size = New System.Drawing.Size(176, 22)
         Me.RefreshServersToolStripMenuItem.Text = "&Refresh Servers (F5)"
         '
         'BtnAddServer
         '
         Me.BtnAddServer.Enabled = False
-        Me.BtnAddServer.Location = New System.Drawing.Point(279, 164)
+        Me.BtnAddServer.Location = New System.Drawing.Point(279, 103)
         Me.BtnAddServer.Name = "BtnAddServer"
         Me.BtnAddServer.Size = New System.Drawing.Size(107, 23)
         Me.BtnAddServer.TabIndex = 3
@@ -115,6 +116,8 @@ Partial Class Form1
         '
         'TxtIPAddress
         '
+        Me.TxtIPAddress.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TxtIPAddress.Location = New System.Drawing.Point(279, 39)
         Me.TxtIPAddress.Name = "TxtIPAddress"
         Me.TxtIPAddress.Size = New System.Drawing.Size(237, 20)
@@ -122,29 +125,16 @@ Partial Class Form1
         '
         'TxtURL
         '
+        Me.TxtURL.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TxtURL.Location = New System.Drawing.Point(279, 77)
         Me.TxtURL.Name = "TxtURL"
         Me.TxtURL.Size = New System.Drawing.Size(237, 20)
         Me.TxtURL.TabIndex = 7
         '
-        'Label4
-        '
-        Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(279, 100)
-        Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(120, 13)
-        Me.Label4.TabIndex = 8
-        Me.Label4.Text = "Device Name (Optional)"
-        '
-        'TxtDeviceName
-        '
-        Me.TxtDeviceName.Location = New System.Drawing.Point(279, 115)
-        Me.TxtDeviceName.Name = "TxtDeviceName"
-        Me.TxtDeviceName.Size = New System.Drawing.Size(236, 20)
-        Me.TxtDeviceName.TabIndex = 9
-        '
         'BtnDelete
         '
+        Me.BtnDelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.BtnDelete.Enabled = False
         Me.BtnDelete.Location = New System.Drawing.Point(10, 360)
         Me.BtnDelete.Name = "BtnDelete"
@@ -155,6 +145,7 @@ Partial Class Form1
         '
         'BtnEdit
         '
+        Me.BtnEdit.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.BtnEdit.Enabled = False
         Me.BtnEdit.Location = New System.Drawing.Point(146, 360)
         Me.BtnEdit.Name = "BtnEdit"
@@ -165,22 +156,13 @@ Partial Class Form1
         '
         'BtnCheckForUpdates
         '
-        Me.BtnCheckForUpdates.Location = New System.Drawing.Point(369, 355)
+        Me.BtnCheckForUpdates.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.BtnCheckForUpdates.Location = New System.Drawing.Point(282, 360)
         Me.BtnCheckForUpdates.Name = "BtnCheckForUpdates"
         Me.BtnCheckForUpdates.Size = New System.Drawing.Size(144, 23)
         Me.BtnCheckForUpdates.TabIndex = 12
         Me.BtnCheckForUpdates.Text = "Check for Updates"
         Me.BtnCheckForUpdates.UseVisualStyleBackColor = True
-        '
-        'ChkFlags
-        '
-        Me.ChkFlags.AutoSize = True
-        Me.ChkFlags.Location = New System.Drawing.Point(279, 141)
-        Me.ChkFlags.Name = "ChkFlags"
-        Me.ChkFlags.Size = New System.Drawing.Size(154, 17)
-        Me.ChkFlags.TabIndex = 14
-        Me.ChkFlags.Text = "Add Flags (Recommended)"
-        Me.ChkFlags.UseVisualStyleBackColor = True
         '
         'OpenFileDialog
         '
@@ -188,7 +170,8 @@ Partial Class Form1
         '
         'BtnExportServers
         '
-        Me.BtnExportServers.Location = New System.Drawing.Point(319, 282)
+        Me.BtnExportServers.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.BtnExportServers.Location = New System.Drawing.Point(279, 331)
         Me.BtnExportServers.Name = "BtnExportServers"
         Me.BtnExportServers.Size = New System.Drawing.Size(94, 23)
         Me.BtnExportServers.TabIndex = 15
@@ -197,12 +180,25 @@ Partial Class Form1
         '
         'BtnImportServers
         '
-        Me.BtnImportServers.Location = New System.Drawing.Point(419, 282)
+        Me.BtnImportServers.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.BtnImportServers.Location = New System.Drawing.Point(379, 331)
         Me.BtnImportServers.Name = "BtnImportServers"
         Me.BtnImportServers.Size = New System.Drawing.Size(94, 23)
         Me.BtnImportServers.TabIndex = 16
         Me.BtnImportServers.Text = "Import Servers"
         Me.BtnImportServers.UseVisualStyleBackColor = True
+        '
+        'DeleteToolStripMenuItem
+        '
+        Me.DeleteToolStripMenuItem.Name = "DeleteToolStripMenuItem"
+        Me.DeleteToolStripMenuItem.Size = New System.Drawing.Size(176, 22)
+        Me.DeleteToolStripMenuItem.Text = "&Delete"
+        '
+        'EditToolStripMenuItem
+        '
+        Me.EditToolStripMenuItem.Name = "EditToolStripMenuItem"
+        Me.EditToolStripMenuItem.Size = New System.Drawing.Size(176, 22)
+        Me.EditToolStripMenuItem.Text = "&Edit"
         '
         'Form1
         '
@@ -211,12 +207,9 @@ Partial Class Form1
         Me.ClientSize = New System.Drawing.Size(525, 390)
         Me.Controls.Add(Me.BtnImportServers)
         Me.Controls.Add(Me.BtnExportServers)
-        Me.Controls.Add(Me.ChkFlags)
         Me.Controls.Add(Me.BtnCheckForUpdates)
         Me.Controls.Add(Me.BtnEdit)
         Me.Controls.Add(Me.BtnDelete)
-        Me.Controls.Add(Me.TxtDeviceName)
-        Me.Controls.Add(Me.Label4)
         Me.Controls.Add(Me.TxtURL)
         Me.Controls.Add(Me.TxtIPAddress)
         Me.Controls.Add(Me.Label3)
@@ -225,6 +218,7 @@ Partial Class Form1
         Me.Controls.Add(Me.ListServers)
         Me.Controls.Add(Me.Label1)
         Me.KeyPreview = True
+        Me.MinimumSize = New System.Drawing.Size(541, 429)
         Me.Name = "Form1"
         Me.Text = "DNS Over HTTPS Well Known Servers"
         Me.ContextMenuStrip.ResumeLayout(False)
@@ -241,16 +235,15 @@ Partial Class Form1
     Friend WithEvents Label3 As Label
     Friend WithEvents TxtIPAddress As TextBox
     Friend WithEvents TxtURL As TextBox
-    Friend WithEvents Label4 As Label
-    Friend WithEvents TxtDeviceName As TextBox
     Friend WithEvents BtnDelete As Button
     Friend WithEvents BtnEdit As Button
     Friend WithEvents BtnCheckForUpdates As Button
-    Friend WithEvents ChkFlags As CheckBox
     Friend WithEvents SaveFileDialog As Windows.Forms.SaveFileDialog
     Friend WithEvents OpenFileDialog As Windows.Forms.OpenFileDialog
     Friend WithEvents BtnExportServers As Button
     Friend WithEvents BtnImportServers As Button
     Shadows WithEvents ContextMenuStrip As ContextMenuStrip
     Friend WithEvents RefreshServersToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents DeleteToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents EditToolStripMenuItem As ToolStripMenuItem
 End Class
