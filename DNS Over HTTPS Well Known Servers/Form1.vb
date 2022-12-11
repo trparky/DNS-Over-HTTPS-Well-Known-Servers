@@ -1,7 +1,4 @@
-﻿Imports System.Text.RegularExpressions
-Imports DNS_Over_HTTPS_Well_Known_Servers.Form1
-
-Public Class Form1
+﻿Public Class Form1
     Private ReadOnly servers As New Dictionary(Of String, String)
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -207,44 +204,44 @@ Public Class Form1
 
     Private Sub BtnImportServers_Click(sender As Object, e As EventArgs) Handles BtnImportServers.Click
         Dim thread As New Threading.Thread(Sub()
-        With OpenFileDialog
-            .Filter = "XML File|*.xml"
-            .Title = "Import DoH Servers from XML File"
-            .FileName = Nothing
-        End With
+                                               With OpenFileDialog
+                                                   .Filter = "XML File|*.xml"
+                                                   .Title = "Import DoH Servers from XML File"
+                                                   .FileName = Nothing
+                                               End With
 
-        If OpenFileDialog.ShowDialog = DialogResult.OK Then
-            Dim importedDoHServers As New List(Of ExportedData)
+                                               If OpenFileDialog.ShowDialog = DialogResult.OK Then
+                                                   Dim importedDoHServers As New List(Of ExportedData)
 
-            Using streamReader As New IO.StreamReader(OpenFileDialog.FileName)
-                Dim xmlSerializerObject As New Xml.Serialization.XmlSerializer(importedDoHServers.GetType)
-                importedDoHServers = xmlSerializerObject.Deserialize(streamReader)
-            End Using
+                                                   Using streamReader As New IO.StreamReader(OpenFileDialog.FileName)
+                                                       Dim xmlSerializerObject As New Xml.Serialization.XmlSerializer(importedDoHServers.GetType)
+                                                       importedDoHServers = xmlSerializerObject.Deserialize(streamReader)
+                                                   End Using
 
-            If importedDoHServers.Count <> 0 Then
+                                                   If importedDoHServers.Count <> 0 Then
                                                        MyInvoke(Sub()
                                                                     ProgressBar.Visible = True
                                                                     ProgressBar.Value = 0
                                                                     ProgressBar.Maximum = importedDoHServers.Count * 2
                                                                 End Sub)
 
-                For Each item As KeyValuePair(Of String, String) In servers
-                    DeleteDNSServer(item.Key)
+                                                       For Each item As KeyValuePair(Of String, String) In servers
+                                                           DeleteDNSServer(item.Key)
                                                            MyInvoke(Sub() ProgressBar.Value += 1)
-                Next
+                                                       Next
 
-                For Each item As ExportedData In importedDoHServers
-                    AddDNSServer(item)
+                                                       For Each item As ExportedData In importedDoHServers
+                                                           AddDNSServer(item)
                                                            MyInvoke(Sub() ProgressBar.Value += 1)
-                Next
-            End If
-        End If
+                                                       Next
+                                                   End If
+                                               End If
 
                                                MyInvoke(Sub()
                                                             ProgressBar.Visible = False
                                                             ProgressBar.Value = 0
                                                             ProgressBar.Maximum = 0
-        LoadServers()
+                                                            LoadServers()
                                                             MsgBox("Import complete!", MsgBoxStyle.Information, "DNS Over HTTPS Well Known Servers")
                                                         End Sub)
                                            End Sub)
