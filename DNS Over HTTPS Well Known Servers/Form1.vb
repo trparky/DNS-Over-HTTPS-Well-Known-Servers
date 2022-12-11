@@ -43,10 +43,7 @@
                         servers.Add(StrServerIP, url)
 
                         listViewItem = New ListViewItem(StrServerIP)
-                        With listViewItem
-                            listViewItem.SubItems.Add(url)
-                        End With
-
+                        listViewItem.SubItems.Add(url)
                         ListServers.Items.Add(listViewItem)
                     End If
                 Next
