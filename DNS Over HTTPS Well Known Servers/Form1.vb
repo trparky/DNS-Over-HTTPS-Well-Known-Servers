@@ -1,8 +1,14 @@
 ﻿Public Class Form1
     Private ReadOnly servers As New Dictionary(Of String, String)
+    Dim boolDoneLoading As Boolean = False
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         LoadServers()
+        ColumnHeader1.Width = My.Settings.ipColumnSize
+        ColumnHeader2.Width = My.Settings.urlColumnSize
+        Size = My.Settings.windowSize
+        SplitContainer2.SplitterDistance = My.Settings.splitterDistance
+        boolDoneLoading = True
     End Sub
 
     ''' <summary>
@@ -25,11 +31,21 @@
         ListServers.Items.Clear()
         servers.Clear()
 
+        Dim url As String
+        Dim listViewItem As ListViewItem
+
         Using RegistryKey As RegistryKey = Registry.LocalMachine.OpenSubKey("SYSTEM\CurrentControlSet\Services\Dnscache\Parameters\DohWellKnownServers", False)
             If RegistryKey IsNot Nothing Then
                 For Each StrServerIP As String In RegistryKey.GetSubKeyNames()
-                    servers.Add(StrServerIP, RegistryKey.OpenSubKey(StrServerIP).GetValue("Template"))
-                    ListServers.Items.Add(New ListViewItem(StrServerIP))
+                    url = RegistryKey.OpenSubKey(StrServerIP).GetValue("Template")
+                    servers.Add(StrServerIP, url)
+
+                    listViewItem = New ListViewItem(StrServerIP)
+                    With listViewItem
+                        listViewItem.SubItems.Add(url)
+                    End With
+
+                    ListServers.Items.Add(listViewItem)
                 Next
             Else
                 MsgBox("Error loading known DNS Over HTTPS Well Known Servers from Registry.", MsgBoxStyle.Critical, "DNS Over HTTPS Well Known Servers")
@@ -124,10 +140,6 @@
     End Sub
 
     Private Sub TxtURL_TextChanged(sender As Object, e As EventArgs) Handles TxtURL.TextChanged
-        ActivateAddServerButton()
-    End Sub
-
-    Private Sub TxtDeviceName_TextChanged(sender As Object, e As EventArgs)
         ActivateAddServerButton()
     End Sub
 
@@ -263,5 +275,20 @@
 
     Private Sub EditToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles EditToolStripMenuItem.Click
         BtnEdit.PerformClick()
+    End Sub
+
+    Private Sub ListServers_ColumnWidthChanged(sender As Object, e As ColumnWidthChangedEventArgs) Handles ListServers.ColumnWidthChanged
+        If boolDoneLoading Then
+            My.Settings.ipColumnSize = ColumnHeader1.Width
+            My.Settings.urlColumnSize = ColumnHeader2.Width
+        End If
+    End Sub
+
+    Private Sub Form1_ResizeEnd(sender As Object, e As EventArgs) Handles Me.ResizeEnd
+        My.Settings.windowSize = Size
+    End Sub
+
+    Private Sub SplitContainer2_SplitterMoved(sender As Object, e As SplitterEventArgs) Handles SplitContainer2.SplitterMoved
+        If boolDoneLoading Then My.Settings.splitterDistance = SplitContainer2.SplitterDistance
     End Sub
 End Class
