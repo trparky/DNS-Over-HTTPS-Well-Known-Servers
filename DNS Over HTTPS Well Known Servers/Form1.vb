@@ -81,13 +81,13 @@
         End Using
     End Sub
 
-    Private Sub AddDNSServer(exportedData As ExportedData)
+    Private Sub AddDNSServer(DoHServer As DoHServer)
         Using process As New Process With {
             .StartInfo = New ProcessStartInfo With {
                     .UseShellExecute = False,
                     .CreateNoWindow = True,
                     .FileName = "netsh",
-                    .Arguments = $"dns add encryption {exportedData.IP} {exportedData.URL}"
+                    .Arguments = $"dns add encryption {DoHServer.IP} {DoHServer.URL}"
                 }
             }
             process.Start()
@@ -184,20 +184,31 @@
     End Sub
 
     Public Structure ExportedData
+        Public boolPartialExport As Boolean
+        Public DoHServers As List(Of DoHServer)
+    End Structure
+
+    Public Structure DoHServer
         Public IP, URL As String
     End Structure
 
     Private Sub BtnExportServers_Click(sender As Object, e As EventArgs) Handles BtnExportServers.Click
-        Dim DohServers As New List(Of ExportedData)
-        Dim ExportedData As ExportedData
+        If MsgBox($"This kind of export will be treated as a full export by this program and upon import will erase all existing DoH Servers on the system.{vbCrLf}{vbCrLf}Are you sure you want to do this kind of export?{vbCrLf}{vbCrLf}NOTE: Partial exports can be performed by selecting servers in the DoH Server list and right-clicking on the list. Partial exports will be treated differently by this program in which it will only overwrite the entries in the exported file.", MsgBoxStyle.Question + MsgBoxStyle.YesNo, Text) = MsgBoxResult.No Then Exit Sub
+
+        Dim ExportedData As New ExportedData
+        Dim DohServers As New List(Of DoHServer)
+        Dim DoHServer As DoHServer
 
         For Each item As KeyValuePair(Of String, String) In servers
-            ExportedData = New ExportedData() With {
+            DoHServer = New DoHServer() With {
                 .IP = item.Key,
                 .URL = item.Value
             }
-            DohServers.Add(ExportedData)
+            DohServers.Add(DoHServer)
         Next
+
+        ExportedData.boolPartialExport = False
+        ExportedData.DoHServers = DohServers
 
         With SaveFileDialog
             .Filter = "XML File|*.xml"
@@ -207,33 +218,19 @@
 
         If SaveFileDialog.ShowDialog = DialogResult.OK Then
             Using memoryStream As New IO.MemoryStream
-                Dim xmlSerializerObject As New Xml.Serialization.XmlSerializer(DohServers.GetType)
-                xmlSerializerObject.Serialize(memoryStream, DohServers)
+                Dim xmlSerializerObject As New Xml.Serialization.XmlSerializer(ExportedData.GetType)
+                xmlSerializerObject.Serialize(memoryStream, ExportedData)
 
                 Using fileStream As New IO.FileStream(SaveFileDialog.FileName, IO.FileMode.Create, IO.FileAccess.ReadWrite)
                     memoryStream.WriteTo(fileStream)
                 End Using
 
-                MsgBox("Export complete!", MsgBoxStyle.Information, "DNS Over HTTPS Well Known Servers")
+                MsgBox("Full Export complete!", MsgBoxStyle.Information, "DNS Over HTTPS Well Known Servers")
             End Using
         End If
     End Sub
 
     Private Sub BtnImportServers_Click(sender As Object, e As EventArgs) Handles BtnImportServers.Click
-        Dim boolPartialImport As Boolean = False
-
-        Using whatkind As New WhatKindImport
-            whatkind.StartPosition = FormStartPosition.CenterParent
-            whatkind.ShowDialog(Me)
-
-            If whatkind.importType = WhatKindImport.ImportTypeEnum.null Then
-                MsgBox("Import cancelled.", MsgBoxStyle.Information, Text)
-                Exit Sub
-            ElseIf whatkind.importType = WhatKindImport.ImportTypeEnum.partialImport Then
-                boolPartialImport = True
-            End If
-        End Using
-
         With OpenFileDialog
             .Filter = "XML File|*.xml"
             .Title = "Import DoH Servers from XML File"
@@ -242,22 +239,22 @@
 
         If OpenFileDialog.ShowDialog = DialogResult.OK Then
             Dim thread As New Threading.Thread(Sub()
-                                                   Dim importedDoHServers As New List(Of ExportedData)
+                                                   Dim ExportedData As New ExportedData
 
                                                    Using streamReader As New IO.StreamReader(OpenFileDialog.FileName)
-                                                       Dim xmlSerializerObject As New Xml.Serialization.XmlSerializer(importedDoHServers.GetType)
-                                                       importedDoHServers = xmlSerializerObject.Deserialize(streamReader)
+                                                       Dim xmlSerializerObject As New Xml.Serialization.XmlSerializer(ExportedData.GetType)
+                                                       ExportedData = xmlSerializerObject.Deserialize(streamReader)
                                                    End Using
 
-                                                   If importedDoHServers.Count <> 0 Then
+                                                   If ExportedData.DoHServers.Count <> 0 Then
                                                        MyInvoke(Sub()
                                                                     ProgressBar.Visible = True
                                                                     ProgressBar.Value = 0
-                                                                    ProgressBar.Maximum = importedDoHServers.Count * 2
+                                                                    ProgressBar.Maximum = ExportedData.DoHServers.Count * 2
                                                                 End Sub)
 
-                                                       If boolPartialImport Then
-                                                           For Each item As ExportedData In importedDoHServers
+                                                       If ExportedData.boolPartialExport Then
+                                                           For Each item As DoHServer In ExportedData.DoHServers
                                                                DeleteDNSServer(item.IP)
                                                                MyInvoke(Sub() ProgressBar.Value += 1)
                                                            Next
@@ -268,7 +265,7 @@
                                                            Next
                                                        End If
 
-                                                       For Each item As ExportedData In importedDoHServers
+                                                       For Each item As DoHServer In ExportedData.DoHServers
                                                            AddDNSServer(item)
                                                            MyInvoke(Sub() ProgressBar.Value += 1)
                                                        Next
@@ -279,7 +276,7 @@
                                                                 ProgressBar.Value = 0
                                                                 ProgressBar.Maximum = 0
                                                                 LoadServers()
-                                                                MsgBox("Import complete!", MsgBoxStyle.Information, "DNS Over HTTPS Well Known Servers")
+                                                                MsgBox($"{If(ExportedData.boolPartialExport, "Partial", "Full")} Import complete!", MsgBoxStyle.Information, "DNS Over HTTPS Well Known Servers")
                                                             End Sub)
                                                End Sub)
             thread.SetApartmentState(Threading.ApartmentState.STA)
@@ -328,16 +325,20 @@
     End Sub
 
     Private Sub ExportSelectedDNSServersToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ExportSelectedDNSServersToolStripMenuItem.Click
-        Dim DohServers As New List(Of ExportedData)
-        Dim ExportedData As ExportedData
+        Dim ExportedData As New ExportedData
+        Dim DohServers As New List(Of DoHServer)
+        Dim DoHServer As DoHServer
 
         For Each item As ListViewItem In ListServers.SelectedItems
-            ExportedData = New ExportedData() With {
+            DoHServer = New DoHServer() With {
                 .IP = item.SubItems(0).Text,
                 .URL = item.SubItems(1).Text
             }
-            DohServers.Add(ExportedData)
+            DohServers.Add(DoHServer)
         Next
+
+        ExportedData.boolPartialExport = True
+        ExportedData.DoHServers = DohServers
 
         With SaveFileDialog
             .Filter = "XML File|*.xml"
@@ -347,14 +348,14 @@
 
         If SaveFileDialog.ShowDialog = DialogResult.OK Then
             Using memoryStream As New IO.MemoryStream
-                Dim xmlSerializerObject As New Xml.Serialization.XmlSerializer(DohServers.GetType)
-                xmlSerializerObject.Serialize(memoryStream, DohServers)
+                Dim xmlSerializerObject As New Xml.Serialization.XmlSerializer(ExportedData.GetType)
+                xmlSerializerObject.Serialize(memoryStream, ExportedData)
 
                 Using fileStream As New IO.FileStream(SaveFileDialog.FileName, IO.FileMode.Create, IO.FileAccess.ReadWrite)
                     memoryStream.WriteTo(fileStream)
                 End Using
 
-                MsgBox("Export complete!", MsgBoxStyle.Information, "DNS Over HTTPS Well Known Servers")
+                MsgBox("Partial Export complete!", MsgBoxStyle.Information, "DNS Over HTTPS Well Known Servers")
             End Using
         End If
     End Sub
