@@ -40,6 +40,7 @@ Partial Class Form1
         Me.OpenFileDialog = New System.Windows.Forms.OpenFileDialog()
         Me.BtnExportServers = New System.Windows.Forms.Button()
         Me.BtnImportServers = New System.Windows.Forms.Button()
+        Me.ProgressBar = New System.Windows.Forms.ProgressBar()
         Me.DeleteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.EditToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ContextMenuStrip.SuspendLayout()
@@ -63,7 +64,7 @@ Partial Class Form1
         Me.ListServers.HideSelection = False
         Me.ListServers.Location = New System.Drawing.Point(10, 23)
         Me.ListServers.Name = "ListServers"
-        Me.ListServers.Size = New System.Drawing.Size(264, 332)
+        Me.ListServers.Size = New System.Drawing.Size(263, 332)
         Me.ListServers.TabIndex = 2
         Me.ListServers.UseCompatibleStateImageBehavior = False
         Me.ListServers.View = System.Windows.Forms.View.Details
@@ -138,7 +139,7 @@ Partial Class Form1
         Me.BtnDelete.Enabled = False
         Me.BtnDelete.Location = New System.Drawing.Point(10, 360)
         Me.BtnDelete.Name = "BtnDelete"
-        Me.BtnDelete.Size = New System.Drawing.Size(130, 23)
+        Me.BtnDelete.Size = New System.Drawing.Size(127, 23)
         Me.BtnDelete.TabIndex = 10
         Me.BtnDelete.Text = "Delete"
         Me.BtnDelete.UseVisualStyleBackColor = True
@@ -149,7 +150,7 @@ Partial Class Form1
         Me.BtnEdit.Enabled = False
         Me.BtnEdit.Location = New System.Drawing.Point(146, 360)
         Me.BtnEdit.Name = "BtnEdit"
-        Me.BtnEdit.Size = New System.Drawing.Size(130, 23)
+        Me.BtnEdit.Size = New System.Drawing.Size(127, 23)
         Me.BtnEdit.TabIndex = 11
         Me.BtnEdit.Text = "Edit"
         Me.BtnEdit.UseVisualStyleBackColor = True
@@ -157,7 +158,7 @@ Partial Class Form1
         'BtnCheckForUpdates
         '
         Me.BtnCheckForUpdates.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.BtnCheckForUpdates.Location = New System.Drawing.Point(282, 360)
+        Me.BtnCheckForUpdates.Location = New System.Drawing.Point(279, 360)
         Me.BtnCheckForUpdates.Name = "BtnCheckForUpdates"
         Me.BtnCheckForUpdates.Size = New System.Drawing.Size(144, 23)
         Me.BtnCheckForUpdates.TabIndex = 12
@@ -200,6 +201,14 @@ Partial Class Form1
         Me.EditToolStripMenuItem.Size = New System.Drawing.Size(176, 22)
         Me.EditToolStripMenuItem.Text = "&Edit"
         '
+        'ProgressBar
+        '
+        Me.ProgressBar.Location = New System.Drawing.Point(279, 302)
+        Me.ProgressBar.Name = "ProgressBar"
+        Me.ProgressBar.Size = New System.Drawing.Size(234, 23)
+        Me.ProgressBar.TabIndex = 17
+        Me.ProgressBar.Visible = False
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -217,6 +226,7 @@ Partial Class Form1
         Me.Controls.Add(Me.BtnAddServer)
         Me.Controls.Add(Me.ListServers)
         Me.Controls.Add(Me.Label1)
+        Me.Controls.Add(Me.ProgressBar)
         Me.KeyPreview = True
         Me.MinimumSize = New System.Drawing.Size(541, 429)
         Me.Name = "Form1"
@@ -246,4 +256,5 @@ Partial Class Form1
     Friend WithEvents RefreshServersToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents DeleteToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents EditToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ProgressBar As ProgressBar
 End Class

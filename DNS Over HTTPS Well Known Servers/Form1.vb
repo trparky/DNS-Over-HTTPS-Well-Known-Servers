@@ -8,6 +8,22 @@ Public Class Form1
         LoadServers()
     End Sub
 
+    ''' <summary>
+    ''' This function works very similar to the Invoke function that's already built into .NET. The only difference
+    ''' is that this function checks to see if an invoke is required and only invokes the passed routine on the
+    ''' main thread if it's required. If not, the passed routine is executed on the thread that the call
+    ''' originated from. Also, if the program is closing the function aborts itself so as to prevent
+    ''' System.InvalidOperationException upon program close.
+    ''' </summary>
+    ''' <param name="input"></param>
+    Private Sub MyInvoke(input As [Delegate])
+        If InvokeRequired() Then
+            Invoke(input)
+        Else
+            input.DynamicInvoke()
+        End If
+    End Sub
+
     Private Sub LoadServers()
         ListServers.Items.Clear()
         servers.Clear()
@@ -190,6 +206,7 @@ Public Class Form1
     End Sub
 
     Private Sub BtnImportServers_Click(sender As Object, e As EventArgs) Handles BtnImportServers.Click
+        Dim thread As New Threading.Thread(Sub()
         With OpenFileDialog
             .Filter = "XML File|*.xml"
             .Title = "Import DoH Servers from XML File"
@@ -205,17 +222,34 @@ Public Class Form1
             End Using
 
             If importedDoHServers.Count <> 0 Then
+                                                       MyInvoke(Sub()
+                                                                    ProgressBar.Visible = True
+                                                                    ProgressBar.Value = 0
+                                                                    ProgressBar.Maximum = importedDoHServers.Count * 2
+                                                                End Sub)
+
                 For Each item As KeyValuePair(Of String, String) In servers
                     DeleteDNSServer(item.Key)
+                                                           MyInvoke(Sub() ProgressBar.Value += 1)
                 Next
 
                 For Each item As ExportedData In importedDoHServers
                     AddDNSServer(item)
+                                                           MyInvoke(Sub() ProgressBar.Value += 1)
                 Next
             End If
         End If
 
+                                               MyInvoke(Sub()
+                                                            ProgressBar.Visible = False
+                                                            ProgressBar.Value = 0
+                                                            ProgressBar.Maximum = 0
         LoadServers()
+                                                            MsgBox("Import complete!", MsgBoxStyle.Information, "DNS Over HTTPS Well Known Servers")
+                                                        End Sub)
+                                           End Sub)
+        thread.SetApartmentState(Threading.ApartmentState.STA)
+        thread.Start()
     End Sub
 
     Private Sub RefreshServersToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RefreshServersToolStripMenuItem.Click
