@@ -132,8 +132,8 @@
 
     Private Sub BtnDelete_Click(sender As Object, e As EventArgs) Handles BtnDelete.Click
         If MsgBox($"Are you sure you want to delete the DNS Server Entry for ""{ListServers.SelectedItems(0).Text}""?", MsgBoxStyle.Question + MsgBoxStyle.YesNo + vbDefaultButton2, Text) = MsgBoxResult.Yes Then
-        DeleteDNSServer(ListServers.SelectedItems(0).Text)
-        LoadServers()
+            DeleteDNSServer(ListServers.SelectedItems(0).Text)
+            LoadServers()
             MsgBox($"The DNS Server Entry for ""{ListServers.SelectedItems(0).Text}"" has been deleted.", MsgBoxStyle.Information, Text)
         Else
             MsgBox($"The DNS Server Entry for ""{ListServers.SelectedItems(0).Text}"" has NOT been deleted.", MsgBoxStyle.Information, Text)
@@ -271,7 +271,13 @@
     End Sub
 
     Private Sub Form1_KeyUp(sender As Object, e As KeyEventArgs) Handles Me.KeyUp
-        If e.KeyCode = Keys.F5 Then LoadServers()
+        If e.KeyCode = Keys.F5 Then
+            LoadServers()
+        ElseIf e.KeyCode = Keys.Enter Then
+            BtnEdit.PerformClick()
+        ElseIf e.KeyCode = Keys.Delete Then
+            BtnDelete.PerformClick()
+        End If
     End Sub
 
     Private Sub DeleteToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DeleteToolStripMenuItem.Click
