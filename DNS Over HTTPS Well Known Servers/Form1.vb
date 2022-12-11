@@ -254,11 +254,13 @@
                                                                 End Sub)
 
                                                        If ExportedData.boolPartialExport Then
+                                                           ' This erases only the DoH Servers that are mentioned in the imported XML file.
                                                            For Each item As DoHServer In ExportedData.DoHServers
                                                                DeleteDNSServer(item.IP)
                                                                MyInvoke(Sub() ProgressBar.Value += 1)
                                                            Next
                                                        Else
+                                                           ' This erases all existing DoH Servers on the system.
                                                            For Each item As KeyValuePair(Of String, String) In servers
                                                                DeleteDNSServer(item.Key)
                                                                MyInvoke(Sub() ProgressBar.Value += 1)
