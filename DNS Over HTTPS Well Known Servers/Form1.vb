@@ -37,15 +37,18 @@
         Using RegistryKey As RegistryKey = Registry.LocalMachine.OpenSubKey("SYSTEM\CurrentControlSet\Services\Dnscache\Parameters\DohWellKnownServers", False)
             If RegistryKey IsNot Nothing Then
                 For Each StrServerIP As String In RegistryKey.GetSubKeyNames()
-                    url = RegistryKey.OpenSubKey(StrServerIP).GetValue("Template")
-                    servers.Add(StrServerIP, url)
+                    url = RegistryKey.OpenSubKey(StrServerIP).GetValue("Template", Nothing)
 
-                    listViewItem = New ListViewItem(StrServerIP)
-                    With listViewItem
-                        listViewItem.SubItems.Add(url)
-                    End With
+                    If Not String.IsNullOrWhiteSpace(url) Then
+                        servers.Add(StrServerIP, url)
 
-                    ListServers.Items.Add(listViewItem)
+                        listViewItem = New ListViewItem(StrServerIP)
+                        With listViewItem
+                            listViewItem.SubItems.Add(url)
+                        End With
+
+                        ListServers.Items.Add(listViewItem)
+                    End If
                 Next
             Else
                 MsgBox("Error loading known DNS Over HTTPS Well Known Servers from Registry.", MsgBoxStyle.Critical, "DNS Over HTTPS Well Known Servers")
