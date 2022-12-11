@@ -73,7 +73,7 @@
                     .UseShellExecute = False,
                     .CreateNoWindow = True,
                     .FileName = "netsh",
-                    .Arguments = $"dns add encryption {ip} {url}"
+                    .Arguments = $"dns add encryption server={ip} dohtemplate={url} autoupgrade=yes udpfallback=no"
                 }
             }
             process.Start()
@@ -87,7 +87,7 @@
                     .UseShellExecute = False,
                     .CreateNoWindow = True,
                     .FileName = "netsh",
-                    .Arguments = $"dns add encryption {DoHServer.IP} {DoHServer.URL}"
+                    .Arguments = $"dns add encryption server={DoHServer.IP} dohtemplate={DoHServer.URL} autoupgrade=yes udpfallback=no"
                 }
             }
             process.Start()
