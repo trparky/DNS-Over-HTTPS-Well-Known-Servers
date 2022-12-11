@@ -113,6 +113,12 @@
     </Compile>
     <Compile Include="NativeMethod.vb" />
     <Compile Include="StringExtensions.vb" />
+    <Compile Include="WhatKindImport.Designer.vb">
+      <DependentUpon>WhatKindImport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="WhatKindImport.vb">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Form1.resx">
@@ -124,6 +130,9 @@
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WhatKindImport.resx">
+      <DependentUpon>WhatKindImport.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

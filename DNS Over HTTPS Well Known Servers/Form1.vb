@@ -220,14 +220,28 @@
     End Sub
 
     Private Sub BtnImportServers_Click(sender As Object, e As EventArgs) Handles BtnImportServers.Click
-        Dim thread As New Threading.Thread(Sub()
-                                               With OpenFileDialog
-                                                   .Filter = "XML File|*.xml"
-                                                   .Title = "Import DoH Servers from XML File"
-                                                   .FileName = Nothing
-                                               End With
+        Dim boolPartialImport As Boolean = False
 
-                                               If OpenFileDialog.ShowDialog = DialogResult.OK Then
+        Using whatkind As New WhatKindImport
+            whatkind.StartPosition = FormStartPosition.CenterParent
+            whatkind.ShowDialog(Me)
+
+            If whatkind.importType = WhatKindImport.ImportTypeEnum.null Then
+                MsgBox("Import cancelled.", MsgBoxStyle.Information, Text)
+                Exit Sub
+            ElseIf whatkind.importType = WhatKindImport.ImportTypeEnum.partialImport Then
+                boolPartialImport = True
+            End If
+        End Using
+
+        With OpenFileDialog
+            .Filter = "XML File|*.xml"
+            .Title = "Import DoH Servers from XML File"
+            .FileName = Nothing
+        End With
+
+        If OpenFileDialog.ShowDialog = DialogResult.OK Then
+            Dim thread As New Threading.Thread(Sub()
                                                    Dim importedDoHServers As New List(Of ExportedData)
 
                                                    Using streamReader As New IO.StreamReader(OpenFileDialog.FileName)
@@ -242,28 +256,38 @@
                                                                     ProgressBar.Maximum = importedDoHServers.Count * 2
                                                                 End Sub)
 
-                                                       For Each item As KeyValuePair(Of String, String) In servers
-                                                           DeleteDNSServer(item.Key)
-                                                           MyInvoke(Sub() ProgressBar.Value += 1)
-                                                       Next
+                                                       If boolPartialImport Then
+                                                           For Each item As ExportedData In importedDoHServers
+                                                               DeleteDNSServer(item.IP)
+                                                               MyInvoke(Sub() ProgressBar.Value += 1)
+                                                           Next
+                                                       Else
+                                                           For Each item As KeyValuePair(Of String, String) In servers
+                                                               DeleteDNSServer(item.Key)
+                                                               MyInvoke(Sub() ProgressBar.Value += 1)
+                                                           Next
+                                                       End If
 
                                                        For Each item As ExportedData In importedDoHServers
                                                            AddDNSServer(item)
                                                            MyInvoke(Sub() ProgressBar.Value += 1)
                                                        Next
                                                    End If
-                                               End If
 
-                                               MyInvoke(Sub()
-                                                            ProgressBar.Visible = False
-                                                            ProgressBar.Value = 0
-                                                            ProgressBar.Maximum = 0
-                                                            LoadServers()
-                                                            MsgBox("Import complete!", MsgBoxStyle.Information, "DNS Over HTTPS Well Known Servers")
-                                                        End Sub)
-                                           End Sub)
-        thread.SetApartmentState(Threading.ApartmentState.STA)
-        thread.Start()
+                                                   MyInvoke(Sub()
+                                                                ProgressBar.Visible = False
+                                                                ProgressBar.Value = 0
+                                                                ProgressBar.Maximum = 0
+                                                                LoadServers()
+                                                                MsgBox("Import complete!", MsgBoxStyle.Information, "DNS Over HTTPS Well Known Servers")
+                                                            End Sub)
+                                               End Sub)
+            thread.SetApartmentState(Threading.ApartmentState.STA)
+            thread.Start()
+        Else
+            MsgBox("Import cancelled.", MsgBoxStyle.Information, Text)
+            Exit Sub
+        End If
     End Sub
 
     Private Sub RefreshServersToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RefreshServersToolStripMenuItem.Click
