@@ -46,6 +46,7 @@ Partial Class Form1
         Me.EditToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ContextMenuStrip.SuspendLayout()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.ExportSelectedDNSServersToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         CType(Me.SplitContainer2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
@@ -90,14 +91,14 @@ Partial Class Form1
         '
         'ContextMenuStrip
         '
-        Me.ContextMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RefreshServersToolStripMenuItem, Me.DeleteToolStripMenuItem, Me.EditToolStripMenuItem})
+        Me.ContextMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RefreshServersToolStripMenuItem, Me.DeleteToolStripMenuItem, Me.EditToolStripMenuItem, Me.ExportSelectedDNSServersToolStripMenuItem})
         Me.ContextMenuStrip.Name = "ContextMenuStrip"
-        Me.ContextMenuStrip.Size = New System.Drawing.Size(177, 70)
+        Me.ContextMenuStrip.Size = New System.Drawing.Size(222, 114)
         '
         'RefreshServersToolStripMenuItem
         '
         Me.RefreshServersToolStripMenuItem.Name = "RefreshServersToolStripMenuItem"
-        Me.RefreshServersToolStripMenuItem.Size = New System.Drawing.Size(176, 22)
+        Me.RefreshServersToolStripMenuItem.Size = New System.Drawing.Size(221, 22)
         Me.RefreshServersToolStripMenuItem.Text = "&Refresh Servers (F5)"
         '
         'BtnAddServer
@@ -205,20 +206,22 @@ Partial Class Form1
         'DeleteToolStripMenuItem
         '
         Me.DeleteToolStripMenuItem.Name = "DeleteToolStripMenuItem"
-        Me.DeleteToolStripMenuItem.Size = New System.Drawing.Size(176, 22)
+        Me.DeleteToolStripMenuItem.Size = New System.Drawing.Size(221, 22)
         Me.DeleteToolStripMenuItem.Text = "&Delete"
         '
         'EditToolStripMenuItem
         '
         Me.EditToolStripMenuItem.Name = "EditToolStripMenuItem"
-        Me.EditToolStripMenuItem.Size = New System.Drawing.Size(176, 22)
+        Me.EditToolStripMenuItem.Size = New System.Drawing.Size(221, 22)
         Me.EditToolStripMenuItem.Text = "&Edit"
         '
         'ProgressBar
         '
+        Me.ProgressBar.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.ProgressBar.Location = New System.Drawing.Point(6, 373)
         Me.ProgressBar.Name = "ProgressBar"
-        Me.ProgressBar.Size = New System.Drawing.Size(234, 23)
+        Me.ProgressBar.Size = New System.Drawing.Size(280, 23)
         Me.ProgressBar.TabIndex = 17
         Me.ProgressBar.Visible = False
         '
@@ -252,6 +255,12 @@ Partial Class Form1
         Me.SplitContainer2.SplitterDistance = 427
         Me.SplitContainer2.SplitterWidth = 6
         Me.SplitContainer2.TabIndex = 18
+        '
+        'ExportSelectedDNSServersToolStripMenuItem
+        '
+        Me.ExportSelectedDNSServersToolStripMenuItem.Name = "ExportSelectedDNSServersToolStripMenuItem"
+        Me.ExportSelectedDNSServersToolStripMenuItem.Size = New System.Drawing.Size(221, 22)
+        Me.ExportSelectedDNSServersToolStripMenuItem.Text = "Export Selected DNS Servers"
         '
         'Form1
         '
@@ -297,4 +306,5 @@ Partial Class Form1
     Friend WithEvents SplitContainer1 As SplitContainer
     Friend WithEvents SplitContainer2 As SplitContainer
     Friend WithEvents ProgressBar As ProgressBar
+    Friend WithEvents ExportSelectedDNSServersToolStripMenuItem As ToolStripMenuItem
 End Class

@@ -326,4 +326,44 @@
     Private Sub SplitContainer2_SplitterMoved(sender As Object, e As SplitterEventArgs) Handles SplitContainer2.SplitterMoved
         If boolDoneLoading Then My.Settings.splitterDistance = SplitContainer2.SplitterDistance
     End Sub
+
+    Private Sub ExportSelectedDNSServersToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ExportSelectedDNSServersToolStripMenuItem.Click
+        Dim DohServers As New List(Of ExportedData)
+        Dim ExportedData As ExportedData
+
+        For Each item As ListViewItem In ListServers.SelectedItems
+            ExportedData = New ExportedData() With {
+                .IP = item.SubItems(0).Text,
+                .URL = item.SubItems(1).Text
+            }
+            DohServers.Add(ExportedData)
+        Next
+
+        With SaveFileDialog
+            .Filter = "XML File|*.xml"
+            .Title = "Save DoH Servers to XML File"
+            .FileName = Nothing
+        End With
+
+        If SaveFileDialog.ShowDialog = DialogResult.OK Then
+            Using memoryStream As New IO.MemoryStream
+                Dim xmlSerializerObject As New Xml.Serialization.XmlSerializer(DohServers.GetType)
+                xmlSerializerObject.Serialize(memoryStream, DohServers)
+
+                Using fileStream As New IO.FileStream(SaveFileDialog.FileName, IO.FileMode.Create, IO.FileAccess.ReadWrite)
+                    memoryStream.WriteTo(fileStream)
+                End Using
+
+                MsgBox("Export complete!", MsgBoxStyle.Information, "DNS Over HTTPS Well Known Servers")
+            End Using
+        End If
+    End Sub
+
+    Private Sub ContextMenuStrip_Opening(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles ContextMenuStrip.Opening
+        If ListServers.SelectedItems.Count = 0 Then
+            ExportSelectedDNSServersToolStripMenuItem.Visible = False
+        Else
+            ExportSelectedDNSServersToolStripMenuItem.Visible = True
+        End If
+    End Sub
 End Class
