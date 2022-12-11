@@ -131,8 +131,13 @@
     End Sub
 
     Private Sub BtnDelete_Click(sender As Object, e As EventArgs) Handles BtnDelete.Click
+        If MsgBox($"Are you sure you want to delete the DNS Server Entry for ""{ListServers.SelectedItems(0).Text}""?", MsgBoxStyle.Question + MsgBoxStyle.YesNo + vbDefaultButton2, Text) = MsgBoxResult.Yes Then
         DeleteDNSServer(ListServers.SelectedItems(0).Text)
         LoadServers()
+            MsgBox($"The DNS Server Entry for ""{ListServers.SelectedItems(0).Text}"" has been deleted.", MsgBoxStyle.Information, Text)
+        Else
+            MsgBox($"The DNS Server Entry for ""{ListServers.SelectedItems(0).Text}"" has NOT been deleted.", MsgBoxStyle.Information, Text)
+        End If
     End Sub
 
     Private Sub TxtIPAddress_TextChanged(sender As Object, e As EventArgs) Handles TxtIPAddress.TextChanged
