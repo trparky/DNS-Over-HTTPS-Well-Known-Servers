@@ -34,6 +34,7 @@ Public Class Form1
                 }
             }
             process.Start()
+            process.WaitForExit()
         End Using
     End Sub
 
@@ -47,6 +48,7 @@ Public Class Form1
                 }
             }
             process.Start()
+            process.WaitForExit()
         End Using
     End Sub
 
@@ -60,6 +62,7 @@ Public Class Form1
                 }
             }
             process.Start()
+            process.WaitForExit()
         End Using
     End Sub
 
