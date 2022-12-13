@@ -56,7 +56,7 @@ Partial Class Form1
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(3, 11)
+        Me.Label1.Location = New System.Drawing.Point(3, 0)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(194, 13)
         Me.Label1.TabIndex = 0
@@ -71,9 +71,9 @@ Partial Class Form1
         Me.ListServers.ContextMenuStrip = Me.ContextMenuStrip
         Me.ListServers.FullRowSelect = True
         Me.ListServers.HideSelection = False
-        Me.ListServers.Location = New System.Drawing.Point(6, 27)
+        Me.ListServers.Location = New System.Drawing.Point(6, 16)
         Me.ListServers.Name = "ListServers"
-        Me.ListServers.Size = New System.Drawing.Size(413, 369)
+        Me.ListServers.Size = New System.Drawing.Size(424, 390)
         Me.ListServers.TabIndex = 2
         Me.ListServers.UseCompatibleStateImageBehavior = False
         Me.ListServers.View = System.Windows.Forms.View.Details
@@ -104,7 +104,7 @@ Partial Class Form1
         'BtnAddServer
         '
         Me.BtnAddServer.Enabled = False
-        Me.BtnAddServer.Location = New System.Drawing.Point(6, 92)
+        Me.BtnAddServer.Location = New System.Drawing.Point(6, 81)
         Me.BtnAddServer.Name = "BtnAddServer"
         Me.BtnAddServer.Size = New System.Drawing.Size(107, 23)
         Me.BtnAddServer.TabIndex = 3
@@ -114,7 +114,7 @@ Partial Class Form1
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(3, 11)
+        Me.Label2.Location = New System.Drawing.Point(3, 0)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(58, 13)
         Me.Label2.TabIndex = 4
@@ -123,7 +123,7 @@ Partial Class Form1
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(3, 50)
+        Me.Label3.Location = New System.Drawing.Point(3, 39)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(29, 13)
         Me.Label3.TabIndex = 5
@@ -133,27 +133,27 @@ Partial Class Form1
         '
         Me.TxtIPAddress.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TxtIPAddress.Location = New System.Drawing.Point(6, 27)
+        Me.TxtIPAddress.Location = New System.Drawing.Point(6, 16)
         Me.TxtIPAddress.Name = "TxtIPAddress"
-        Me.TxtIPAddress.Size = New System.Drawing.Size(269, 20)
+        Me.TxtIPAddress.Size = New System.Drawing.Size(285, 20)
         Me.TxtIPAddress.TabIndex = 6
         '
         'TxtURL
         '
         Me.TxtURL.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TxtURL.Location = New System.Drawing.Point(6, 66)
+        Me.TxtURL.Location = New System.Drawing.Point(6, 55)
         Me.TxtURL.Name = "TxtURL"
-        Me.TxtURL.Size = New System.Drawing.Size(269, 20)
+        Me.TxtURL.Size = New System.Drawing.Size(285, 20)
         Me.TxtURL.TabIndex = 7
         '
         'BtnDelete
         '
         Me.BtnDelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.BtnDelete.Enabled = False
-        Me.BtnDelete.Location = New System.Drawing.Point(6, 401)
+        Me.BtnDelete.Location = New System.Drawing.Point(6, 411)
         Me.BtnDelete.Name = "BtnDelete"
-        Me.BtnDelete.Size = New System.Drawing.Size(127, 23)
+        Me.BtnDelete.Size = New System.Drawing.Size(102, 23)
         Me.BtnDelete.TabIndex = 10
         Me.BtnDelete.Text = "Delete"
         Me.BtnDelete.UseVisualStyleBackColor = True
@@ -162,9 +162,9 @@ Partial Class Form1
         '
         Me.BtnEdit.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.BtnEdit.Enabled = False
-        Me.BtnEdit.Location = New System.Drawing.Point(139, 402)
+        Me.BtnEdit.Location = New System.Drawing.Point(114, 412)
         Me.BtnEdit.Name = "BtnEdit"
-        Me.BtnEdit.Size = New System.Drawing.Size(127, 23)
+        Me.BtnEdit.Size = New System.Drawing.Size(102, 23)
         Me.BtnEdit.TabIndex = 11
         Me.BtnEdit.Text = "Edit"
         Me.BtnEdit.UseVisualStyleBackColor = True
@@ -172,7 +172,7 @@ Partial Class Form1
         'BtnCheckForUpdates
         '
         Me.BtnCheckForUpdates.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.BtnCheckForUpdates.Location = New System.Drawing.Point(272, 402)
+        Me.BtnCheckForUpdates.Location = New System.Drawing.Point(286, 412)
         Me.BtnCheckForUpdates.Name = "BtnCheckForUpdates"
         Me.BtnCheckForUpdates.Size = New System.Drawing.Size(144, 23)
         Me.BtnCheckForUpdates.TabIndex = 12
@@ -186,7 +186,7 @@ Partial Class Form1
         'BtnExportServers
         '
         Me.BtnExportServers.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.BtnExportServers.Location = New System.Drawing.Point(6, 402)
+        Me.BtnExportServers.Location = New System.Drawing.Point(6, 412)
         Me.BtnExportServers.Name = "BtnExportServers"
         Me.BtnExportServers.Size = New System.Drawing.Size(94, 23)
         Me.BtnExportServers.TabIndex = 15
@@ -196,7 +196,7 @@ Partial Class Form1
         'BtnImportServers
         '
         Me.BtnImportServers.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.BtnImportServers.Location = New System.Drawing.Point(106, 402)
+        Me.BtnImportServers.Location = New System.Drawing.Point(106, 412)
         Me.BtnImportServers.Name = "BtnImportServers"
         Me.BtnImportServers.Size = New System.Drawing.Size(94, 23)
         Me.BtnImportServers.TabIndex = 16
@@ -219,9 +219,9 @@ Partial Class Form1
         '
         Me.ProgressBar.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.ProgressBar.Location = New System.Drawing.Point(6, 373)
+        Me.ProgressBar.Location = New System.Drawing.Point(6, 383)
         Me.ProgressBar.Name = "ProgressBar"
-        Me.ProgressBar.Size = New System.Drawing.Size(280, 23)
+        Me.ProgressBar.Size = New System.Drawing.Size(285, 23)
         Me.ProgressBar.TabIndex = 17
         Me.ProgressBar.Visible = False
         '
@@ -230,7 +230,7 @@ Partial Class Form1
         Me.SplitContainer2.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.SplitContainer2.Location = New System.Drawing.Point(13, 12)
+        Me.SplitContainer2.Location = New System.Drawing.Point(5, 5)
         Me.SplitContainer2.Name = "SplitContainer2"
         '
         'SplitContainer2.Panel1
@@ -251,8 +251,8 @@ Partial Class Form1
         Me.SplitContainer2.Panel2.Controls.Add(Me.Label3)
         Me.SplitContainer2.Panel2.Controls.Add(Me.TxtIPAddress)
         Me.SplitContainer2.Panel2.Controls.Add(Me.Label2)
-        Me.SplitContainer2.Size = New System.Drawing.Size(722, 427)
-        Me.SplitContainer2.SplitterDistance = 427
+        Me.SplitContainer2.Size = New System.Drawing.Size(742, 437)
+        Me.SplitContainer2.SplitterDistance = 438
         Me.SplitContainer2.SplitterWidth = 6
         Me.SplitContainer2.TabIndex = 18
         '
