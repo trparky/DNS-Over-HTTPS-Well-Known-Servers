@@ -269,7 +269,7 @@ Partial Class Form1
         Me.ClientSize = New System.Drawing.Size(747, 448)
         Me.Controls.Add(Me.SplitContainer2)
         Me.KeyPreview = True
-        Me.MinimumSize = New System.Drawing.Size(763, 429)
+        Me.MinimumSize = New System.Drawing.Size(763, 487)
         Me.Name = "Form1"
         Me.Text = "DNS Over HTTPS Well Known Servers"
         Me.ContextMenuStrip.ResumeLayout(False)
