@@ -7,6 +7,7 @@
         ColumnHeader1.Width = My.Settings.ipColumnSize
         ColumnHeader2.Width = My.Settings.urlColumnSize
         Size = My.Settings.windowSize
+        If My.Settings.splitterDistance < 438 Then My.Settings.splitterDistance = 438
         SplitContainer2.SplitterDistance = My.Settings.splitterDistance
         boolDoneLoading = True
     End Sub
@@ -319,10 +320,15 @@
     End Sub
 
     Private Sub Form1_ResizeEnd(sender As Object, e As EventArgs) Handles Me.ResizeEnd
+        If SplitContainer2.SplitterDistance < 438 Then SplitContainer2.SplitterDistance = 438
+        If boolDoneLoading Then
         My.Settings.windowSize = Size
+            My.Settings.splitterDistance = SplitContainer2.SplitterDistance
+        End If
     End Sub
 
     Private Sub SplitContainer2_SplitterMoved(sender As Object, e As SplitterEventArgs) Handles SplitContainer2.SplitterMoved
+        If SplitContainer2.SplitterDistance < 438 Then SplitContainer2.SplitterDistance = 438
         If boolDoneLoading Then My.Settings.splitterDistance = SplitContainer2.SplitterDistance
     End Sub
 
