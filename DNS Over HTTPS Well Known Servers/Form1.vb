@@ -28,6 +28,10 @@
         End If
     End Sub
 
+    ''' <summary>
+    ''' Loads the DNS over HTTPS servers from the system registry, it's much easier to do this than trying to parse the output of the netsh command.
+    ''' Everything else is done via the netsh command since simply adding the appropriate registry entries appears to not be enough.
+    ''' </summary>
     Private Sub LoadServers()
         ListServers.Items.Clear()
         servers.Clear()
@@ -54,6 +58,10 @@
         End Using
     End Sub
 
+    ''' <summary>
+    ''' Deletes an encrypted DNS over HTTPS server from the system.
+    ''' </summary>
+    ''' <param name="ip">The IP of the DNS server you want to delete.</param>
     Private Sub DeleteDNSServer(ip As String)
         Using process As New Process With {
             .StartInfo = New ProcessStartInfo With {
@@ -68,6 +76,11 @@
         End Using
     End Sub
 
+    ''' <summary>
+    ''' Adds an encrypted DNS over HTTPS server to the system.
+    ''' </summary>
+    ''' <param name="ip">The IP of DNS server.</param>
+    ''' <param name="url">The URL for the DNS over HTTPS Server.</param>
     Private Sub AddDNSServer(ip As String, url As String)
         Using process As New Process With {
             .StartInfo = New ProcessStartInfo With {
@@ -81,6 +94,12 @@
             process.WaitForExit()
         End Using
     End Sub
+
+    ''' <summary>
+    ''' Adds or updates an existing DNS over HTTPS server.
+    ''' </summary>
+    ''' <param name="ip">The IP of DNS server.</param>
+    ''' <param name="url">The URL for the DNS over HTTPS Server.</param>
     Private Sub AddOrUpdateDNSServer(ip As String, url As String)
         If DoesDNSServerExist(ip) Then
             DeleteDNSServer(ip)
@@ -90,6 +109,11 @@
         End If
     End Sub
 
+    ''' <summary>
+    ''' Checks to see if a DNS over HTTPS server exists on the system.
+    ''' </summary>
+    ''' <param name="ip">The IP of DNS server.</param>
+    ''' <returns></returns>
     Private Function DoesDNSServerExist(ip As String) As Boolean
         Dim KeyValuePair As KeyValuePair(Of String, String) = servers.FirstOrDefault(Function(item As KeyValuePair(Of String, String)) item.Key.Trim.Equals(ip, StringComparison.OrdinalIgnoreCase))
         Return KeyValuePair.Value IsNot Nothing
