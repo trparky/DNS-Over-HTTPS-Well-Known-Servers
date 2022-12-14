@@ -115,8 +115,7 @@
     ''' <param name="ip">The IP of DNS server.</param>
     ''' <returns></returns>
     Private Function DoesDNSServerExist(ip As String) As Boolean
-        Dim KeyValuePair As KeyValuePair(Of String, String) = servers.FirstOrDefault(Function(item As KeyValuePair(Of String, String)) item.Key.Trim.Equals(ip, StringComparison.OrdinalIgnoreCase))
-        Return KeyValuePair.Value IsNot Nothing
+        Return Registry.LocalMachine.OpenSubKey($"SYSTEM\CurrentControlSet\Services\Dnscache\Parameters\DohWellKnownServers\{ip}", False) IsNot Nothing
     End Function
 
     Private Sub BtnAddServer_Click(sender As Object, e As EventArgs) Handles BtnAddServer.Click
