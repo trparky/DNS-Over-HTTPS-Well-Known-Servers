@@ -15,7 +15,7 @@ Module Check_for_Update_Stuff_Module
     ''' <param name="PID">The PID of the process you are checking the existance of.</param>
     ''' <param name="processObject">If the PID does exist, the function writes back to this argument in a ByRef way a Process Object that can be interacted with outside of this function.</param>
     ''' <returns>Return a Boolean value. If the PID exists, it return a True value. If the PID doesn't exist, it returns a False value.</returns>
-    Private Function DoesProcessIDExist(ByVal PID As Integer, ByRef processObject As Process) As Boolean
+    Private Function DoesProcessIDExist(PID As Integer, ByRef processObject As Process) As Boolean
         Try
             processObject = Process.GetProcessById(PID)
             Return True
@@ -167,7 +167,7 @@ Class Check_for_Update_Stuff
     ''' <summary>This parses the XML updata data and determines if an update is needed.</summary>
     ''' <param name="xmlData">The XML data from the web site.</param>
     ''' <returns>A Boolean value indicating if the program has been updated or not.</returns>
-    Private Function ProcessUpdateXMLData(ByVal xmlData As String, ByRef remoteVersion As String, ByRef remoteBuild As String) As ProcessUpdateXMLResponse
+    Private Function ProcessUpdateXMLData(xmlData As String, ByRef remoteVersion As String, ByRef remoteBuild As String) As ProcessUpdateXMLResponse
         Try
             Dim xmlDocument As New XmlDocument() ' First we create an XML Document Object.
             xmlDocument.Load(New StringReader(xmlData)) ' Now we try and parse the XML data.
@@ -248,7 +248,7 @@ Class Check_for_Update_Stuff
         httpHelper.AddHTTPHeader("OPERATING_SYSTEM", GetFullOSVersionString())
         If File.Exists("tom") Then httpHelper.AddHTTPCookie("dontcount", "True", "www.toms-world.org", False)
 
-        httpHelper.SetURLPreProcessor = Function(ByVal strURLInput As String) As String
+        httpHelper.SetURLPreProcessor = Function(strURLInput As String) As String
                                             Try
                                                 If Not strURLInput.Trim.StartsWith("http", StringComparison.OrdinalIgnoreCase) Then
                                                     Return $"https://{strURLInput}"
@@ -396,7 +396,7 @@ Class Check_for_Update_Stuff
         End Try
     End Function
 
-    Private Function BackgroundThreadMessageBox(ByVal strMsgBoxPrompt As String, ByVal style As MsgBoxStyle, ByVal strMsgBoxTitle As String) As MsgBoxResult
+    Private Function BackgroundThreadMessageBox(strMsgBoxPrompt As String, style As MsgBoxStyle, strMsgBoxTitle As String) As MsgBoxResult
         If windowObject.InvokeRequired Then
             Return CType(windowObject.Invoke(New Func(Of MsgBoxResult)(Function() MsgBox(strMsgBoxPrompt, style, strMsgBoxTitle))), MsgBoxResult)
         Else
