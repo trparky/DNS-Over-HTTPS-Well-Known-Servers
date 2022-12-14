@@ -167,53 +167,61 @@ Class Check_for_Update_Stuff
     ''' <summary>This parses the XML updata data and determines if an update is needed.</summary>
     ''' <param name="xmlData">The XML data from the web site.</param>
     ''' <returns>A Boolean value indicating if the program has been updated or not.</returns>
-    Private Function ProcessUpdateXMLData(xmlData As String, ByRef remoteVersion As String, ByRef remoteBuild As String) As ProcessUpdateXMLResponse
+    Private Function ProcessUpdateXMLData(xmlData As String, ByRef remoteVersion As Double, ByRef remoteBuild As Short) As ProcessUpdateXMLResponse
         Try
             Dim xmlDocument As New XmlDocument() ' First we create an XML Document Object.
             xmlDocument.Load(New StringReader(xmlData)) ' Now we try and parse the XML data.
-
             Dim xmlNode As XmlNode = xmlDocument.SelectSingleNode("/xmlroot")
 
-            remoteVersion = xmlNode.SelectSingleNode("version").InnerText.Trim
-            remoteBuild = xmlNode.SelectSingleNode("build").InnerText.Trim
-            Dim shortRemoteBuild As Short
+            If Double.TryParse(xmlNode.SelectSingleNode("version").InnerText.Trim, remoteVersion) And Short.TryParse(xmlNode.SelectSingleNode("build").InnerText.Trim, remoteBuild) Then
+                Dim shortRemoteBuild As Short
 
-            ' This checks to see if current version and the current build matches that of the remote values in the XML document.
-            If remoteVersion.Equals(versionStringWithoutBuild) And remoteBuild.Equals(shortBuild.ToString) Then
-                ' Both the remoteVersion and the remoteBuild equals that of the current version,
-                ' therefore we return a sameVersion value indicating no update is required.
-                Return ProcessUpdateXMLResponse.noUpdateNeeded
-            Else
-                ' First we do a check of the version, if it's not equal we simply return a newVersion value.
-                If Not remoteVersion.Equals(versionStringWithoutBuild) Then
-                    ' We return a newVersion value indicating that there is a new version to download and install.
-                    Return ProcessUpdateXMLResponse.newVersion
+                ' This checks to see if current version and the current build matches that of the remote values in the XML document.
+                If remoteVersion.Equals(versionStringWithoutBuild) And remoteBuild.Equals(shortBuild.ToString) Then
+                    ' Both the remoteVersion and the remoteBuild equals that of the current version,
+                    ' therefore we return a noUpdateNeeded value indicating no update is required.
+                    Return ProcessUpdateXMLResponse.noUpdateNeeded
                 Else
-                    ' Now let's do some sanity checks here. 
-                    If Short.TryParse(remoteBuild, shortRemoteBuild) Then
-                        If shortRemoteBuild < shortBuild Then
+                    ' First we do a check of the version, if it's not equal we simply return a newVersion value.
+                    If Not remoteVersion.Equals(versionStringWithoutBuild) Then
+                        ' Checks to see if the remote version is less than the current version.
+                        If remoteVersion < versionStringWithoutBuild Then
                             ' This is weird, the remote build is less than the current build so we return a newerVersionThanWebSite value.
                             Return ProcessUpdateXMLResponse.newerVersionThanWebSite
-                        ElseIf shortRemoteBuild > shortBuild Then
-                            ' We return a newVersion value indicating that there is a new version to download and install.
-                            Return ProcessUpdateXMLResponse.newVersion
-                        ElseIf shortRemoteBuild.Equals(shortBuild) Then
-                            ' The build numbers match, therefore therefore we return a sameVersion value.
-                            Return ProcessUpdateXMLResponse.noUpdateNeeded
                         End If
                     Else
-                        ' Something went wrong, we couldn't parse the value of the remoteBuild number so we return a parseError value.
-                        Return ProcessUpdateXMLResponse.parseError
-                    End If
+                        ' Now let's do some sanity checks here. 
+                        If Short.TryParse(remoteBuild, shortRemoteBuild) Then
+                            If shortRemoteBuild < shortBuild Then
+                                ' This is weird, the remote build is less than the current build so we return a newerVersionThanWebSite value.
+                                Return ProcessUpdateXMLResponse.newerVersionThanWebSite
+                            ElseIf shortRemoteBuild > shortBuild Then
+                                ' We return a newVersion value indicating that there is a new version to download and install.
+                                Return ProcessUpdateXMLResponse.newVersion
+                            ElseIf shortRemoteBuild.Equals(shortBuild) Then
+                                ' The build numbers match, therefore therefore we return a noUpdateNeeded value.
+                                Return ProcessUpdateXMLResponse.noUpdateNeeded
+                            End If
+                        Else
+                            ' Something went wrong, we couldn't parse the value of the remoteBuild number so we return a parseError value.
+                            Return ProcessUpdateXMLResponse.parseError
+                        End If
 
-                    ' We return a noUpdateNeeded flag.
-                    Return ProcessUpdateXMLResponse.noUpdateNeeded
+                        ' We return a noUpdateNeeded flag.
+                        Return ProcessUpdateXMLResponse.noUpdateNeeded
+                    End If
                 End If
+            Else
+                ' Something went wrong during parsing so we return an parseError value.
+                Return ProcessUpdateXMLResponse.parseError
             End If
         Catch ex As Exception
-            ' Something went wrong so we return a exceptionError value.
+            ' Something went wrong so we return an exceptionError value.
             Return ProcessUpdateXMLResponse.exceptionError
         End Try
+
+        ' We return a noUpdateNeeded flag.
+        Return ProcessUpdateXMLResponse.noUpdateNeeded
     End Function
 
     Private Shared Function CheckFolderPermissionsByACLs(folderPath As String) As Boolean
