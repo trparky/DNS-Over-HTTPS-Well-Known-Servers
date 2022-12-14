@@ -81,21 +81,6 @@
             process.WaitForExit()
         End Using
     End Sub
-
-    Private Sub AddDNSServer(DoHServer As DoHServer)
-        Using process As New Process With {
-            .StartInfo = New ProcessStartInfo With {
-                    .UseShellExecute = False,
-                    .CreateNoWindow = True,
-                    .FileName = "netsh",
-                    .Arguments = $"dns add encryption server={DoHServer.IP} dohtemplate={DoHServer.URL} autoupgrade=yes udpfallback=no"
-                }
-            }
-            process.Start()
-            process.WaitForExit()
-        End Using
-    End Sub
-
     Private Sub AddOrUpdateDNSServer(ip As String, url As String)
         If DoesDNSServerExist(ip) Then
             DeleteDNSServer(ip)
@@ -269,7 +254,7 @@
                                                        End If
 
                                                        For Each item As DoHServer In ExportedData.DoHServers
-                                                           AddDNSServer(item)
+                                                           AddDNSServer(item.IP, item.URL)
                                                            MyInvoke(Sub() ProgressBar.Value += 1)
                                                        Next
                                                    End If
