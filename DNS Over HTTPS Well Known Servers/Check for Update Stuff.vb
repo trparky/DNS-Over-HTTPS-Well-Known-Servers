@@ -74,14 +74,14 @@ Module Check_for_Update_Stuff_Module
 
     Public Sub SearchForProcessAndKillIt(strFileName As String, boolFullFilePathPassed As Boolean)
         Dim processExecutablePath As String
-        Dim processExecutablePathFileInfo As IO.FileInfo
+        Dim processExecutablePathFileInfo As FileInfo
 
         For Each process As Process In Process.GetProcesses()
             processExecutablePath = GetProcessExecutablePath(process.Id)
 
             If processExecutablePath IsNot Nothing Then
                 Try
-                    processExecutablePathFileInfo = New IO.FileInfo(processExecutablePath)
+                    processExecutablePathFileInfo = New FileInfo(processExecutablePath)
 
                     If boolFullFilePathPassed Then
                         If strFileName.Equals(processExecutablePathFileInfo.FullName, StringComparison.OrdinalIgnoreCase) Then
