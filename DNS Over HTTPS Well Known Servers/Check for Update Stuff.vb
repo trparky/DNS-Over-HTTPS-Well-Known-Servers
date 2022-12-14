@@ -391,7 +391,7 @@ Class Check_for_Update_Stuff
             ElseIf intOSMajorVersion = 10 Then
                 strOSName = "Windows 10"
             Else
-                strOSName = String.Format("Windows NT {0}.{1}", intOSMajorVersion, intOSMinorVersion)
+                strOSName = $"Windows NT {intOSMajorVersion}.{intOSMinorVersion}"
             End If
 
             Return $"{strOSName} {If(Environment.Is64BitOperatingSystem, "64", "32")}-bit (Microsoft .NET {dblDOTNETVersion})"
@@ -430,7 +430,7 @@ Class Check_for_Update_Stuff
                     Dim response As ProcessUpdateXMLResponse = ProcessUpdateXMLData(xmlData, remoteVersion, remoteBuild)
 
                     If response = ProcessUpdateXMLResponse.newVersion Then
-                        If BackgroundThreadMessageBox(String.Format("An update to DNS Over HTTPS Well Known Servers (version {0} Build {1}) is available to be downloaded, do you want to download and update to this new version?", remoteVersion, remoteBuild), MsgBoxStyle.Question + MsgBoxStyle.YesNo, strMessageBoxTitleText) = MsgBoxResult.Yes Then
+                        If BackgroundThreadMessageBox($"An update to DNS Over HTTPS Well Known Servers (version {remoteVersion} Build {remoteBuild}) is available to be downloaded, do you want to download and update to this new version?", MsgBoxStyle.Question + MsgBoxStyle.YesNo, strMessageBoxTitleText) = MsgBoxResult.Yes Then
                             DownloadAndPerformUpdate()
                         Else
                             windowObject.Invoke(Sub() MsgBox("The update will not be downloaded.", MsgBoxStyle.Information, strMessageBoxTitleText))
