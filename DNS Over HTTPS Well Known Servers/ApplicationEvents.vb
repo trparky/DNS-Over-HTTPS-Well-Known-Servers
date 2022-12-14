@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.ApplicationServices
+﻿Imports System.Security.Principal
+Imports Microsoft.VisualBasic.ApplicationServices
 
 Namespace My
     ' The following events are available for MyApplication:
@@ -20,6 +21,21 @@ Namespace My
                 Dim commandLineArgument As String = Application.CommandLineArgs(0).Trim
                 If commandLineArgument.Equals("-update", StringComparison.OrdinalIgnoreCase) Then DoUpdateAtStartup()
             End If
+
+            If Not AreWeAnAdministrator() Then
+                MsgBox("This program requires administrator privileges to function, please make sure that this program is ran with administrator privileges.", MsgBoxStyle.Critical, "DNS Over HTTPS Well Known Servers")
+                e.Cancel = True
+                Exit Sub
+            End If
         End Sub
+
+        Private Function AreWeAnAdministrator() As Boolean
+            Try
+                Dim principal As New WindowsPrincipal(WindowsIdentity.GetCurrent())
+                Return principal.IsInRole(WindowsBuiltInRole.Administrator)
+            Catch ex As Exception
+                Return False
+            End Try
+        End Function
     End Class
 End Namespace
