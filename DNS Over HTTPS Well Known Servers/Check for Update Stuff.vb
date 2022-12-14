@@ -135,8 +135,8 @@ Class Check_for_Update_Stuff
     Public windowObject As Form1
     Public Shared versionInfo As String() = Application.ProductVersion.Split(".")
     Private ReadOnly shortBuild As Short = Short.Parse(versionInfo(VersionPieces.build).Trim)
-    Public Shared versionString As String = String.Format("{0}.{1} Build {2}", versionInfo(0), versionInfo(1), versionInfo(2))
-    Private ReadOnly versionStringWithoutBuild As String = String.Format("{0}.{1}", versionInfo(VersionPieces.major), versionInfo(VersionPieces.minor))
+    Public Shared versionString As String = $"{versionInfo(0)}.{versionInfo(1)} Build {versionInfo(2)}"
+    Private ReadOnly versionStringWithoutBuild As String = $"{versionInfo(VersionPieces.major)}.{versionInfo(VersionPieces.minor)}"
 
     Public Sub New(inputWindowObject As Form1)
         windowObject = inputWindowObject
@@ -251,7 +251,7 @@ Class Check_for_Update_Stuff
         httpHelper.SetURLPreProcessor = Function(ByVal strURLInput As String) As String
                                             Try
                                                 If Not strURLInput.Trim.StartsWith("http", StringComparison.OrdinalIgnoreCase) Then
-                                                    Return "https://" & strURLInput
+                                                    Return $"https://{strURLInput}"
                                                 Else
                                                     Return strURLInput
                                                 End If
@@ -318,7 +318,7 @@ Class Check_for_Update_Stuff
     End Function
 
     Private Sub DownloadAndPerformUpdate()
-        Dim newExecutableName As String = New FileInfo(Application.ExecutablePath).Name & ".new.exe"
+        Dim newExecutableName As String = $"{New FileInfo(Application.ExecutablePath).Name}.new.exe"
 
         Dim httpHelper As HttpHelper = CreateNewHTTPHelperObject()
 
@@ -357,15 +357,15 @@ Class Check_for_Update_Stuff
     ''' <returns>String type.</returns>
     Private Shared Function CreateHTTPUserAgentHeaderString() As String
         Dim versionInfo As String() = Application.ProductVersion.Split(".")
-        Dim versionString As String = String.Format("{0}.{1} Build {2}", versionInfo(0), versionInfo(1), versionInfo(2))
-        Return String.Format("DNS Over HTTPS Well Known Servers version {0} on {1}", versionString, GetFullOSVersionString())
+        Dim versionString As String = $"{versionInfo(0)}.{versionInfo(1)} Build {versionInfo(2)}"
+        Return $"DNS Over HTTPS Well Known Servers version {versionString} on {GetFullOSVersionString()}"
     End Function
 
     Private Shared Function GetFullOSVersionString() As String
         Try
             Dim intOSMajorVersion As Integer = Environment.OSVersion.Version.Major
             Dim intOSMinorVersion As Integer = Environment.OSVersion.Version.Minor
-            Dim dblDOTNETVersion As Double = Double.Parse(Environment.Version.Major & "." & Environment.Version.Minor)
+            Dim dblDOTNETVersion As Double = Double.Parse($"{Environment.Version.Major}.{Environment.Version.Minor}")
             Dim strOSName As String
 
             If intOSMajorVersion = 5 And intOSMinorVersion = 0 Then
@@ -386,10 +386,10 @@ Class Check_for_Update_Stuff
                 strOSName = String.Format("Windows NT {0}.{1}", intOSMajorVersion, intOSMinorVersion)
             End If
 
-            Return String.Format("{0} {2}-bit (Microsoft .NET {1})", strOSName, dblDOTNETVersion, If(Environment.Is64BitOperatingSystem, "64", "32"))
+            Return $"{strOSName} {If(Environment.Is64BitOperatingSystem, "64", "32")}-bit (Microsoft .NET {dblDOTNETVersion})"
         Catch ex As Exception
             Try
-                Return "Unknown Windows Operating System (" & Environment.OSVersion.VersionString & ")"
+                Return $"Unknown Windows Operating System ({Environment.OSVersion.VersionString})"
             Catch ex2 As Exception
                 Return "Unknown Windows Operating System"
             End Try
