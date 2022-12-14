@@ -425,8 +425,8 @@ Class Check_for_Update_Stuff
                 Dim httpHelper As HttpHelper = CreateNewHTTPHelperObject()
 
                 If httpHelper.GetWebData(programUpdateCheckerXMLFile, xmlData, False) Then
-                    Dim remoteVersion As String = Nothing
-                    Dim remoteBuild As String = Nothing
+                    Dim remoteVersion As Double = Nothing
+                    Dim remoteBuild As Short = Nothing
                     Dim response As ProcessUpdateXMLResponse = ProcessUpdateXMLData(xmlData, remoteVersion, remoteBuild)
 
                     If response = ProcessUpdateXMLResponse.newVersion Then
