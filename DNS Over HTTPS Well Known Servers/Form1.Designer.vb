@@ -98,6 +98,7 @@ Partial Class Form1
         '
         'RefreshServersToolStripMenuItem
         '
+        Me.RefreshServersToolStripMenuItem.Image = Global.DNS_Over_HTTPS_Well_Known_Servers.My.Resources.Resources.refresh
         Me.RefreshServersToolStripMenuItem.Name = "RefreshServersToolStripMenuItem"
         Me.RefreshServersToolStripMenuItem.Size = New System.Drawing.Size(221, 22)
         Me.RefreshServersToolStripMenuItem.Text = "&Refresh Servers (F5)"
@@ -105,11 +106,14 @@ Partial Class Form1
         'BtnAddServer
         '
         Me.BtnAddServer.Enabled = False
+        Me.BtnAddServer.Image = Global.DNS_Over_HTTPS_Well_Known_Servers.My.Resources.Resources.add
+        Me.BtnAddServer.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.BtnAddServer.Location = New System.Drawing.Point(6, 81)
         Me.BtnAddServer.Name = "BtnAddServer"
-        Me.BtnAddServer.Size = New System.Drawing.Size(107, 23)
+        Me.BtnAddServer.Size = New System.Drawing.Size(112, 23)
         Me.BtnAddServer.TabIndex = 3
         Me.BtnAddServer.Text = "Add DOH Server"
+        Me.BtnAddServer.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.BtnAddServer.UseVisualStyleBackColor = True
         '
         'Label2
@@ -152,32 +156,41 @@ Partial Class Form1
         '
         Me.BtnDelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.BtnDelete.Enabled = False
+        Me.BtnDelete.Image = Global.DNS_Over_HTTPS_Well_Known_Servers.My.Resources.Resources.delete
+        Me.BtnDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.BtnDelete.Location = New System.Drawing.Point(6, 411)
         Me.BtnDelete.Name = "BtnDelete"
-        Me.BtnDelete.Size = New System.Drawing.Size(102, 23)
+        Me.BtnDelete.Size = New System.Drawing.Size(63, 23)
         Me.BtnDelete.TabIndex = 10
         Me.BtnDelete.Text = "Delete"
+        Me.BtnDelete.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.BtnDelete.UseVisualStyleBackColor = True
         '
         'BtnEdit
         '
         Me.BtnEdit.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.BtnEdit.Enabled = False
-        Me.BtnEdit.Location = New System.Drawing.Point(114, 412)
+        Me.BtnEdit.Image = Global.DNS_Over_HTTPS_Well_Known_Servers.My.Resources.Resources.edit
+        Me.BtnEdit.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.BtnEdit.Location = New System.Drawing.Point(75, 412)
         Me.BtnEdit.Name = "BtnEdit"
-        Me.BtnEdit.Size = New System.Drawing.Size(102, 23)
+        Me.BtnEdit.Size = New System.Drawing.Size(51, 23)
         Me.BtnEdit.TabIndex = 11
         Me.BtnEdit.Text = "Edit"
+        Me.BtnEdit.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.BtnEdit.UseVisualStyleBackColor = True
         '
         'BtnCheckForUpdates
         '
         Me.BtnCheckForUpdates.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.BtnCheckForUpdates.Location = New System.Drawing.Point(314, 412)
+        Me.BtnCheckForUpdates.Image = Global.DNS_Over_HTTPS_Well_Known_Servers.My.Resources.Resources.refresh
+        Me.BtnCheckForUpdates.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.BtnCheckForUpdates.Location = New System.Drawing.Point(309, 412)
         Me.BtnCheckForUpdates.Name = "BtnCheckForUpdates"
-        Me.BtnCheckForUpdates.Size = New System.Drawing.Size(116, 23)
+        Me.BtnCheckForUpdates.Size = New System.Drawing.Size(121, 23)
         Me.BtnCheckForUpdates.TabIndex = 12
         Me.BtnCheckForUpdates.Text = "Check for Updates"
+        Me.BtnCheckForUpdates.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.BtnCheckForUpdates.UseVisualStyleBackColor = True
         '
         'OpenFileDialog
@@ -187,31 +200,39 @@ Partial Class Form1
         'BtnExportServers
         '
         Me.BtnExportServers.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.BtnExportServers.Image = Global.DNS_Over_HTTPS_Well_Known_Servers.My.Resources.Resources.save
+        Me.BtnExportServers.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.BtnExportServers.Location = New System.Drawing.Point(6, 412)
         Me.BtnExportServers.Name = "BtnExportServers"
-        Me.BtnExportServers.Size = New System.Drawing.Size(94, 23)
+        Me.BtnExportServers.Size = New System.Drawing.Size(100, 23)
         Me.BtnExportServers.TabIndex = 15
         Me.BtnExportServers.Text = "Export Servers"
+        Me.BtnExportServers.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.BtnExportServers.UseVisualStyleBackColor = True
         '
         'BtnImportServers
         '
         Me.BtnImportServers.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.BtnImportServers.Location = New System.Drawing.Point(106, 412)
+        Me.BtnImportServers.Image = Global.DNS_Over_HTTPS_Well_Known_Servers.My.Resources.Resources.import1
+        Me.BtnImportServers.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.BtnImportServers.Location = New System.Drawing.Point(112, 412)
         Me.BtnImportServers.Name = "BtnImportServers"
-        Me.BtnImportServers.Size = New System.Drawing.Size(94, 23)
+        Me.BtnImportServers.Size = New System.Drawing.Size(100, 23)
         Me.BtnImportServers.TabIndex = 16
         Me.BtnImportServers.Text = "Import Servers"
+        Me.BtnImportServers.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.BtnImportServers.UseVisualStyleBackColor = True
         '
         'DeleteToolStripMenuItem
         '
+        Me.DeleteToolStripMenuItem.Image = Global.DNS_Over_HTTPS_Well_Known_Servers.My.Resources.Resources.delete
         Me.DeleteToolStripMenuItem.Name = "DeleteToolStripMenuItem"
         Me.DeleteToolStripMenuItem.Size = New System.Drawing.Size(221, 22)
         Me.DeleteToolStripMenuItem.Text = "&Delete"
         '
         'EditToolStripMenuItem
         '
+        Me.EditToolStripMenuItem.Image = Global.DNS_Over_HTTPS_Well_Known_Servers.My.Resources.Resources.edit
         Me.EditToolStripMenuItem.Name = "EditToolStripMenuItem"
         Me.EditToolStripMenuItem.Size = New System.Drawing.Size(221, 22)
         Me.EditToolStripMenuItem.Text = "&Edit"
@@ -261,15 +282,19 @@ Partial Class Form1
         'BtnAbout
         '
         Me.BtnAbout.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.BtnAbout.Location = New System.Drawing.Point(254, 412)
+        Me.BtnAbout.Image = Global.DNS_Over_HTTPS_Well_Known_Servers.My.Resources.Resources.info_blue
+        Me.BtnAbout.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.BtnAbout.Location = New System.Drawing.Point(245, 412)
         Me.BtnAbout.Name = "BtnAbout"
-        Me.BtnAbout.Size = New System.Drawing.Size(54, 23)
+        Me.BtnAbout.Size = New System.Drawing.Size(58, 23)
         Me.BtnAbout.TabIndex = 18
         Me.BtnAbout.Text = "About"
+        Me.BtnAbout.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.BtnAbout.UseVisualStyleBackColor = True
         '
         'ExportSelectedDNSServersToolStripMenuItem
         '
+        Me.ExportSelectedDNSServersToolStripMenuItem.Image = Global.DNS_Over_HTTPS_Well_Known_Servers.My.Resources.Resources.save
         Me.ExportSelectedDNSServersToolStripMenuItem.Name = "ExportSelectedDNSServersToolStripMenuItem"
         Me.ExportSelectedDNSServersToolStripMenuItem.Size = New System.Drawing.Size(221, 22)
         Me.ExportSelectedDNSServersToolStripMenuItem.Text = "Export Selected DNS Servers"
