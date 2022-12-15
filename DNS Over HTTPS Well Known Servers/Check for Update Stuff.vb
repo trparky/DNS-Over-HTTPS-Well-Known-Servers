@@ -406,7 +406,7 @@ Class Check_for_Update_Stuff
 
     Private Function BackgroundThreadMessageBox(strMsgBoxPrompt As String, style As MsgBoxStyle, strMsgBoxTitle As String) As MsgBoxResult
         If windowObject.InvokeRequired Then
-            Return CType(windowObject.Invoke(New Func(Of MsgBoxResult)(Function() MsgBox(strMsgBoxPrompt, style, strMsgBoxTitle))), MsgBoxResult)
+            Return windowObject.Invoke(New Func(Of MsgBoxResult)(Function() MsgBox(strMsgBoxPrompt, style, strMsgBoxTitle)))
         Else
             Return MsgBox(strMsgBoxPrompt, style, strMsgBoxTitle)
         End If
