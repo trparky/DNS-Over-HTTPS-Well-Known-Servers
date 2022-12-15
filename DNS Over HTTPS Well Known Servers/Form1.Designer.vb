@@ -46,6 +46,7 @@ Partial Class Form1
         Me.EditToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ContextMenuStrip.SuspendLayout()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.BtnAbout = New System.Windows.Forms.Button()
         Me.ExportSelectedDNSServersToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         CType(Me.SplitContainer2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer2.Panel1.SuspendLayout()
@@ -172,9 +173,9 @@ Partial Class Form1
         'BtnCheckForUpdates
         '
         Me.BtnCheckForUpdates.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.BtnCheckForUpdates.Location = New System.Drawing.Point(286, 412)
+        Me.BtnCheckForUpdates.Location = New System.Drawing.Point(314, 412)
         Me.BtnCheckForUpdates.Name = "BtnCheckForUpdates"
-        Me.BtnCheckForUpdates.Size = New System.Drawing.Size(144, 23)
+        Me.BtnCheckForUpdates.Size = New System.Drawing.Size(116, 23)
         Me.BtnCheckForUpdates.TabIndex = 12
         Me.BtnCheckForUpdates.Text = "Check for Updates"
         Me.BtnCheckForUpdates.UseVisualStyleBackColor = True
@@ -240,6 +241,7 @@ Partial Class Form1
         Me.SplitContainer2.Panel1.Controls.Add(Me.BtnDelete)
         Me.SplitContainer2.Panel1.Controls.Add(Me.Label1)
         Me.SplitContainer2.Panel1.Controls.Add(Me.ListServers)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.BtnAbout)
         '
         'SplitContainer2.Panel2
         '
@@ -255,6 +257,16 @@ Partial Class Form1
         Me.SplitContainer2.SplitterDistance = 438
         Me.SplitContainer2.SplitterWidth = 6
         Me.SplitContainer2.TabIndex = 18
+        '
+        'BtnAbout
+        '
+        Me.BtnAbout.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.BtnAbout.Location = New System.Drawing.Point(254, 412)
+        Me.BtnAbout.Name = "BtnAbout"
+        Me.BtnAbout.Size = New System.Drawing.Size(54, 23)
+        Me.BtnAbout.TabIndex = 18
+        Me.BtnAbout.Text = "About"
+        Me.BtnAbout.UseVisualStyleBackColor = True
         '
         'ExportSelectedDNSServersToolStripMenuItem
         '
@@ -307,4 +319,5 @@ Partial Class Form1
     Friend WithEvents SplitContainer2 As SplitContainer
     Friend WithEvents ProgressBar As ProgressBar
     Friend WithEvents ExportSelectedDNSServersToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents BtnAbout As Button
 End Class

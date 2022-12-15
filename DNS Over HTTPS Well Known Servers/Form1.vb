@@ -330,7 +330,7 @@
     Private Sub Form1_ResizeEnd(sender As Object, e As EventArgs) Handles Me.ResizeEnd
         If SplitContainer2.SplitterDistance < 438 Then SplitContainer2.SplitterDistance = 438
         If boolDoneLoading Then
-        My.Settings.windowSize = Size
+            My.Settings.windowSize = Size
             My.Settings.splitterDistance = SplitContainer2.SplitterDistance
         End If
     End Sub
@@ -382,5 +382,20 @@
         Else
             ExportSelectedDNSServersToolStripMenuItem.Visible = True
         End If
+    End Sub
+
+    Private Sub BtnAbout_Click(sender As Object, e As EventArgs) Handles BtnAbout.Click
+        Dim version() As String = Application.ProductVersion.Split(".".ToCharArray) ' Gets the program version
+        Dim stringBuilder As New Text.StringBuilder
+
+        With stringBuilder
+            .AppendLine(Text)
+            .AppendLine("Written By Tom Parkison")
+            .AppendLine("Copyright Thomas Parkison 2012-2023.")
+            .AppendLine()
+            .AppendFormat("Version {0}.{1} Build {2}", version(0), version(1), version(2))
+        End With
+
+        MsgBox(stringBuilder.ToString.Trim, MsgBoxStyle.Information, $"About {Text}")
     End Sub
 End Class
