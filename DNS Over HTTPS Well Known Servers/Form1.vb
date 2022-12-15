@@ -379,8 +379,12 @@
     Private Sub ContextMenuStrip_Opening(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles ContextMenuStrip.Opening
         If ListServers.SelectedItems.Count = 0 Then
             ExportSelectedDNSServersToolStripMenuItem.Visible = False
+            EditToolStripMenuItem.Visible = False
+            DeleteToolStripMenuItem.Visible = False
         Else
             ExportSelectedDNSServersToolStripMenuItem.Visible = True
+            EditToolStripMenuItem.Visible = True
+            DeleteToolStripMenuItem.Visible = True
         End If
     End Sub
 
