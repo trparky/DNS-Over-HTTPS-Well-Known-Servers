@@ -3,7 +3,7 @@ Imports System.Text.RegularExpressions
 
 Public Class Form1
     Private ReadOnly servers As New Dictionary(Of String, String)
-    Dim boolDoneLoading As Boolean = False
+    Private boolDoneLoading As Boolean = False
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         LoadServers()
