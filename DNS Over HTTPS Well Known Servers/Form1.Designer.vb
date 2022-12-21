@@ -186,7 +186,7 @@ Partial Class Form1
         Me.BtnCheckForUpdates.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.BtnCheckForUpdates.Image = Global.DNS_Over_HTTPS_Well_Known_Servers.My.Resources.Resources.refresh
         Me.BtnCheckForUpdates.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.BtnCheckForUpdates.Location = New System.Drawing.Point(317, 412)
+        Me.BtnCheckForUpdates.Location = New System.Drawing.Point(385, 412)
         Me.BtnCheckForUpdates.Name = "BtnCheckForUpdates"
         Me.BtnCheckForUpdates.Size = New System.Drawing.Size(121, 23)
         Me.BtnCheckForUpdates.TabIndex = 12
@@ -203,7 +203,7 @@ Partial Class Form1
         Me.BtnExportServers.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.BtnExportServers.Image = Global.DNS_Over_HTTPS_Well_Known_Servers.My.Resources.Resources.save
         Me.BtnExportServers.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.BtnExportServers.Location = New System.Drawing.Point(0, 412)
+        Me.BtnExportServers.Location = New System.Drawing.Point(-1, 412)
         Me.BtnExportServers.Name = "BtnExportServers"
         Me.BtnExportServers.Size = New System.Drawing.Size(100, 23)
         Me.BtnExportServers.TabIndex = 15
@@ -216,7 +216,7 @@ Partial Class Form1
         Me.BtnImportServers.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.BtnImportServers.Image = Global.DNS_Over_HTTPS_Well_Known_Servers.My.Resources.Resources.import1
         Me.BtnImportServers.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.BtnImportServers.Location = New System.Drawing.Point(106, 412)
+        Me.BtnImportServers.Location = New System.Drawing.Point(105, 412)
         Me.BtnImportServers.Name = "BtnImportServers"
         Me.BtnImportServers.Size = New System.Drawing.Size(100, 23)
         Me.BtnImportServers.TabIndex = 16
@@ -286,7 +286,7 @@ Partial Class Form1
         Me.BtnAbout.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.BtnAbout.Image = Global.DNS_Over_HTTPS_Well_Known_Servers.My.Resources.Resources.info_blue
         Me.BtnAbout.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.BtnAbout.Location = New System.Drawing.Point(253, 412)
+        Me.BtnAbout.Location = New System.Drawing.Point(321, 412)
         Me.BtnAbout.Name = "BtnAbout"
         Me.BtnAbout.Size = New System.Drawing.Size(58, 23)
         Me.BtnAbout.TabIndex = 18
