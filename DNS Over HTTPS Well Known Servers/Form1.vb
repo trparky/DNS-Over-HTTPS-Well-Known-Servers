@@ -427,4 +427,8 @@ Public Class Form1
 
         MsgBox(stringBuilder.ToString.Trim, MsgBoxStyle.Information, $"About {Text}")
     End Sub
+
+    Private Sub ListServers_DoubleClick(sender As Object, e As EventArgs) Handles ListServers.DoubleClick
+        BtnEdit.PerformClick()
+    End Sub
 End Class
