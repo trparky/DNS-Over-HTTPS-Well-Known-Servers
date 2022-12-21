@@ -1,4 +1,7 @@
-﻿Public Class Form1
+﻿Imports System.Net
+Imports System.Text.RegularExpressions
+
+Public Class Form1
     Private ReadOnly servers As New Dictionary(Of String, String)
     Dim boolDoneLoading As Boolean = False
 
@@ -11,6 +14,15 @@
         SplitContainer2.SplitterDistance = My.Settings.splitterDistance
         boolDoneLoading = True
     End Sub
+
+    Private Function ValidateURL(url As String) As Boolean
+        Return Regex.IsMatch(url, "\A(?:\bhttps://[.0-9a-z-]+[]!""#$%&'()*+,./0-9:;<=>?@[\\_`a-z{|}~^-]*/[]!""#$%&'()*+,.0-9:;<=>?@[\\_`a-z{|}~^-]+)\Z", RegexOptions.IgnoreCase)
+    End Function
+
+    Private Function ValidateIP(ip As String) As Boolean
+        Dim ipaddress As IPAddress = Nothing
+        Return IPAddress.TryParse(ip, ipaddress)
+    End Function
 
     ''' <summary>
     ''' This function works very similar to the Invoke function that's already built into .NET. The only difference
@@ -120,6 +132,17 @@
 
     Private Sub BtnAddServer_Click(sender As Object, e As EventArgs) Handles BtnAddServer.Click
         Try
+            ' Does some validation of user input before passing data to a function that executes a command line.
+            If Not ValidateIP(TxtIPAddress.Text) Then
+                MsgBox("Invalid IP Address Input.", MsgBoxStyle.Critical, Text)
+                Exit Sub
+            End If
+            If Not ValidateURL(TxtURL.Text) Then
+                MsgBox("Invalid URL Input.", MsgBoxStyle.Critical, Text)
+                Exit Sub
+            End If
+            ' Does some validation of user input before passing data to a function that executes a command line.
+
             AddOrUpdateDNSServer(TxtIPAddress.Text, TxtURL.Text)
 
             If BtnAddServer.Text.Equals("Add DOH Server", StringComparison.OrdinalIgnoreCase) Then
@@ -265,7 +288,8 @@
                                                        If ExportedData.boolPartialExport Then
                                                            ' This erases only the DoH Servers that are mentioned in the imported XML file.
                                                            For Each item As DoHServer In ExportedData.DoHServers
-                                                               DeleteDNSServer(item.IP)
+                                                               ' Does some validation of user input before passing data to a function that executes a command line.
+                                                               If ValidateIP(item.IP) Then DeleteDNSServer(item.IP)
                                                                MyInvoke(Sub() ProgressBar.Value += 1)
                                                            Next
                                                        Else
@@ -277,7 +301,8 @@
                                                        End If
 
                                                        For Each item As DoHServer In ExportedData.DoHServers
-                                                           AddDNSServer(item.IP, item.URL)
+                                                           ' Does some validation of user input before passing data to a function that executes a command line.
+                                                           If ValidateIP(item.IP) AndAlso ValidateURL(item.URL) Then AddDNSServer(item.IP, item.URL)
                                                            MyInvoke(Sub() ProgressBar.Value += 1)
                                                        Next
                                                    End If
