@@ -14,5 +14,8 @@
     <Setting Name="splitterDistance" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">427</Value>
     </Setting>
+    <Setting Name="lockWindowSplitter" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

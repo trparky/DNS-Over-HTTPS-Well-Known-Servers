@@ -4,14 +4,16 @@ Imports System.Text.RegularExpressions
 Public Class Form1
     Private ReadOnly servers As New Dictionary(Of String, String)
     Private boolDoneLoading As Boolean = False
+    Private oldSplitterDistance As Integer
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         LoadServers()
         ColumnHeader1.Width = My.Settings.ipColumnSize
         ColumnHeader2.Width = My.Settings.urlColumnSize
         Size = My.Settings.windowSize
-        If My.Settings.splitterDistance < 438 Then My.Settings.splitterDistance = 438
+        If My.Settings.splitterDistance < 506 Then My.Settings.splitterDistance = 506
         SplitContainer2.SplitterDistance = My.Settings.splitterDistance
+        ChkLockWindowSplitter.Checked = My.Settings.lockWindowSplitter
         boolDoneLoading = True
     End Sub
 
@@ -353,7 +355,7 @@ Public Class Form1
     End Sub
 
     Private Sub Form1_ResizeEnd(sender As Object, e As EventArgs) Handles Me.ResizeEnd
-        If SplitContainer2.SplitterDistance < 438 Then SplitContainer2.SplitterDistance = 438
+        If SplitContainer2.SplitterDistance < 506 Then SplitContainer2.SplitterDistance = 506
         If boolDoneLoading Then
             My.Settings.windowSize = Size
             My.Settings.splitterDistance = SplitContainer2.SplitterDistance
@@ -361,7 +363,7 @@ Public Class Form1
     End Sub
 
     Private Sub SplitContainer2_SplitterMoved(sender As Object, e As SplitterEventArgs) Handles SplitContainer2.SplitterMoved
-        If SplitContainer2.SplitterDistance < 438 Then SplitContainer2.SplitterDistance = 438
+        If SplitContainer2.SplitterDistance < 506 Then SplitContainer2.SplitterDistance = 506
         If boolDoneLoading Then My.Settings.splitterDistance = SplitContainer2.SplitterDistance
     End Sub
 
@@ -430,5 +432,17 @@ Public Class Form1
 
     Private Sub ListServers_DoubleClick(sender As Object, e As EventArgs) Handles ListServers.DoubleClick
         BtnEdit.PerformClick()
+    End Sub
+
+    Private Sub Form1_ResizeBegin(sender As Object, e As EventArgs) Handles Me.ResizeBegin
+        If ChkLockWindowSplitter.Checked Then oldSplitterDistance = SplitContainer2.SplitterDistance
+    End Sub
+
+    Private Sub Form1_Resize(sender As Object, e As EventArgs) Handles Me.Resize
+        If ChkLockWindowSplitter.Checked Then SplitContainer2.SplitterDistance = oldSplitterDistance
+    End Sub
+
+    Private Sub ChkLockWindowSplitter_Click(sender As Object, e As EventArgs) Handles ChkLockWindowSplitter.Click
+        My.Settings.lockWindowSplitter = ChkLockWindowSplitter.Checked
     End Sub
 End Class

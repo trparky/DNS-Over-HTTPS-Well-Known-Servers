@@ -41,6 +41,7 @@ Partial Class Form1
         Me.OpenFileDialog = New System.Windows.Forms.OpenFileDialog()
         Me.BtnExportServers = New System.Windows.Forms.Button()
         Me.BtnImportServers = New System.Windows.Forms.Button()
+        Me.ChkLockWindowSplitter = New System.Windows.Forms.CheckBox()
         Me.ProgressBar = New System.Windows.Forms.ProgressBar()
         Me.DeleteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.EditToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -57,7 +58,7 @@ Partial Class Form1
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(3, 0)
+        Me.Label1.Location = New System.Drawing.Point(0, 0)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(194, 13)
         Me.Label1.TabIndex = 0
@@ -72,9 +73,9 @@ Partial Class Form1
         Me.ListServers.ContextMenuStrip = Me.ContextMenuStrip
         Me.ListServers.FullRowSelect = True
         Me.ListServers.HideSelection = False
-        Me.ListServers.Location = New System.Drawing.Point(6, 16)
+        Me.ListServers.Location = New System.Drawing.Point(0, 16)
         Me.ListServers.Name = "ListServers"
-        Me.ListServers.Size = New System.Drawing.Size(424, 390)
+        Me.ListServers.Size = New System.Drawing.Size(506, 390)
         Me.ListServers.TabIndex = 2
         Me.ListServers.UseCompatibleStateImageBehavior = False
         Me.ListServers.View = System.Windows.Forms.View.Details
@@ -94,7 +95,7 @@ Partial Class Form1
         '
         Me.ContextMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RefreshServersToolStripMenuItem, Me.DeleteToolStripMenuItem, Me.EditToolStripMenuItem, Me.ExportSelectedDNSServersToolStripMenuItem})
         Me.ContextMenuStrip.Name = "ContextMenuStrip"
-        Me.ContextMenuStrip.Size = New System.Drawing.Size(222, 114)
+        Me.ContextMenuStrip.Size = New System.Drawing.Size(222, 92)
         '
         'RefreshServersToolStripMenuItem
         '
@@ -138,18 +139,18 @@ Partial Class Form1
         '
         Me.TxtIPAddress.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TxtIPAddress.Location = New System.Drawing.Point(6, 16)
+        Me.TxtIPAddress.Location = New System.Drawing.Point(0, 16)
         Me.TxtIPAddress.Name = "TxtIPAddress"
-        Me.TxtIPAddress.Size = New System.Drawing.Size(285, 20)
+        Me.TxtIPAddress.Size = New System.Drawing.Size(227, 20)
         Me.TxtIPAddress.TabIndex = 6
         '
         'TxtURL
         '
         Me.TxtURL.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TxtURL.Location = New System.Drawing.Point(6, 55)
+        Me.TxtURL.Location = New System.Drawing.Point(0, 55)
         Me.TxtURL.Name = "TxtURL"
-        Me.TxtURL.Size = New System.Drawing.Size(285, 20)
+        Me.TxtURL.Size = New System.Drawing.Size(227, 20)
         Me.TxtURL.TabIndex = 7
         '
         'BtnDelete
@@ -158,7 +159,7 @@ Partial Class Form1
         Me.BtnDelete.Enabled = False
         Me.BtnDelete.Image = Global.DNS_Over_HTTPS_Well_Known_Servers.My.Resources.Resources.delete
         Me.BtnDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.BtnDelete.Location = New System.Drawing.Point(6, 411)
+        Me.BtnDelete.Location = New System.Drawing.Point(0, 411)
         Me.BtnDelete.Name = "BtnDelete"
         Me.BtnDelete.Size = New System.Drawing.Size(63, 23)
         Me.BtnDelete.TabIndex = 10
@@ -172,7 +173,7 @@ Partial Class Form1
         Me.BtnEdit.Enabled = False
         Me.BtnEdit.Image = Global.DNS_Over_HTTPS_Well_Known_Servers.My.Resources.Resources.edit
         Me.BtnEdit.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.BtnEdit.Location = New System.Drawing.Point(75, 412)
+        Me.BtnEdit.Location = New System.Drawing.Point(69, 412)
         Me.BtnEdit.Name = "BtnEdit"
         Me.BtnEdit.Size = New System.Drawing.Size(51, 23)
         Me.BtnEdit.TabIndex = 11
@@ -185,7 +186,7 @@ Partial Class Form1
         Me.BtnCheckForUpdates.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.BtnCheckForUpdates.Image = Global.DNS_Over_HTTPS_Well_Known_Servers.My.Resources.Resources.refresh
         Me.BtnCheckForUpdates.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.BtnCheckForUpdates.Location = New System.Drawing.Point(309, 412)
+        Me.BtnCheckForUpdates.Location = New System.Drawing.Point(317, 412)
         Me.BtnCheckForUpdates.Name = "BtnCheckForUpdates"
         Me.BtnCheckForUpdates.Size = New System.Drawing.Size(121, 23)
         Me.BtnCheckForUpdates.TabIndex = 12
@@ -202,7 +203,7 @@ Partial Class Form1
         Me.BtnExportServers.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.BtnExportServers.Image = Global.DNS_Over_HTTPS_Well_Known_Servers.My.Resources.Resources.save
         Me.BtnExportServers.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.BtnExportServers.Location = New System.Drawing.Point(6, 412)
+        Me.BtnExportServers.Location = New System.Drawing.Point(0, 412)
         Me.BtnExportServers.Name = "BtnExportServers"
         Me.BtnExportServers.Size = New System.Drawing.Size(100, 23)
         Me.BtnExportServers.TabIndex = 15
@@ -215,7 +216,7 @@ Partial Class Form1
         Me.BtnImportServers.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.BtnImportServers.Image = Global.DNS_Over_HTTPS_Well_Known_Servers.My.Resources.Resources.import1
         Me.BtnImportServers.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.BtnImportServers.Location = New System.Drawing.Point(112, 412)
+        Me.BtnImportServers.Location = New System.Drawing.Point(106, 412)
         Me.BtnImportServers.Name = "BtnImportServers"
         Me.BtnImportServers.Size = New System.Drawing.Size(100, 23)
         Me.BtnImportServers.TabIndex = 16
@@ -241,9 +242,9 @@ Partial Class Form1
         '
         Me.ProgressBar.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.ProgressBar.Location = New System.Drawing.Point(6, 383)
+        Me.ProgressBar.Location = New System.Drawing.Point(0, 360)
         Me.ProgressBar.Name = "ProgressBar"
-        Me.ProgressBar.Size = New System.Drawing.Size(285, 23)
+        Me.ProgressBar.Size = New System.Drawing.Size(227, 23)
         Me.ProgressBar.TabIndex = 17
         Me.ProgressBar.Visible = False
         '
@@ -274,8 +275,9 @@ Partial Class Form1
         Me.SplitContainer2.Panel2.Controls.Add(Me.Label3)
         Me.SplitContainer2.Panel2.Controls.Add(Me.TxtIPAddress)
         Me.SplitContainer2.Panel2.Controls.Add(Me.Label2)
+        Me.SplitContainer2.Panel2.Controls.Add(Me.ChkLockWindowSplitter)
         Me.SplitContainer2.Size = New System.Drawing.Size(742, 437)
-        Me.SplitContainer2.SplitterDistance = 438
+        Me.SplitContainer2.SplitterDistance = 506
         Me.SplitContainer2.SplitterWidth = 6
         Me.SplitContainer2.TabIndex = 18
         '
@@ -284,7 +286,7 @@ Partial Class Form1
         Me.BtnAbout.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.BtnAbout.Image = Global.DNS_Over_HTTPS_Well_Known_Servers.My.Resources.Resources.info_blue
         Me.BtnAbout.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.BtnAbout.Location = New System.Drawing.Point(245, 412)
+        Me.BtnAbout.Location = New System.Drawing.Point(253, 412)
         Me.BtnAbout.Name = "BtnAbout"
         Me.BtnAbout.Size = New System.Drawing.Size(58, 23)
         Me.BtnAbout.TabIndex = 18
@@ -298,6 +300,18 @@ Partial Class Form1
         Me.ExportSelectedDNSServersToolStripMenuItem.Name = "ExportSelectedDNSServersToolStripMenuItem"
         Me.ExportSelectedDNSServersToolStripMenuItem.Size = New System.Drawing.Size(221, 22)
         Me.ExportSelectedDNSServersToolStripMenuItem.Text = "Export Selected DNS Servers"
+        '
+        'ChkLockWindowSplitter
+        '
+        Me.ChkLockWindowSplitter.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ChkLockWindowSplitter.AutoSize = True
+        Me.ChkLockWindowSplitter.Location = New System.Drawing.Point(0, 389)
+        Me.ChkLockWindowSplitter.Name = "ChkLockWindowSplitter"
+        Me.ChkLockWindowSplitter.Size = New System.Drawing.Size(226, 17)
+        Me.ChkLockWindowSplitter.TabIndex = 20
+        Me.ChkLockWindowSplitter.Text = "Lock window splitter while resizing window"
+        Me.ChkLockWindowSplitter.UseVisualStyleBackColor = True
         '
         'Form1
         '
@@ -345,4 +359,5 @@ Partial Class Form1
     Friend WithEvents ProgressBar As ProgressBar
     Friend WithEvents ExportSelectedDNSServersToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents BtnAbout As Button
+    Friend WithEvents ChkLockWindowSplitter As CheckBox
 End Class
