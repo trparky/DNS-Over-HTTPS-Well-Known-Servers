@@ -445,4 +445,16 @@ Public Class Form1
     Private Sub ChkLockWindowSplitter_Click(sender As Object, e As EventArgs) Handles ChkLockWindowSplitter.Click
         My.Settings.lockWindowSplitter = ChkLockWindowSplitter.Checked
     End Sub
+
+    Private Sub ListServers_KeyUp(sender As Object, e As KeyEventArgs) Handles ListServers.KeyUp
+        If e.KeyCode = Keys.Enter Then BtnEdit.PerformClick()
+    End Sub
+
+    Private Sub TxtURL_KeyUp(sender As Object, e As KeyEventArgs) Handles TxtURL.KeyUp
+        If e.KeyCode = Keys.Enter Then BtnAddServer.PerformClick()
+    End Sub
+
+    Private Sub TxtIPAddress_KeyUp(sender As Object, e As KeyEventArgs) Handles TxtIPAddress.KeyUp
+        If e.KeyCode = Keys.Enter Then BtnAddServer.PerformClick()
+    End Sub
 End Class
