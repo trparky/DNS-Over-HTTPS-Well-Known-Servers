@@ -175,10 +175,20 @@ Public Class Form1
     End Sub
 
     Private Sub TxtIPAddress_TextChanged(sender As Object, e As EventArgs) Handles TxtIPAddress.TextChanged
+        If String.IsNullOrWhiteSpace(TxtIPAddress.Text) Then
+            ToolTip.SetToolTip(TxtIPAddress, Nothing)
+        Else
+            ToolTip.SetToolTip(TxtIPAddress, If(ValidateIP(TxtIPAddress.Text), "Valid IP", "Invalid IP"))
+        End If
         ActivateAddServerButton()
     End Sub
 
     Private Sub TxtURL_TextChanged(sender As Object, e As EventArgs) Handles TxtURL.TextChanged
+        If String.IsNullOrWhiteSpace(TxtURL.Text) Then
+            ToolTip.SetToolTip(TxtURL, Nothing)
+        Else
+            ToolTip.SetToolTip(TxtURL, If(ValidateURL(TxtURL.Text), "Valid URL", "Invalid URL"))
+        End If
         ActivateAddServerButton()
     End Sub
 
@@ -332,8 +342,6 @@ Public Class Form1
     Private Sub Form1_KeyUp(sender As Object, e As KeyEventArgs) Handles Me.KeyUp
         If e.KeyCode = Keys.F5 Then
             LoadServers()
-        ElseIf e.KeyCode = Keys.Enter Then
-            BtnEdit.PerformClick()
         ElseIf e.KeyCode = Keys.Delete Then
             BtnDelete.PerformClick()
         End If

@@ -49,6 +49,7 @@ Partial Class Form1
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.BtnAbout = New System.Windows.Forms.Button()
         Me.ExportSelectedDNSServersToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolTip = New System.Windows.Forms.ToolTip(Me.components)
         CType(Me.SplitContainer2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
@@ -360,4 +361,5 @@ Partial Class Form1
     Friend WithEvents ExportSelectedDNSServersToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents BtnAbout As Button
     Friend WithEvents ChkLockWindowSplitter As CheckBox
+    Friend WithEvents ToolTip As ToolTip
 End Class
