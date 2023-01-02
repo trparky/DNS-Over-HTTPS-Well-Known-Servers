@@ -183,7 +183,7 @@ Public Class Form1
     End Sub
 
     Private Sub ActivateAddServerButton()
-        BtnAddServer.Enabled = Not String.IsNullOrWhiteSpace(TxtURL.Text) And Not String.IsNullOrWhiteSpace(TxtIPAddress.Text)
+        BtnAddServer.Enabled = Not String.IsNullOrWhiteSpace(TxtURL.Text) AndAlso Not String.IsNullOrWhiteSpace(TxtIPAddress.Text) AndAlso ValidateIP(TxtIPAddress.Text) AndAlso ValidateURL(TxtURL.Text)
     End Sub
 
     Private Sub ListServers_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ListServers.SelectedIndexChanged
