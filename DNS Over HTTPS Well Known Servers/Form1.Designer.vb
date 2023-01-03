@@ -49,11 +49,15 @@ Partial Class Form1
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.BtnAbout = New System.Windows.Forms.Button()
         Me.ExportSelectedDNSServersToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.IPPic = New System.Windows.Forms.PictureBox()
+        Me.URLPic = New System.Windows.Forms.PictureBox()
         Me.ToolTip = New System.Windows.Forms.ToolTip(Me.components)
         CType(Me.SplitContainer2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        CType(Me.IPPic, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.URLPic, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Label1
@@ -142,7 +146,7 @@ Partial Class Form1
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TxtIPAddress.Location = New System.Drawing.Point(0, 16)
         Me.TxtIPAddress.Name = "TxtIPAddress"
-        Me.TxtIPAddress.Size = New System.Drawing.Size(227, 20)
+        Me.TxtIPAddress.Size = New System.Drawing.Size(205, 20)
         Me.TxtIPAddress.TabIndex = 6
         '
         'TxtURL
@@ -151,7 +155,7 @@ Partial Class Form1
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TxtURL.Location = New System.Drawing.Point(0, 55)
         Me.TxtURL.Name = "TxtURL"
-        Me.TxtURL.Size = New System.Drawing.Size(227, 20)
+        Me.TxtURL.Size = New System.Drawing.Size(205, 20)
         Me.TxtURL.TabIndex = 7
         '
         'BtnDelete
@@ -268,6 +272,8 @@ Partial Class Form1
         '
         'SplitContainer2.Panel2
         '
+        Me.SplitContainer2.Panel2.Controls.Add(Me.URLPic)
+        Me.SplitContainer2.Panel2.Controls.Add(Me.IPPic)
         Me.SplitContainer2.Panel2.Controls.Add(Me.BtnImportServers)
         Me.SplitContainer2.Panel2.Controls.Add(Me.BtnExportServers)
         Me.SplitContainer2.Panel2.Controls.Add(Me.ProgressBar)
@@ -314,6 +320,24 @@ Partial Class Form1
         Me.ChkLockWindowSplitter.Text = "Lock window splitter while resizing window"
         Me.ChkLockWindowSplitter.UseVisualStyleBackColor = True
         '
+        'IPPic
+        '
+        Me.IPPic.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.IPPic.Location = New System.Drawing.Point(211, 20)
+        Me.IPPic.Name = "IPPic"
+        Me.IPPic.Size = New System.Drawing.Size(16, 16)
+        Me.IPPic.TabIndex = 21
+        Me.IPPic.TabStop = False
+        '
+        'URLPic
+        '
+        Me.URLPic.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.URLPic.Location = New System.Drawing.Point(211, 59)
+        Me.URLPic.Name = "URLPic"
+        Me.URLPic.Size = New System.Drawing.Size(16, 16)
+        Me.URLPic.TabIndex = 22
+        Me.URLPic.TabStop = False
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -331,6 +355,8 @@ Partial Class Form1
         Me.SplitContainer2.Panel2.PerformLayout()
         CType(Me.SplitContainer2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.IPPic, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.URLPic, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -362,4 +388,6 @@ Partial Class Form1
     Friend WithEvents BtnAbout As Button
     Friend WithEvents ChkLockWindowSplitter As CheckBox
     Friend WithEvents ToolTip As ToolTip
+    Friend WithEvents URLPic As PictureBox
+    Friend WithEvents IPPic As PictureBox
 End Class
