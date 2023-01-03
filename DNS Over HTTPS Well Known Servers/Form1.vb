@@ -480,9 +480,11 @@ Public Class Form1
 
     Private Sub TxtURL_KeyUp(sender As Object, e As KeyEventArgs) Handles TxtURL.KeyUp
         If e.KeyCode = Keys.Enter Then BtnAddServer.PerformClick()
+        e.Handled = True
     End Sub
 
     Private Sub TxtIPAddress_KeyUp(sender As Object, e As KeyEventArgs) Handles TxtIPAddress.KeyUp
         If e.KeyCode = Keys.Enter Then BtnAddServer.PerformClick()
+        e.Handled = True
     End Sub
 End Class
