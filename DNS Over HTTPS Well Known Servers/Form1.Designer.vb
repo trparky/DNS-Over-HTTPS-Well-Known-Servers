@@ -52,6 +52,7 @@ Partial Class Form1
         Me.IPPic = New System.Windows.Forms.PictureBox()
         Me.URLPic = New System.Windows.Forms.PictureBox()
         Me.ToolTip = New System.Windows.Forms.ToolTip(Me.components)
+        Me.btnDonate = New System.Windows.Forms.Button()
         CType(Me.SplitContainer2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
@@ -269,6 +270,7 @@ Partial Class Form1
         Me.SplitContainer2.Panel1.Controls.Add(Me.Label1)
         Me.SplitContainer2.Panel1.Controls.Add(Me.ListServers)
         Me.SplitContainer2.Panel1.Controls.Add(Me.BtnAbout)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.btnDonate)
         '
         'SplitContainer2.Panel2
         '
@@ -287,6 +289,19 @@ Partial Class Form1
         Me.SplitContainer2.SplitterDistance = 506
         Me.SplitContainer2.SplitterWidth = 6
         Me.SplitContainer2.TabIndex = 18
+        '
+        'btnDonate
+        '
+        Me.btnDonate.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnDonate.Image = Global.DNS_Over_HTTPS_Well_Known_Servers.My.Resources.Resources.green_dollar
+        Me.btnDonate.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.btnDonate.Location = New System.Drawing.Point(170, 412)
+        Me.btnDonate.Name = "btnDonate"
+        Me.btnDonate.Size = New System.Drawing.Size(145, 23)
+        Me.btnDonate.TabIndex = 19
+        Me.btnDonate.Text = "Donate to the Developer"
+        Me.btnDonate.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.btnDonate.UseVisualStyleBackColor = True
         '
         'BtnAbout
         '
@@ -390,4 +405,5 @@ Partial Class Form1
     Friend WithEvents ToolTip As ToolTip
     Friend WithEvents URLPic As PictureBox
     Friend WithEvents IPPic As PictureBox
+    Friend WithEvents btnDonate As Button
 End Class
