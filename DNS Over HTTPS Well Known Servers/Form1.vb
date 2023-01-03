@@ -5,6 +5,7 @@ Public Class Form1
     Private ReadOnly servers As New Dictionary(Of String, String)
     Private boolDoneLoading As Boolean = False
     Private oldSplitterDistance As Integer
+    Private Const strPayPal As String = "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=HQL3AC96XKM42&lc=US&no_note=1&no_shipping=1&rm=1&return=http%3a%2f%2fwww%2etoms%2dworld%2eorg%2fblog%2fthank%2dyou%2dfor%2dyour%2ddonation&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted"
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         LoadServers()
@@ -175,15 +176,45 @@ Public Class Form1
     End Sub
 
     Private Sub TxtIPAddress_TextChanged(sender As Object, e As EventArgs) Handles TxtIPAddress.TextChanged
+        If String.IsNullOrWhiteSpace(TxtIPAddress.Text) Then
+            ToolTip.SetToolTip(TxtIPAddress, Nothing)
+            ToolTip.SetToolTip(IPPic, Nothing)
+            IPPic.Image = Nothing
+        Else
+            If ValidateIP(TxtIPAddress.Text) Then
+                ToolTip.SetToolTip(TxtIPAddress, "Valid IP")
+                ToolTip.SetToolTip(IPPic, "Valid IP")
+                IPPic.Image = My.Resources.ok
+            Else
+                ToolTip.SetToolTip(TxtIPAddress, "Invalid IP")
+                ToolTip.SetToolTip(IPPic, "Invalid IP")
+                IPPic.Image = My.Resources.bad
+            End If
+        End If
         ActivateAddServerButton()
     End Sub
 
     Private Sub TxtURL_TextChanged(sender As Object, e As EventArgs) Handles TxtURL.TextChanged
+        If String.IsNullOrWhiteSpace(TxtURL.Text) Then
+            ToolTip.SetToolTip(TxtURL, Nothing)
+            ToolTip.SetToolTip(URLPic, Nothing)
+            URLPic.Image = Nothing
+        Else
+            If ValidateURL(TxtURL.Text) Then
+                ToolTip.SetToolTip(TxtURL, "Valid URL")
+                ToolTip.SetToolTip(URLPic, "Valid URL")
+                URLPic.Image = My.Resources.ok
+            Else
+                ToolTip.SetToolTip(TxtURL, "Invalid URL")
+                ToolTip.SetToolTip(URLPic, "Invalid URL")
+                URLPic.Image = My.Resources.bad
+            End If
+        End If
         ActivateAddServerButton()
     End Sub
 
     Private Sub ActivateAddServerButton()
-        BtnAddServer.Enabled = Not String.IsNullOrWhiteSpace(TxtURL.Text) And Not String.IsNullOrWhiteSpace(TxtIPAddress.Text)
+        BtnAddServer.Enabled = Not String.IsNullOrWhiteSpace(TxtURL.Text) AndAlso Not String.IsNullOrWhiteSpace(TxtIPAddress.Text) AndAlso ValidateIP(TxtIPAddress.Text) AndAlso ValidateURL(TxtURL.Text)
     End Sub
 
     Private Sub ListServers_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ListServers.SelectedIndexChanged
@@ -332,8 +363,6 @@ Public Class Form1
     Private Sub Form1_KeyUp(sender As Object, e As KeyEventArgs) Handles Me.KeyUp
         If e.KeyCode = Keys.F5 Then
             LoadServers()
-        ElseIf e.KeyCode = Keys.Enter Then
-            BtnEdit.PerformClick()
         ElseIf e.KeyCode = Keys.Delete Then
             BtnDelete.PerformClick()
         End If
@@ -444,5 +473,44 @@ Public Class Form1
 
     Private Sub ChkLockWindowSplitter_Click(sender As Object, e As EventArgs) Handles ChkLockWindowSplitter.Click
         My.Settings.lockWindowSplitter = ChkLockWindowSplitter.Checked
+    End Sub
+
+    Private Sub ListServers_KeyUp(sender As Object, e As KeyEventArgs) Handles ListServers.KeyUp
+        If e.KeyCode = Keys.Enter Then BtnEdit.PerformClick()
+    End Sub
+
+    Private Sub TxtURL_KeyUp(sender As Object, e As KeyEventArgs) Handles TxtURL.KeyUp
+        If e.KeyCode = Keys.Enter Then BtnAddServer.PerformClick()
+        e.Handled = True
+    End Sub
+
+    Private Sub TxtIPAddress_KeyUp(sender As Object, e As KeyEventArgs) Handles TxtIPAddress.KeyUp
+        If e.KeyCode = Keys.Enter Then BtnAddServer.PerformClick()
+        e.Handled = True
+    End Sub
+
+    Private Sub LaunchURLInWebBrowser(url As String, Optional errorMessage As String = "An error occurred when trying the URL In your Default browser. The URL has been copied to your Windows Clipboard for you to paste into the address bar in the web browser of your choice.")
+        If Not url.Trim.StartsWith("http", StringComparison.OrdinalIgnoreCase) Then url = $"https://{url}"
+
+        Try
+            Process.Start(url)
+        Catch ex As Exception
+            CopyTextToWindowsClipboard(url)
+            MsgBox(errorMessage, MsgBoxStyle.Critical, strMessageBoxTitleText)
+        End Try
+    End Sub
+
+    Private Shared Function CopyTextToWindowsClipboard(strTextToBeCopiedToClipboard As String) As Boolean
+        Try
+            Clipboard.SetDataObject(strTextToBeCopiedToClipboard, True, 5, 200)
+            Return True
+        Catch ex As Exception
+            MsgBox("Unable to open Windows Clipboard to copy text to it.", MsgBoxStyle.Critical, strMessageBoxTitleText)
+            Return False
+        End Try
+    End Function
+
+    Private Sub BtnDonate_Click(sender As Object, e As EventArgs) Handles btnDonate.Click
+        LaunchURLInWebBrowser(strPayPal)
     End Sub
 End Class
