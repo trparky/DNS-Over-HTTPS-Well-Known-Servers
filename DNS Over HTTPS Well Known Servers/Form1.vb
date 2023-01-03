@@ -177,8 +177,18 @@ Public Class Form1
     Private Sub TxtIPAddress_TextChanged(sender As Object, e As EventArgs) Handles TxtIPAddress.TextChanged
         If String.IsNullOrWhiteSpace(TxtIPAddress.Text) Then
             ToolTip.SetToolTip(TxtIPAddress, Nothing)
+            ToolTip.SetToolTip(IPPic, Nothing)
+            IPPic.Image = Nothing
         Else
-            ToolTip.SetToolTip(TxtIPAddress, If(ValidateIP(TxtIPAddress.Text), "Valid IP", "Invalid IP"))
+            If ValidateIP(TxtIPAddress.Text) Then
+                ToolTip.SetToolTip(TxtIPAddress, "Valid IP")
+                ToolTip.SetToolTip(IPPic, "Valid IP")
+                IPPic.Image = My.Resources.ok
+            Else
+                ToolTip.SetToolTip(TxtIPAddress, "Invalid IP")
+                ToolTip.SetToolTip(IPPic, "Invalid IP")
+                IPPic.Image = My.Resources.bad
+            End If
         End If
         ActivateAddServerButton()
     End Sub
@@ -186,8 +196,18 @@ Public Class Form1
     Private Sub TxtURL_TextChanged(sender As Object, e As EventArgs) Handles TxtURL.TextChanged
         If String.IsNullOrWhiteSpace(TxtURL.Text) Then
             ToolTip.SetToolTip(TxtURL, Nothing)
+            ToolTip.SetToolTip(URLPic, Nothing)
+            URLPic.Image = Nothing
         Else
-            ToolTip.SetToolTip(TxtURL, If(ValidateURL(TxtURL.Text), "Valid URL", "Invalid URL"))
+            If ValidateURL(TxtURL.Text) Then
+                ToolTip.SetToolTip(TxtURL, "Valid URL")
+                ToolTip.SetToolTip(URLPic, "Valid URL")
+                URLPic.Image = My.Resources.ok
+            Else
+                ToolTip.SetToolTip(TxtURL, "Invalid URL")
+                ToolTip.SetToolTip(URLPic, "Invalid URL")
+                URLPic.Image = My.Resources.bad
+            End If
         End If
         ActivateAddServerButton()
     End Sub
