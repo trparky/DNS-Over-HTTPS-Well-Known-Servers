@@ -479,14 +479,26 @@ Public Class Form1
         If e.KeyCode = Keys.Enter Then BtnEdit.PerformClick()
     End Sub
 
+    Private Sub TxtURL_KeyDown(sender As Object, e As KeyEventArgs) Handles TxtURL.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            e.Handled = True
+            e.SuppressKeyPress = True
+        End If
+    End Sub
+
     Private Sub TxtURL_KeyUp(sender As Object, e As KeyEventArgs) Handles TxtURL.KeyUp
         If e.KeyCode = Keys.Enter Then BtnAddServer.PerformClick()
-        e.Handled = True
+    End Sub
+
+    Private Sub TxtIPAddress_KeyDown(sender As Object, e As KeyEventArgs) Handles TxtIPAddress.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            e.Handled = True
+            e.SuppressKeyPress = True
+        End If
     End Sub
 
     Private Sub TxtIPAddress_KeyUp(sender As Object, e As KeyEventArgs) Handles TxtIPAddress.KeyUp
         If e.KeyCode = Keys.Enter Then BtnAddServer.PerformClick()
-        e.Handled = True
     End Sub
 
     Private Sub LaunchURLInWebBrowser(url As String, Optional errorMessage As String = "An error occurred when trying the URL In your Default browser. The URL has been copied to your Windows Clipboard for you to paste into the address bar in the web browser of your choice.")
