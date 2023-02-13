@@ -1,4 +1,5 @@
-﻿Imports System.Net
+﻿Imports System.Data.SqlClient
+Imports System.Net
 Imports System.Text.RegularExpressions
 
 Public Class Form1
@@ -6,6 +7,7 @@ Public Class Form1
     Private boolDoneLoading As Boolean = False
     Private oldSplitterDistance As Integer
     Private Const strPayPal As String = "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=HQL3AC96XKM42&lc=US&no_note=1&no_shipping=1&rm=1&return=http%3a%2f%2fwww%2etoms%2dworld%2eorg%2fblog%2fthank%2dyou%2dfor%2dyour%2ddonation&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted"
+    Private m_SortingColumn1, m_SortingColumn2 As ColumnHeader
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         LoadServers()
@@ -15,6 +17,7 @@ Public Class Form1
         If My.Settings.splitterDistance < 506 Then My.Settings.splitterDistance = 506
         SplitContainer2.SplitterDistance = My.Settings.splitterDistance
         ChkLockWindowSplitter.Checked = My.Settings.lockWindowSplitter
+        ListServers.ListViewItemSorter = New ListViewComparer(1, Windows.Forms.SortOrder.Descending)
         boolDoneLoading = True
     End Sub
 
@@ -67,6 +70,8 @@ Public Class Form1
                         ListServers.Items.Add(listViewItem)
                     End If
                 Next
+
+                ListServers.Sort()
             Else
                 MsgBox("Error loading known DNS Over HTTPS Well Known Servers from Registry.", MsgBoxStyle.Critical, "DNS Over HTTPS Well Known Servers")
             End If
@@ -524,5 +529,40 @@ Public Class Form1
 
     Private Sub BtnDonate_Click(sender As Object, e As EventArgs) Handles btnDonate.Click
         LaunchURLInWebBrowser(strPayPal)
+    End Sub
+
+    Private Sub ListServers_ColumnClick(sender As Object, e As ColumnClickEventArgs) Handles ListServers.ColumnClick
+        ' Get the new sorting column.
+        Dim new_sorting_column As ColumnHeader = ListServers.Columns(e.Column)
+
+        ' Figure out the new sorting order.
+        Dim sort_order As SortOrder
+
+        If m_SortingColumn2 Is Nothing Then
+            ' New column. Sort ascending.
+            sort_order = SortOrder.Ascending
+        Else
+            ' See if this is the same column.
+            If new_sorting_column.Equals(m_SortingColumn2) Then
+                ' Same column. Switch the sort order.
+                sort_order = If(m_SortingColumn2.Text.StartsWith("> "), SortOrder.Descending, SortOrder.Ascending)
+            Else
+                ' New column. Sort ascending.
+                sort_order = SortOrder.Ascending
+            End If
+
+            ' Remove the old sort indicator.
+            m_SortingColumn2.Text = m_SortingColumn2.Text.Substring(2)
+        End If
+
+        ' Display the new sort order.
+        m_SortingColumn2 = new_sorting_column
+        m_SortingColumn2.Text = If(sort_order = SortOrder.Ascending, $"> {m_SortingColumn2.Text}", $"< {m_SortingColumn2.Text}")
+
+        ' Create a comparer.
+        ListServers.ListViewItemSorter = New ListViewComparer(e.Column, sort_order)
+
+        ' Sort.
+        ListServers.Sort()
     End Sub
 End Class
