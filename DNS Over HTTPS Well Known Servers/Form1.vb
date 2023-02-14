@@ -1,4 +1,4 @@
-Imports System.Net
+﻿Imports System.Net
 Imports System.Text.RegularExpressions
 
 Public Class Form1
@@ -16,7 +16,7 @@ Public Class Form1
         If My.Settings.splitterDistance < 506 Then My.Settings.splitterDistance = 506
         SplitContainer2.SplitterDistance = My.Settings.splitterDistance
         ChkLockWindowSplitter.Checked = My.Settings.lockWindowSplitter
-        ListServers.ListViewItemSorter = New ListViewComparer(1, Windows.Forms.SortOrder.Descending)
+        ListServers.ListViewItemSorter = New ListViewComparer(1, SortOrder.Descending)
         boolDoneLoading = True
     End Sub
 
