@@ -7,7 +7,8 @@ Public Class Form1
     Private boolDoneLoading As Boolean = False
     Private oldSplitterDistance As Integer
     Private Const strPayPal As String = "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=HQL3AC96XKM42&lc=US&no_note=1&no_shipping=1&rm=1&return=http%3a%2f%2fwww%2etoms%2dworld%2eorg%2fblog%2fthank%2dyou%2dfor%2dyour%2ddonation&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted"
-    Private m_SortingColumn1, m_SortingColumn2 As ColumnHeader
+    Private ReadOnly m_SortingColumn1 As ColumnHeader
+    Private m_SortingColumn2 As ColumnHeader
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         LoadServers()
