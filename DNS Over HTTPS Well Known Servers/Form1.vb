@@ -1,5 +1,6 @@
 ﻿Imports System.Net
 Imports System.Text.RegularExpressions
+Imports System.Web.Script.Serialization
 
 Public Class Form1
     Private ReadOnly servers As New Dictionary(Of String, String)
@@ -280,40 +281,62 @@ Public Class Form1
         ExportedData.DoHServers = DohServers
 
         With SaveFileDialog
-            .Filter = "XML File|*.xml"
-            .Title = "Save DoH Servers to XML File"
+            .Filter = "XML File|*.xml|JSON File|*.json"
+            .Title = "Save DoH Servers to File"
             .FileName = Nothing
         End With
 
         If SaveFileDialog.ShowDialog = DialogResult.OK Then
-            Using memoryStream As New IO.MemoryStream
-                Dim xmlSerializerObject As New Xml.Serialization.XmlSerializer(ExportedData.GetType)
-                xmlSerializerObject.Serialize(memoryStream, ExportedData)
+            Dim strFileExtension As String = New IO.FileInfo(SaveFileDialog.FileName).Extension
 
-                Using fileStream As New IO.FileStream(SaveFileDialog.FileName, IO.FileMode.Create, IO.FileAccess.ReadWrite)
-                    memoryStream.WriteTo(fileStream)
+            If strFileExtension.Equals(".xml", StringComparison.OrdinalIgnoreCase) Then
+                Using memoryStream As New IO.MemoryStream
+                    Dim xmlSerializerObject As New Xml.Serialization.XmlSerializer(ExportedData.GetType)
+                    xmlSerializerObject.Serialize(memoryStream, ExportedData)
+
+                    Using fileStream As New IO.FileStream(SaveFileDialog.FileName, IO.FileMode.Create, IO.FileAccess.ReadWrite)
+                        memoryStream.WriteTo(fileStream)
+                    End Using
+
+                    MsgBox("Full Export complete!", MsgBoxStyle.Information, "DNS Over HTTPS Well Known Servers")
                 End Using
+            ElseIf strFileExtension.Equals(".json", StringComparison.OrdinalIgnoreCase) Then
+                Using streamWriter As New IO.StreamWriter(SaveFileDialog.FileName)
+                    Dim json As New JavaScriptSerializer()
+                    streamWriter.Write(json.Serialize(ExportedData))
+                End Using
+            End If
 
-                MsgBox("Full Export complete!", MsgBoxStyle.Information, "DNS Over HTTPS Well Known Servers")
-            End Using
+            MsgBox($"Export to file ""{SaveFileDialog.FileName}"" complete.", MsgBoxStyle.Information, Text)
         End If
     End Sub
 
     Private Sub BtnImportServers_Click(sender As Object, e As EventArgs) Handles BtnImportServers.Click
         With OpenFileDialog
-            .Filter = "XML File|*.xml"
-            .Title = "Import DoH Servers from XML File"
+            .Filter = "XML File|*.xml|JSON File|*.json"
+            .Title = "Import DoH Servers from File"
             .FileName = Nothing
         End With
 
         If OpenFileDialog.ShowDialog = DialogResult.OK Then
             Dim thread As New Threading.Thread(Sub()
                                                    Dim ExportedData As New ExportedData
+                                                   Dim strFileExtension As String = New IO.FileInfo(OpenFileDialog.FileName).Extension
 
-                                                   Using streamReader As New IO.StreamReader(OpenFileDialog.FileName)
-                                                       Dim xmlSerializerObject As New Xml.Serialization.XmlSerializer(ExportedData.GetType)
-                                                       ExportedData = xmlSerializerObject.Deserialize(streamReader)
-                                                   End Using
+                                                   If strFileExtension.Equals(".xml", StringComparison.OrdinalIgnoreCase) Then
+                                                       Using streamReader As New IO.StreamReader(OpenFileDialog.FileName)
+                                                           Dim xmlSerializerObject As New Xml.Serialization.XmlSerializer(ExportedData.GetType)
+                                                           ExportedData = xmlSerializerObject.Deserialize(streamReader)
+                                                       End Using
+                                                   ElseIf strFileExtension.Equals(".json", StringComparison.OrdinalIgnoreCase) Then
+                                                       Using streamReader As New IO.StreamReader(OpenFileDialog.FileName)
+                                                           Dim json As New JavaScriptSerializer()
+                                                           ExportedData = json.Deserialize(Of ExportedData)(streamReader.ReadToEnd.Trim)
+                                                       End Using
+                                                   Else
+                                                       MsgBox("Invalid file type detected.", MsgBoxStyle.Critical, Text)
+                                                       Exit Sub
+                                                   End If
 
                                                    If ExportedData.DoHServers.Count <> 0 Then
                                                        MyInvoke(Sub()
@@ -417,22 +440,33 @@ Public Class Form1
         ExportedData.DoHServers = DohServers
 
         With SaveFileDialog
-            .Filter = "XML File|*.xml"
-            .Title = "Save DoH Servers to XML File"
+            .Filter = "XML File|*.xml|JSON File|*.json"
+            .Title = "Save DoH Servers to File"
             .FileName = Nothing
         End With
 
         If SaveFileDialog.ShowDialog = DialogResult.OK Then
-            Using memoryStream As New IO.MemoryStream
-                Dim xmlSerializerObject As New Xml.Serialization.XmlSerializer(ExportedData.GetType)
-                xmlSerializerObject.Serialize(memoryStream, ExportedData)
+            Dim strFileExtension As String = New IO.FileInfo(SaveFileDialog.FileName).Extension
 
-                Using fileStream As New IO.FileStream(SaveFileDialog.FileName, IO.FileMode.Create, IO.FileAccess.ReadWrite)
-                    memoryStream.WriteTo(fileStream)
+            If strFileExtension.Equals(".xml", StringComparison.OrdinalIgnoreCase) Then
+                Using memoryStream As New IO.MemoryStream
+                    Dim xmlSerializerObject As New Xml.Serialization.XmlSerializer(ExportedData.GetType)
+                    xmlSerializerObject.Serialize(memoryStream, ExportedData)
+
+                    Using fileStream As New IO.FileStream(SaveFileDialog.FileName, IO.FileMode.Create, IO.FileAccess.ReadWrite)
+                        memoryStream.WriteTo(fileStream)
+                    End Using
+
+                    MsgBox("Partial Export complete!", MsgBoxStyle.Information, "DNS Over HTTPS Well Known Servers")
                 End Using
+            ElseIf strFileExtension.Equals(".json", StringComparison.OrdinalIgnoreCase) Then
+                Using streamWriter As New IO.StreamWriter(SaveFileDialog.FileName)
+                    Dim json As New JavaScriptSerializer()
+                    streamWriter.Write(json.Serialize(ExportedData))
+                End Using
+            End If
 
-                MsgBox("Partial Export complete!", MsgBoxStyle.Information, "DNS Over HTTPS Well Known Servers")
-            End Using
+            MsgBox($"Export to file ""{SaveFileDialog.FileName}"" complete.", MsgBoxStyle.Information, Text)
         End If
     End Sub
 
