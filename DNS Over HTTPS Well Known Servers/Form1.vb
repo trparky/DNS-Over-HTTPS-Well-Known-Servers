@@ -378,6 +378,8 @@ Public Class Form1
                                                             End Sub)
                                                End Sub)
             thread.SetApartmentState(Threading.ApartmentState.STA)
+            thread.Name = "Data Import Thread"
+            thread.Priority = Threading.ThreadPriority.Normal
             thread.Start()
         Else
             MsgBox("Import cancelled.", MsgBoxStyle.Information, Text)
