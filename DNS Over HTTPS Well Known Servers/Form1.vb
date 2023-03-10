@@ -315,7 +315,7 @@ Public Class Form1
 
     Private Sub BtnImportServers_Click(sender As Object, e As EventArgs) Handles BtnImportServers.Click
         With OpenFileDialog
-            .Filter = "XML File|*.xml|JSON File|*.json"
+            .Filter = "XML File|*.xml|JSON File|*.json|Both Types|*.xml;*.json"
             .Title = "Import DoH Servers from File"
             .FileName = Nothing
         End With
