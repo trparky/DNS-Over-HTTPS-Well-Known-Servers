@@ -284,6 +284,7 @@ Public Class Form1
 
         With SaveFileDialog
             .Filter = "XML File|*.xml|JSON File|*.json"
+            .FilterIndex = 2
             .Title = "Save DoH Servers to File"
             .FileName = Nothing
         End With
@@ -316,6 +317,7 @@ Public Class Form1
     Private Sub BtnImportServers_Click(sender As Object, e As EventArgs) Handles BtnImportServers.Click
         With OpenFileDialog
             .Filter = "XML File|*.xml|JSON File|*.json|Both Types|*.xml;*.json"
+            .FilterIndex = 3
             .Title = "Import DoH Servers from File"
             .FileName = Nothing
         End With
@@ -445,6 +447,7 @@ Public Class Form1
 
         With SaveFileDialog
             .Filter = "XML File|*.xml|JSON File|*.json"
+            .FilterIndex = 2
             .Title = "Save DoH Servers to File"
             .FileName = Nothing
         End With
