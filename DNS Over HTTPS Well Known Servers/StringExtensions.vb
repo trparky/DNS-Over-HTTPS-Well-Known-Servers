@@ -1,5 +1,4 @@
 ﻿Imports System.Runtime.CompilerServices
-Imports System.Text.RegularExpressions
 
 Module StringExtensions
     ''' <summary>This function uses an IndexOf call to do a case-insensitive search. This function operates a lot like Contains().</summary>
