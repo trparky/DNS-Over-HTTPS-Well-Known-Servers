@@ -1,12 +1,14 @@
 ﻿Imports System.Net
 Imports System.Text.RegularExpressions
+Imports System.Web.Script.Serialization
 
 Public Class Form1
     Private ReadOnly servers As New Dictionary(Of String, String)
     Private boolDoneLoading As Boolean = False
     Private oldSplitterDistance As Integer
     Private Const strPayPal As String = "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=HQL3AC96XKM42&lc=US&no_note=1&no_shipping=1&rm=1&return=http%3a%2f%2fwww%2etoms%2dworld%2eorg%2fblog%2fthank%2dyou%2dfor%2dyour%2ddonation&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted"
-    Private m_SortingColumn1, m_SortingColumn2 As ColumnHeader
+    Private ReadOnly m_SortingColumn1 As ColumnHeader
+    Private m_SortingColumn2 As ColumnHeader
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         LoadServers()
@@ -254,6 +256,7 @@ Public Class Form1
 
     Public Structure ExportedData
         Public boolPartialExport As Boolean
+        Public CreatedBy As String
         Public DoHServers As List(Of DoHServer)
     End Structure
 
@@ -264,7 +267,7 @@ Public Class Form1
     Private Sub BtnExportServers_Click(sender As Object, e As EventArgs) Handles BtnExportServers.Click
         If MsgBox($"This kind of export will be treated as a full export by this program and upon import will erase all existing DoH Servers on the system.{vbCrLf}{vbCrLf}Are you sure you want to do this kind of export?{vbCrLf}{vbCrLf}NOTE: Partial exports can be performed by selecting servers in the DoH Server list and right-clicking on the list. Partial exports will be treated differently by this program in which it will only overwrite the entries in the exported file.", MsgBoxStyle.Question + MsgBoxStyle.YesNo, Text) = MsgBoxResult.No Then Exit Sub
 
-        Dim ExportedData As New ExportedData
+        Dim ExportedData As New ExportedData With {.CreatedBy = $"DNS Over HTTPS Well Known Servers v{Check_for_Update_Stuff.versionString}"}
         Dim DohServers As New List(Of DoHServer)
         Dim DoHServer As DoHServer
 
@@ -280,40 +283,64 @@ Public Class Form1
         ExportedData.DoHServers = DohServers
 
         With SaveFileDialog
-            .Filter = "XML File|*.xml"
-            .Title = "Save DoH Servers to XML File"
+            .Filter = "XML File|*.xml|JSON File|*.json"
+            .FilterIndex = 2
+            .Title = "Save DoH Servers to File"
             .FileName = Nothing
         End With
 
         If SaveFileDialog.ShowDialog = DialogResult.OK Then
-            Using memoryStream As New IO.MemoryStream
-                Dim xmlSerializerObject As New Xml.Serialization.XmlSerializer(ExportedData.GetType)
-                xmlSerializerObject.Serialize(memoryStream, ExportedData)
+            Dim strFileExtension As String = New IO.FileInfo(SaveFileDialog.FileName).Extension
 
-                Using fileStream As New IO.FileStream(SaveFileDialog.FileName, IO.FileMode.Create, IO.FileAccess.ReadWrite)
-                    memoryStream.WriteTo(fileStream)
+            If strFileExtension.Equals(".xml", StringComparison.OrdinalIgnoreCase) Then
+                Using memoryStream As New IO.MemoryStream
+                    Dim xmlSerializerObject As New Xml.Serialization.XmlSerializer(ExportedData.GetType)
+                    xmlSerializerObject.Serialize(memoryStream, ExportedData)
+
+                    Using fileStream As New IO.FileStream(SaveFileDialog.FileName, IO.FileMode.Create, IO.FileAccess.ReadWrite)
+                        memoryStream.WriteTo(fileStream)
+                    End Using
+
+                    MsgBox("Full Export complete!", MsgBoxStyle.Information, "DNS Over HTTPS Well Known Servers")
                 End Using
+            ElseIf strFileExtension.Equals(".json", StringComparison.OrdinalIgnoreCase) Then
+                Using streamWriter As New IO.StreamWriter(SaveFileDialog.FileName)
+                    Dim json As New JavaScriptSerializer()
+                    streamWriter.Write(json.Serialize(ExportedData))
+                End Using
+            End If
 
-                MsgBox("Full Export complete!", MsgBoxStyle.Information, "DNS Over HTTPS Well Known Servers")
-            End Using
+            MsgBox($"Export to file ""{SaveFileDialog.FileName}"" complete.", MsgBoxStyle.Information, Text)
         End If
     End Sub
 
     Private Sub BtnImportServers_Click(sender As Object, e As EventArgs) Handles BtnImportServers.Click
         With OpenFileDialog
-            .Filter = "XML File|*.xml"
-            .Title = "Import DoH Servers from XML File"
+            .Filter = "XML File|*.xml|JSON File|*.json|Both Types|*.xml;*.json"
+            .FilterIndex = 3
+            .Title = "Import DoH Servers from File"
             .FileName = Nothing
         End With
 
         If OpenFileDialog.ShowDialog = DialogResult.OK Then
             Dim thread As New Threading.Thread(Sub()
                                                    Dim ExportedData As New ExportedData
+                                                   Dim strFileExtension As String = New IO.FileInfo(OpenFileDialog.FileName).Extension
 
-                                                   Using streamReader As New IO.StreamReader(OpenFileDialog.FileName)
-                                                       Dim xmlSerializerObject As New Xml.Serialization.XmlSerializer(ExportedData.GetType)
-                                                       ExportedData = xmlSerializerObject.Deserialize(streamReader)
-                                                   End Using
+                                                   If strFileExtension.Equals(".xml", StringComparison.OrdinalIgnoreCase) Then
+                                                       Using streamReader As New IO.StreamReader(OpenFileDialog.FileName)
+                                                           Dim xmlSerializerObject As New Xml.Serialization.XmlSerializer(ExportedData.GetType)
+                                                           ExportedData = xmlSerializerObject.Deserialize(streamReader)
+                                                       End Using
+                                                   ElseIf strFileExtension.Equals(".json", StringComparison.OrdinalIgnoreCase) Then
+                                                       Using streamReader As New IO.StreamReader(OpenFileDialog.FileName)
+                                                           Dim json As New JavaScriptSerializer()
+                                                           ExportedData = json.Deserialize(Of ExportedData)(streamReader.ReadToEnd.Trim)
+                                                       End Using
+                                                   Else
+                                                       MsgBox("Invalid file type detected.", MsgBoxStyle.Critical, Text)
+                                                       Exit Sub
+                                                   End If
 
                                                    If ExportedData.DoHServers.Count <> 0 Then
                                                        MyInvoke(Sub()
@@ -353,6 +380,8 @@ Public Class Form1
                                                             End Sub)
                                                End Sub)
             thread.SetApartmentState(Threading.ApartmentState.STA)
+            thread.Name = "Data Import Thread"
+            thread.Priority = Threading.ThreadPriority.Normal
             thread.Start()
         Else
             MsgBox("Import cancelled.", MsgBoxStyle.Information, Text)
@@ -401,7 +430,7 @@ Public Class Form1
     End Sub
 
     Private Sub ExportSelectedDNSServersToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ExportSelectedDNSServersToolStripMenuItem.Click
-        Dim ExportedData As New ExportedData
+        Dim ExportedData As New ExportedData With {.CreatedBy = $"DNS Over HTTPS Well Known Servers v{Check_for_Update_Stuff.versionString}"}
         Dim DohServers As New List(Of DoHServer)
         Dim DoHServer As DoHServer
 
@@ -417,22 +446,34 @@ Public Class Form1
         ExportedData.DoHServers = DohServers
 
         With SaveFileDialog
-            .Filter = "XML File|*.xml"
-            .Title = "Save DoH Servers to XML File"
+            .Filter = "XML File|*.xml|JSON File|*.json"
+            .FilterIndex = 2
+            .Title = "Save DoH Servers to File"
             .FileName = Nothing
         End With
 
         If SaveFileDialog.ShowDialog = DialogResult.OK Then
-            Using memoryStream As New IO.MemoryStream
-                Dim xmlSerializerObject As New Xml.Serialization.XmlSerializer(ExportedData.GetType)
-                xmlSerializerObject.Serialize(memoryStream, ExportedData)
+            Dim strFileExtension As String = New IO.FileInfo(SaveFileDialog.FileName).Extension
 
-                Using fileStream As New IO.FileStream(SaveFileDialog.FileName, IO.FileMode.Create, IO.FileAccess.ReadWrite)
-                    memoryStream.WriteTo(fileStream)
+            If strFileExtension.Equals(".xml", StringComparison.OrdinalIgnoreCase) Then
+                Using memoryStream As New IO.MemoryStream
+                    Dim xmlSerializerObject As New Xml.Serialization.XmlSerializer(ExportedData.GetType)
+                    xmlSerializerObject.Serialize(memoryStream, ExportedData)
+
+                    Using fileStream As New IO.FileStream(SaveFileDialog.FileName, IO.FileMode.Create, IO.FileAccess.ReadWrite)
+                        memoryStream.WriteTo(fileStream)
+                    End Using
+
+                    MsgBox("Partial Export complete!", MsgBoxStyle.Information, "DNS Over HTTPS Well Known Servers")
                 End Using
+            ElseIf strFileExtension.Equals(".json", StringComparison.OrdinalIgnoreCase) Then
+                Using streamWriter As New IO.StreamWriter(SaveFileDialog.FileName)
+                    Dim json As New JavaScriptSerializer()
+                    streamWriter.Write(json.Serialize(ExportedData))
+                End Using
+            End If
 
-                MsgBox("Partial Export complete!", MsgBoxStyle.Information, "DNS Over HTTPS Well Known Servers")
-            End Using
+            MsgBox($"Export to file ""{SaveFileDialog.FileName}"" complete.", MsgBoxStyle.Information, Text)
         End If
     End Sub
 
@@ -455,7 +496,7 @@ Public Class Form1
         With stringBuilder
             .AppendLine(Text)
             .AppendLine("Written By Tom Parkison")
-            .AppendLine("Copyright Thomas Parkison 2012-2023.")
+            .AppendLine("Copyright Thomas Parkison 2012-2024.")
             .AppendLine()
             .AppendFormat("Version {0}.{1} Build {2}", version(0), version(1), version(2))
         End With

@@ -366,7 +366,7 @@ Class Check_for_Update_Stuff
     Private Shared Function CreateHTTPUserAgentHeaderString() As String
         Dim versionInfo As String() = Application.ProductVersion.Split(".")
         Dim versionString As String = $"{versionInfo(0)}.{versionInfo(1)} Build {versionInfo(2)}"
-        Return $"DNS Over HTTPS Well Known Servers version {versionString} on {GetFullOSVersionString()}"
+        Return $"{strProgramName} version {versionString} on {GetFullOSVersionString()}"
     End Function
 
     Private Shared Function GetFullOSVersionString() As String
@@ -430,7 +430,7 @@ Class Check_for_Update_Stuff
                     Dim response As ProcessUpdateXMLResponse = ProcessUpdateXMLData(xmlData, remoteVersion, remoteBuild)
 
                     If response = ProcessUpdateXMLResponse.newVersion Then
-                        If BackgroundThreadMessageBox($"An update to DNS Over HTTPS Well Known Servers (version {remoteVersion} Build {remoteBuild}) is available to be downloaded, do you want to download and update to this new version?", MsgBoxStyle.Question + MsgBoxStyle.YesNo, strMessageBoxTitleText) = MsgBoxResult.Yes Then
+                        If BackgroundThreadMessageBox($"An update to {strProgramName} (version {remoteVersion} Build {remoteBuild}) is available to be downloaded, do you want to download and update to this new version?", MsgBoxStyle.Question + MsgBoxStyle.YesNo, strMessageBoxTitleText) = MsgBoxResult.Yes Then
                             DownloadAndPerformUpdate()
                         Else
                             windowObject.Invoke(Sub() MsgBox("The update will not be downloaded.", MsgBoxStyle.Information, strMessageBoxTitleText))
