@@ -167,31 +167,31 @@ Class Check_for_Update_Stuff
     ''' <summary>This parses the XML updata data and determines if an update is needed.</summary>
     ''' <param name="xmlData">The XML data from the web site.</param>
     ''' <returns>A Boolean value indicating if the program has been updated or not.</returns>
-    Private Function ProcessUpdateXMLData(xmlData As String, ByRef dblRemoteVersion As Double, ByRef shortRemoteBuild_ByRef As Short) As ProcessUpdateXMLResponse
+    Private Function ProcessUpdateXMLData(xmlData As String, ByRef remoteVersion As Double, ByRef remoteBuild As Short) As ProcessUpdateXMLResponse
         Try
             Dim xmlDocument As New XmlDocument() ' First we create an XML Document Object.
             xmlDocument.Load(New StringReader(xmlData)) ' Now we try and parse the XML data.
             Dim xmlNode As XmlNode = xmlDocument.SelectSingleNode("/xmlroot")
 
-            If Double.TryParse(xmlNode.SelectSingleNode("version").InnerText.Trim, dblRemoteVersion) And Short.TryParse(xmlNode.SelectSingleNode("build").InnerText.Trim, shortRemoteBuild_ByRef) Then
+            If Double.TryParse(xmlNode.SelectSingleNode("version").InnerText.Trim, remoteVersion) And Short.TryParse(xmlNode.SelectSingleNode("build").InnerText.Trim, remoteBuild) Then
                 Dim shortRemoteBuild As Short
 
                 ' This checks to see if current version and the current build matches that of the remote values in the XML document.
-                If dblRemoteVersion.Equals(dblVersionStringWithoutBuild) And shortRemoteBuild_ByRef.Equals(shortBuild) Then
+                If remoteVersion.Equals(dblVersionStringWithoutBuild) And remoteBuild.Equals(shortBuild.ToString) Then
                     ' Both the remoteVersion and the remoteBuild equals that of the current version,
                     ' therefore we return a noUpdateNeeded value indicating no update is required.
                     Return ProcessUpdateXMLResponse.noUpdateNeeded
                 Else
                     ' First we do a check of the version, if it's not equal we simply return a newVersion value.
-                    If Not dblRemoteVersion.Equals(dblVersionStringWithoutBuild) Then
+                    If Not remoteVersion.Equals(dblVersionStringWithoutBuild) Then
                         ' Checks to see if the remote version is less than the current version.
-                        If dblRemoteVersion < dblVersionStringWithoutBuild Then
+                        If remoteVersion < dblVersionStringWithoutBuild Then
                             ' This is weird, the remote build is less than the current build so we return a newerVersionThanWebSite value.
                             Return ProcessUpdateXMLResponse.newerVersionThanWebSite
                         End If
                     Else
                         ' Now let's do some sanity checks here. 
-                        If Short.TryParse(shortRemoteBuild_ByRef, shortRemoteBuild) Then
+                        If Short.TryParse(remoteBuild, shortRemoteBuild) Then
                             If shortRemoteBuild < shortBuild Then
                                 ' This is weird, the remote build is less than the current build so we return a newerVersionThanWebSite value.
                                 Return ProcessUpdateXMLResponse.newerVersionThanWebSite
@@ -212,8 +212,8 @@ Class Check_for_Update_Stuff
                     End If
                 End If
             Else
-                ' Something went wrong during parsing so we return an parseError value.
-                Return ProcessUpdateXMLResponse.parseError
+                ' Something went wrong so we return an exceptionError value.
+                Return ProcessUpdateXMLResponse.exceptionError
             End If
         Catch ex As Exception
             ' Something went wrong so we return an exceptionError value.
