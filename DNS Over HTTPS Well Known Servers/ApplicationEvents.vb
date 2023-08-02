@@ -12,7 +12,7 @@ Namespace My
         Private Sub MyApplication_Startup(sender As Object, e As StartupEventArgs) Handles Me.Startup
             If Application.CommandLineArgs.Count = 1 Then
                 Dim commandLineArgument As String = Application.CommandLineArgs(0).Trim
-                If commandLineArgument.Equals("-update", StringComparison.OrdinalIgnoreCase) Then DoUpdateAtStartup()
+                If commandLineArgument.Equals("-update", StringComparison.OrdinalIgnoreCase) Then checkForUpdates.DoUpdateAtStartup()
             End If
 
             If Not AreWeAnAdministrator() Then

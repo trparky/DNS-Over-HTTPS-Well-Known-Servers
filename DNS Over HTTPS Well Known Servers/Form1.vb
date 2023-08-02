@@ -249,7 +249,7 @@ Public Class Form1
 
     Private Sub BtnCheckForUpdates_Click(sender As Object, e As EventArgs) Handles BtnCheckForUpdates.Click
         Threading.ThreadPool.QueueUserWorkItem(Sub()
-                                                   Dim checkForUpdatesClassObject As New Check_for_Update_Stuff(Me)
+                                                   Dim checkForUpdatesClassObject As New checkForUpdates.CheckForUpdatesClass(Me)
                                                    checkForUpdatesClassObject.CheckForUpdates()
                                                End Sub)
     End Sub
@@ -267,7 +267,7 @@ Public Class Form1
     Private Sub BtnExportServers_Click(sender As Object, e As EventArgs) Handles BtnExportServers.Click
         If MsgBox($"This kind of export will be treated as a full export by this program and upon import will erase all existing DoH Servers on the system.{vbCrLf}{vbCrLf}Are you sure you want to do this kind of export?{vbCrLf}{vbCrLf}NOTE: Partial exports can be performed by selecting servers in the DoH Server list and right-clicking on the list. Partial exports will be treated differently by this program in which it will only overwrite the entries in the exported file.", MsgBoxStyle.Question + MsgBoxStyle.YesNo, Text) = MsgBoxResult.No Then Exit Sub
 
-        Dim ExportedData As New ExportedData With {.CreatedBy = $"DNS Over HTTPS Well Known Servers v{Check_for_Update_Stuff.versionString}"}
+        Dim ExportedData As New ExportedData With {.CreatedBy = $"DNS Over HTTPS Well Known Servers v{checkForUpdates.versionString}"}
         Dim DohServers As New List(Of DoHServer)
         Dim DoHServer As DoHServer
 
@@ -430,7 +430,7 @@ Public Class Form1
     End Sub
 
     Private Sub ExportSelectedDNSServersToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ExportSelectedDNSServersToolStripMenuItem.Click
-        Dim ExportedData As New ExportedData With {.CreatedBy = $"DNS Over HTTPS Well Known Servers v{Check_for_Update_Stuff.versionString}"}
+        Dim ExportedData As New ExportedData With {.CreatedBy = $"DNS Over HTTPS Well Known Servers v{checkForUpdates.versionString}"}
         Dim DohServers As New List(Of DoHServer)
         Dim DoHServer As DoHServer
 
@@ -553,7 +553,7 @@ Public Class Form1
             Process.Start(url)
         Catch ex As Exception
             CopyTextToWindowsClipboard(url)
-            MsgBox(errorMessage, MsgBoxStyle.Critical, strMessageBoxTitleText)
+            MsgBox(errorMessage, MsgBoxStyle.Critical, checkForUpdates.strMessageBoxTitleText)
         End Try
     End Sub
 
@@ -562,7 +562,7 @@ Public Class Form1
             Clipboard.SetDataObject(strTextToBeCopiedToClipboard, True, 5, 200)
             Return True
         Catch ex As Exception
-            MsgBox("Unable to open Windows Clipboard to copy text to it.", MsgBoxStyle.Critical, strMessageBoxTitleText)
+            MsgBox("Unable to open Windows Clipboard to copy text to it.", MsgBoxStyle.Critical, checkForUpdates.strMessageBoxTitleText)
             Return False
         End Try
     End Function
