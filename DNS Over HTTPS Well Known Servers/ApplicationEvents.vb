@@ -10,25 +10,7 @@ Namespace My
     ' NetworkAvailabilityChanged: Raised when the network connection is connected or disconnected.
     Partial Friend Class MyApplication
         Private Sub MyApplication_Startup(sender As Object, e As StartupEventArgs) Handles Me.Startup
-            If Application.CommandLineArgs.Count = 1 Then
-                Dim commandLineArgument As String = Application.CommandLineArgs(0).Trim
-                If commandLineArgument.Equals("-update", StringComparison.OrdinalIgnoreCase) Then checkForUpdates.DoUpdateAtStartup()
-            End If
-
-            If Not AreWeAnAdministrator() Then
-                MsgBox("This program requires administrator privileges to function, please make sure that this program is ran with administrator privileges.", MsgBoxStyle.Critical, "DNS Over HTTPS Well Known Servers")
-                e.Cancel = True
-                Exit Sub
-            End If
+            If IO.File.Exists("updater.exe") Then IO.File.Delete("updater.exe")
         End Sub
-
-        Private Function AreWeAnAdministrator() As Boolean
-            Try
-                Dim principal As New WindowsPrincipal(WindowsIdentity.GetCurrent())
-                Return principal.IsInRole(WindowsBuiltInRole.Administrator)
-            Catch ex As Exception
-                Return False
-            End Try
-        End Function
     End Class
 End Namespace
