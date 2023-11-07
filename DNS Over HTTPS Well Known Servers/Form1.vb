@@ -1,6 +1,5 @@
 ﻿Imports System.Net
 Imports System.Text.RegularExpressions
-Imports System.Web.Script.Serialization
 
 Public Class Form1
     Private ReadOnly servers As New Dictionary(Of String, String)
@@ -305,8 +304,7 @@ Public Class Form1
                 End Using
             ElseIf strFileExtension.Equals(".json", StringComparison.OrdinalIgnoreCase) Then
                 Using streamWriter As New IO.StreamWriter(SaveFileDialog.FileName)
-                    Dim json As New JavaScriptSerializer()
-                    streamWriter.Write(json.Serialize(ExportedData))
+                    streamWriter.Write(Newtonsoft.Json.JsonConvert.SerializeObject(ExportedData))
                 End Using
             End If
 
@@ -334,8 +332,7 @@ Public Class Form1
                                                        End Using
                                                    ElseIf strFileExtension.Equals(".json", StringComparison.OrdinalIgnoreCase) Then
                                                        Using streamReader As New IO.StreamReader(OpenFileDialog.FileName)
-                                                           Dim json As New JavaScriptSerializer()
-                                                           ExportedData = json.Deserialize(Of ExportedData)(streamReader.ReadToEnd.Trim)
+                                                           ExportedData = Newtonsoft.Json.JsonConvert.DeserializeObject(Of ExportedData)(streamReader.ReadToEnd.Trim)
                                                        End Using
                                                    Else
                                                        MsgBox("Invalid file type detected.", MsgBoxStyle.Critical, Text)
@@ -468,8 +465,7 @@ Public Class Form1
                 End Using
             ElseIf strFileExtension.Equals(".json", StringComparison.OrdinalIgnoreCase) Then
                 Using streamWriter As New IO.StreamWriter(SaveFileDialog.FileName)
-                    Dim json As New JavaScriptSerializer()
-                    streamWriter.Write(json.Serialize(ExportedData))
+                    streamWriter.Write(Newtonsoft.Json.JsonConvert.SerializeObject(ExportedData))
                 End Using
             End If
 
