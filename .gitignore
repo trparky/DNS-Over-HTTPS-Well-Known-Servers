@@ -364,3 +364,4 @@ FodyWeavers.xsd
 
 /Compile this thing!.bat
 /dns_over_https_well_known_servers_update.xml.lnk
+/Do GIT GC.ps1
