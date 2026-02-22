@@ -492,7 +492,7 @@ Public Class Form1
         With stringBuilder
             .AppendLine(Text)
             .AppendLine("Written By Tom Parkison")
-            .AppendLine("Copyright Thomas Parkison 2012-2024.")
+            .AppendLine("Copyright Thomas Parkison 2012-2030.")
             .AppendLine()
             If IO.File.Exists("tom") Then
                 .AppendLine($"Version {version(0)}.{version(1)} Build {version(2)} (Update {version(3)})")

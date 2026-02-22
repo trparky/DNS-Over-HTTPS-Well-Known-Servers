@@ -12,7 +12,7 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyDescription("")>
 <Assembly: AssemblyCompany("")>
 <Assembly: AssemblyProduct("DNS Over HTTPS Well Known Servers")>
-<Assembly: AssemblyCopyright("Copyright Thomas Parkison © 2023-2024")>
+<Assembly: AssemblyCopyright("Copyright Thomas Parkison © 2023-2030")>
 <Assembly: AssemblyTrademark("")>
 
 <Assembly: ComVisible(False)>
