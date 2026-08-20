@@ -29,6 +29,9 @@ Partial Class Form1
         Me.ColumnHeader2 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.ContextMenuStrip = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.RefreshServersToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DeleteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.EditToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ExportSelectedDNSServersToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.BtnAddServer = New System.Windows.Forms.Button()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
@@ -43,22 +46,19 @@ Partial Class Form1
         Me.BtnImportServers = New System.Windows.Forms.Button()
         Me.ChkLockWindowSplitter = New System.Windows.Forms.CheckBox()
         Me.ProgressBar = New System.Windows.Forms.ProgressBar()
-        Me.DeleteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.EditToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ContextMenuStrip.SuspendLayout()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.BtnAbout = New System.Windows.Forms.Button()
-        Me.ExportSelectedDNSServersToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.IPPic = New System.Windows.Forms.PictureBox()
-        Me.URLPic = New System.Windows.Forms.PictureBox()
-        Me.ToolTip = New System.Windows.Forms.ToolTip(Me.components)
         Me.btnDonate = New System.Windows.Forms.Button()
+        Me.URLPic = New System.Windows.Forms.PictureBox()
+        Me.IPPic = New System.Windows.Forms.PictureBox()
+        Me.ToolTip = New System.Windows.Forms.ToolTip(Me.components)
+        Me.ContextMenuStrip.SuspendLayout()
         CType(Me.SplitContainer2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
-        CType(Me.IPPic, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.URLPic, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.IPPic, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Label1
@@ -101,14 +101,35 @@ Partial Class Form1
         '
         Me.ContextMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RefreshServersToolStripMenuItem, Me.DeleteToolStripMenuItem, Me.EditToolStripMenuItem, Me.ExportSelectedDNSServersToolStripMenuItem})
         Me.ContextMenuStrip.Name = "ContextMenuStrip"
-        Me.ContextMenuStrip.Size = New System.Drawing.Size(222, 92)
+        Me.ContextMenuStrip.Size = New System.Drawing.Size(221, 92)
         '
         'RefreshServersToolStripMenuItem
         '
         Me.RefreshServersToolStripMenuItem.Image = Global.DNS_Over_HTTPS_Well_Known_Servers.My.Resources.Resources.refresh
         Me.RefreshServersToolStripMenuItem.Name = "RefreshServersToolStripMenuItem"
-        Me.RefreshServersToolStripMenuItem.Size = New System.Drawing.Size(221, 22)
+        Me.RefreshServersToolStripMenuItem.Size = New System.Drawing.Size(220, 22)
         Me.RefreshServersToolStripMenuItem.Text = "&Refresh Servers (F5)"
+        '
+        'DeleteToolStripMenuItem
+        '
+        Me.DeleteToolStripMenuItem.Image = Global.DNS_Over_HTTPS_Well_Known_Servers.My.Resources.Resources.delete
+        Me.DeleteToolStripMenuItem.Name = "DeleteToolStripMenuItem"
+        Me.DeleteToolStripMenuItem.Size = New System.Drawing.Size(220, 22)
+        Me.DeleteToolStripMenuItem.Text = "&Delete"
+        '
+        'EditToolStripMenuItem
+        '
+        Me.EditToolStripMenuItem.Image = Global.DNS_Over_HTTPS_Well_Known_Servers.My.Resources.Resources.edit
+        Me.EditToolStripMenuItem.Name = "EditToolStripMenuItem"
+        Me.EditToolStripMenuItem.Size = New System.Drawing.Size(220, 22)
+        Me.EditToolStripMenuItem.Text = "&Edit"
+        '
+        'ExportSelectedDNSServersToolStripMenuItem
+        '
+        Me.ExportSelectedDNSServersToolStripMenuItem.Image = Global.DNS_Over_HTTPS_Well_Known_Servers.My.Resources.Resources.save
+        Me.ExportSelectedDNSServersToolStripMenuItem.Name = "ExportSelectedDNSServersToolStripMenuItem"
+        Me.ExportSelectedDNSServersToolStripMenuItem.Size = New System.Drawing.Size(220, 22)
+        Me.ExportSelectedDNSServersToolStripMenuItem.Text = "Export Selected DNS Servers"
         '
         'BtnAddServer
         '
@@ -147,7 +168,7 @@ Partial Class Form1
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TxtIPAddress.Location = New System.Drawing.Point(0, 16)
         Me.TxtIPAddress.Name = "TxtIPAddress"
-        Me.TxtIPAddress.Size = New System.Drawing.Size(205, 20)
+        Me.TxtIPAddress.Size = New System.Drawing.Size(203, 20)
         Me.TxtIPAddress.TabIndex = 6
         '
         'TxtURL
@@ -156,7 +177,7 @@ Partial Class Form1
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TxtURL.Location = New System.Drawing.Point(0, 55)
         Me.TxtURL.Name = "TxtURL"
-        Me.TxtURL.Size = New System.Drawing.Size(205, 20)
+        Me.TxtURL.Size = New System.Drawing.Size(203, 20)
         Me.TxtURL.TabIndex = 7
         '
         'BtnDelete
@@ -230,19 +251,17 @@ Partial Class Form1
         Me.BtnImportServers.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.BtnImportServers.UseVisualStyleBackColor = True
         '
-        'DeleteToolStripMenuItem
+        'ChkLockWindowSplitter
         '
-        Me.DeleteToolStripMenuItem.Image = Global.DNS_Over_HTTPS_Well_Known_Servers.My.Resources.Resources.delete
-        Me.DeleteToolStripMenuItem.Name = "DeleteToolStripMenuItem"
-        Me.DeleteToolStripMenuItem.Size = New System.Drawing.Size(221, 22)
-        Me.DeleteToolStripMenuItem.Text = "&Delete"
-        '
-        'EditToolStripMenuItem
-        '
-        Me.EditToolStripMenuItem.Image = Global.DNS_Over_HTTPS_Well_Known_Servers.My.Resources.Resources.edit
-        Me.EditToolStripMenuItem.Name = "EditToolStripMenuItem"
-        Me.EditToolStripMenuItem.Size = New System.Drawing.Size(221, 22)
-        Me.EditToolStripMenuItem.Text = "&Edit"
+        Me.ChkLockWindowSplitter.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ChkLockWindowSplitter.AutoSize = True
+        Me.ChkLockWindowSplitter.Location = New System.Drawing.Point(0, 389)
+        Me.ChkLockWindowSplitter.Name = "ChkLockWindowSplitter"
+        Me.ChkLockWindowSplitter.Size = New System.Drawing.Size(226, 17)
+        Me.ChkLockWindowSplitter.TabIndex = 20
+        Me.ChkLockWindowSplitter.Text = "Lock window splitter while resizing window"
+        Me.ChkLockWindowSplitter.UseVisualStyleBackColor = True
         '
         'ProgressBar
         '
@@ -250,7 +269,7 @@ Partial Class Form1
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.ProgressBar.Location = New System.Drawing.Point(0, 360)
         Me.ProgressBar.Name = "ProgressBar"
-        Me.ProgressBar.Size = New System.Drawing.Size(227, 23)
+        Me.ProgressBar.Size = New System.Drawing.Size(225, 23)
         Me.ProgressBar.TabIndex = 17
         Me.ProgressBar.Visible = False
         '
@@ -290,19 +309,6 @@ Partial Class Form1
         Me.SplitContainer2.SplitterWidth = 6
         Me.SplitContainer2.TabIndex = 18
         '
-        'btnDonate
-        '
-        Me.btnDonate.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnDonate.Image = Global.DNS_Over_HTTPS_Well_Known_Servers.My.Resources.Resources.green_dollar
-        Me.btnDonate.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnDonate.Location = New System.Drawing.Point(170, 412)
-        Me.btnDonate.Name = "btnDonate"
-        Me.btnDonate.Size = New System.Drawing.Size(145, 23)
-        Me.btnDonate.TabIndex = 19
-        Me.btnDonate.Text = "Donate to the Developer"
-        Me.btnDonate.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.btnDonate.UseVisualStyleBackColor = True
-        '
         'BtnAbout
         '
         Me.BtnAbout.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -316,42 +322,36 @@ Partial Class Form1
         Me.BtnAbout.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.BtnAbout.UseVisualStyleBackColor = True
         '
-        'ExportSelectedDNSServersToolStripMenuItem
+        'btnDonate
         '
-        Me.ExportSelectedDNSServersToolStripMenuItem.Image = Global.DNS_Over_HTTPS_Well_Known_Servers.My.Resources.Resources.save
-        Me.ExportSelectedDNSServersToolStripMenuItem.Name = "ExportSelectedDNSServersToolStripMenuItem"
-        Me.ExportSelectedDNSServersToolStripMenuItem.Size = New System.Drawing.Size(221, 22)
-        Me.ExportSelectedDNSServersToolStripMenuItem.Text = "Export Selected DNS Servers"
-        '
-        'ChkLockWindowSplitter
-        '
-        Me.ChkLockWindowSplitter.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.ChkLockWindowSplitter.AutoSize = True
-        Me.ChkLockWindowSplitter.Location = New System.Drawing.Point(0, 389)
-        Me.ChkLockWindowSplitter.Name = "ChkLockWindowSplitter"
-        Me.ChkLockWindowSplitter.Size = New System.Drawing.Size(226, 17)
-        Me.ChkLockWindowSplitter.TabIndex = 20
-        Me.ChkLockWindowSplitter.Text = "Lock window splitter while resizing window"
-        Me.ChkLockWindowSplitter.UseVisualStyleBackColor = True
-        '
-        'IPPic
-        '
-        Me.IPPic.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.IPPic.Location = New System.Drawing.Point(211, 20)
-        Me.IPPic.Name = "IPPic"
-        Me.IPPic.Size = New System.Drawing.Size(16, 16)
-        Me.IPPic.TabIndex = 21
-        Me.IPPic.TabStop = False
+        Me.btnDonate.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnDonate.Image = Global.DNS_Over_HTTPS_Well_Known_Servers.My.Resources.Resources.green_dollar
+        Me.btnDonate.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.btnDonate.Location = New System.Drawing.Point(170, 412)
+        Me.btnDonate.Name = "btnDonate"
+        Me.btnDonate.Size = New System.Drawing.Size(145, 23)
+        Me.btnDonate.TabIndex = 19
+        Me.btnDonate.Text = "Donate to the Developer"
+        Me.btnDonate.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.btnDonate.UseVisualStyleBackColor = True
         '
         'URLPic
         '
         Me.URLPic.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.URLPic.Location = New System.Drawing.Point(211, 59)
+        Me.URLPic.Location = New System.Drawing.Point(209, 59)
         Me.URLPic.Name = "URLPic"
         Me.URLPic.Size = New System.Drawing.Size(16, 16)
         Me.URLPic.TabIndex = 22
         Me.URLPic.TabStop = False
+        '
+        'IPPic
+        '
+        Me.IPPic.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.IPPic.Location = New System.Drawing.Point(209, 20)
+        Me.IPPic.Name = "IPPic"
+        Me.IPPic.Size = New System.Drawing.Size(16, 16)
+        Me.IPPic.TabIndex = 21
+        Me.IPPic.TabStop = False
         '
         'Form1
         '
@@ -370,8 +370,8 @@ Partial Class Form1
         Me.SplitContainer2.Panel2.PerformLayout()
         CType(Me.SplitContainer2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer2.ResumeLayout(False)
-        CType(Me.IPPic, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.URLPic, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.IPPic, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
